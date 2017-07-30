@@ -1,0 +1,1 @@
+insert into pessoa values (4,'João','das Neves','10/11/1996',1,'SP','Das Palmeiras','2250','123456789','Das Flores','Americana','000',0,'449-115-658-98','41.137.347.65','(19) 3458-9987','ronald@gmail.com','http://localhost/centro-escolar/data-views/dashboard/dist/img/avatar2.png');
