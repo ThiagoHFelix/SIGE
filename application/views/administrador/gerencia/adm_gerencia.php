@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Gerenciamento de Administradores</title>
+        <title><?php echo $title; ?></title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
@@ -49,12 +49,12 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Gerenciamento de Administradores
+                        <?php echo $title; ?>
                         <small>Em desenvolvimento</small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="<?php echo base_url($this->uri->segment(1) . '/dashboard'); ?>"><i class="fa fa-dashboard"></i> Home </a></li>                      
-                        <li><a href="<?php echo base_url($this->uri->segment(1) . '/manage/administrador'); ?>"><i class="fa fa-users"></i> Gerenciamento Administradores </a></li>                       
+                        <li><a href="<?php echo base_url($this->uri->segment(1) . '/manage/'.$this->uri->segment(3)); ?>"><i class="fa fa-users"></i><?php echo $title; ?></a></li>                       
                     </ol>
                 </section>
 
@@ -70,14 +70,29 @@
                                     <button class="btn btn-sm fa fa-user-plus" style="width: 200%; margin-top:0px;"></button>
                                 </div>
 
-                                <div class="box-tools">
-                                    <div class="input-group input-group-sm" style="width: 150px;">
-                                        <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
-                                        <div class="input-group-btn">
-                                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+
+                                <div class="box-tools">
+                                    <form method="post" action="<?php 
+                                 
+                                        
+                                  echo  base_url('/manage/administrador'); 
+                                    
+                                    
+                                    ?>"    >
+                                        <div class="input-group input-group-sm" style="width: 290px;">
+                                            <input type="text" name="table_search" value="<?php echo setValue('table_search'); ?>" class="form-control pull-right" placeholder="Search">
+                                            <div class="input-group-btn  input-group-sm" style="width:80px;">
+                                                <select name="dropdown_search" class="form-control pull-left dropdown dropdown-header" >
+                                                    <?php echo $dropdown_options; ?>
+                                                </select>
+                                            </div> 
+                                            <div class="input-group-btn">
+                                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                            </div>
                                         </div>
-                                    </div>
+
+                                    </form>
                                 </div>
                             </div>
 
@@ -85,17 +100,13 @@
                             <!-- /.box-header -->
                             <div class="box-body table-responsive no-padding">
                                 <table class="table table-striped">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nome</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
-                                        <th>Ações</th>
-                                    </tr>
+                                    
+                                    <tr> <?php echo $table_field; ?> </tr>
+                                    
                                     <?php
-                                    if ($tableAdm != NULL):
+                                    if ($table != NULL):
 
-                                        foreach ($tableAdm as $row):
+                                        foreach ($table as $row):
                                             echo '<tr>';
                                             echo '<td>  ' . $row['id'] . ' </td>';
 
@@ -112,7 +123,7 @@
 
                                             endif;
 
-                                            $url = base_url($this->uri->segment(1) . '/manage/administrador/userprofile/' . $row['id']);
+                                            $url = base_url( '/manage/userprofile/administrador/' . $row['id']);
                                             echo "
                                                 
                                                      <td>
@@ -139,21 +150,19 @@
 
 
                             <div class="box-footer">
-                                
-                                
-                                <?php 
-                                
-                                    echo $pagination;
-                                
+
+
+                                <?php
+                                echo $pagination;
                                 ?>
-                                
-                              <!--  
-                                <ul class="pagination" style="float:right">
-                                    <li class="active"><a  href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                </ul>  
-                              -->
+
+                                <!--  
+                                  <ul class="pagination" style="float:right">
+                                      <li class="active"><a  href="#">1</a></li>
+                                      <li><a href="#">2</a></li>
+                                      <li><a href="#">3</a></li>
+                                  </ul>  
+                                -->
                             </div>
                             <!-- /.box -->
                         </div>
@@ -165,7 +174,7 @@
 
             <!-- =============================================== -->
             <?php
-            //Carrega footer
+//Carrega footer
             $this->load->view('administrador/footer');
             ?>
 

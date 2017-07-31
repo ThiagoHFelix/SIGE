@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 
-$route['default_controller'] = 'pages/view';
+$route['default_controller'] = 'pages';
 /*************************************************************/
 //Login
 $route['pt_BR/login/(:any)'] = 'login/view/$1';
@@ -58,17 +58,15 @@ $route['en/login/(:any)'] = 'login/view/$1';
 $route['pt_BR/login'] = 'login/view/$1';
 $route['en/login'] = 'login/view/$1';
 /*************************************************************/
-//Dashboard
-$route['pt_BR/dashboard'] = 'dashboard/view/$1';
+
 /*************************************************************/
 //Logout
 $route['pt_BR/dashboard/logout'] = 'dashboard/logout/$1';
 /*************************************************************/
 //Gerenciamento Administrador
-$route['pt_BR/manage/administrador/(:any)'] = 'manage/view/$1';
-$route['pt_BR/manage/administrador'] = 'manage/view/$1';
+$route['pt_BR/manage/administrador/'] = 'manage/administrador/';
     //User Profile
-    $route['pt_BR/manage/administrador/userprofile/(:any)'] = 'manage/userprofile/$1';
+    $route['pt_BR/manage/administrador/userprofile/(:num)/'] = 'manage/userprofile/$1';
 /*************************************************************/
 //Gerenciamento Professor
 $route['pt_BR/manage/professor'] = 'manage/view/$1';

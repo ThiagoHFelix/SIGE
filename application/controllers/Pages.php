@@ -8,12 +8,12 @@ class Pages extends CI_Controller {
 		parent::__construct();
     $this->load->helper('url');
 	}//construct
-
+         
 
           // Carrega todas as views do sistema
-	public function view($page = 'Welcome')
+	public function index($page = 'Welcome')
 	{
-
+           
 		//Verifico se a view existe
 		if( ! file_exists(APPPATH. 'views/'.$page.'.php') ):
 				show_404();

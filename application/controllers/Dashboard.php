@@ -14,11 +14,10 @@ class Dashboard extends CI_Controller {
     }//construct
     
     
-
     /**
      * Carregamento da tela inicial do sitema
      */
-    public function view() {
+    public function index() {
 
             
             isSessionStarted();

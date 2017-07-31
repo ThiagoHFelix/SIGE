@@ -6,7 +6,7 @@ class Manage_model extends CI_Model {
 
     var $table = '';
     //Total de resultados da ultima interação com o banco de dados (SELECT)
-    var $countLastResult =  0;
+    var $countLastResult =  NULL;
 
     public function __construct() {
 

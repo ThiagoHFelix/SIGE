@@ -10,7 +10,7 @@
                         </div>
                         <div class="pull-left info">
                             <p><?php echo $this->session->userdata('user_name'); ?></p>
-                            <a href="#"><i class="fa fa-user-circle text-success"></i> <?php echo $this->session->userdata('entidade'); ?> </a>
+                            <a href="<?php echo base_url($this->uri->segment(1).'/dashboard'); ?>"><i class="fa fa-user-circle text-success"></i> <?php echo $this->session->userdata('entidade'); ?> </a>
                         </div>
                     </div>
                     
@@ -54,7 +54,7 @@
                             <ul class="treeview-menu">
                                 
                                 <!-- ADMINISTRADOR -->
-                                <li><a href="<?php echo base_url($this->uri->segment(1).'/manage/administrador'); ?>"><i class="fa fa-users"></i> Administrador </a></li>
+                                <li><a href="<?php echo base_url('/manage/administrador'); ?>"><i class="fa fa-users"></i> Administrador </a></li>
                                 <!-- PROFESSOR -->
                                 <li><a href="#"><i class="fa fa-users"></i> Professor </a></li>
                                 <!-- ALUNO -->

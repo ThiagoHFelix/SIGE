@@ -49,7 +49,7 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     
-                    <a href="<?php echo base_url($this->uri->segment(1) . '/manage/administrador'); ?>"> <button class="fa fa-arrow-circle-left btn btn-primary btn-sm"> <small>Voltar</small></button> </a> 
+                    <a href="<?php echo base_url('/manage/administrador'); ?>"> <button class="fa fa-arrow-circle-left btn btn-primary btn-sm"> <small>Voltar</small></button> </a> 
                     
                     <ol class="breadcrumb">
                         <li><a href="<?php echo base_url($this->uri->segment(1) . '/dashboard'); ?>"><i class="fa fa-dashboard"></i> Home </a></li>                      
