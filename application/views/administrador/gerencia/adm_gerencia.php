@@ -53,8 +53,8 @@
                         <small>Em desenvolvimento</small>
                     </h1>
                     <ol class="breadcrumb">
-                        <li><a href="<?php echo base_url($this->uri->segment(1) . '/dashboard'); ?>"><i class="fa fa-dashboard"></i> Home </a></li>                      
-                        <li><a href="<?php echo base_url($this->uri->segment(1) . '/manage/'.$this->uri->segment(3)); ?>"><i class="fa fa-users"></i><?php echo $title; ?></a></li>                       
+                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-dashboard"></i> Home </a></li>                      
+                        <li><a href="<?php echo base_url('/manage/'.$this->uri->segment(2)); ?>"><i class="fa fa-users"></i><?php echo $title; ?></a></li>                       
                     </ol>
                 </section>
 
@@ -73,17 +73,18 @@
 
 
                                 <div class="box-tools">
-                                    <form method="post" action="<?php 
-                                 
-                                        
-                                  echo  base_url('/manage/administrador'); 
+                                    <form method="post" action="<?php echo  base_url('/manage/'.$this->uri->segment(2)); 
                                     
                                     
                                     ?>"    >
-                                        <div class="input-group input-group-sm" style="width: 290px;">
-                                            <input type="text" name="table_search" value="<?php echo setValue('table_search'); ?>" class="form-control pull-right" placeholder="Search">
+                                        <div class="input-group input-group-sm" style=" width:340px;">
+                                            <div class="input-group-btn  input-group-sm" >
+                                                <button name="clear_search" class="fa fa-close btn btn-default pull-left btn-sm"> <small>Limpar pesquisa</small></button>
+                                            </div>   
+                                            
+                                            <input type="text" name="table_search" value="<?php echo  $this->session->userdata('table_search'); ?>" class="form-control pull-right" placeholder="Search">
                                             <div class="input-group-btn  input-group-sm" style="width:80px;">
-                                                <select name="dropdown_search" class="form-control pull-left dropdown dropdown-header" >
+                                               <select name="dropdown_search" class="form-control pull-left dropdown dropdown-header" >
                                                     <?php echo $dropdown_options; ?>
                                                 </select>
                                             </div> 
@@ -99,9 +100,9 @@
 
                             <!-- /.box-header -->
                             <div class="box-body table-responsive no-padding">
-                                <table class="table table-striped">
+                                <table class="table table-striped"  style="text-align: center">
                                     
-                                    <tr> <?php echo $table_field; ?> </tr>
+                                    <tr > <?php echo $table_field; ?> </tr>
                                     
                                     <?php
                                     if ($table != NULL):
@@ -126,10 +127,12 @@
                                             $url = base_url( '/manage/userprofile/administrador/' . $row['id']);
                                             echo "
                                                 
-                                                     <td>
+                                                     <td >
                                                         <div class=\"btn-group\">
-                                                             <a href=\" " . $url . "  \">   <button class=\"fa fa-edit btn  btn-success\" ></button> </a>
-                                                            <a>   <button class=\"fa fa-remove btn btn-danger\"></button> </a>
+                                                             <a href=\" " . $url . "  \">   <button class=\"fa fa-user btn  btn-primary\" ></button> </a>
+                                                                 <a>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
+                                                            <a>   <button class=\"fa fa-user-times btn btn-danger\"></button> </a>
+                                                            
                                                         </div>
                                                      </td>
                                                 

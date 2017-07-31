@@ -51,7 +51,7 @@ class Dashboard extends CI_Controller {
     public function logout() {
 
         $this->session->sess_destroy();
-        redirect(base_url($this->uri->segment(1).'/login'));
+        redirect(base_url('/login'));
 
     }//logout
 

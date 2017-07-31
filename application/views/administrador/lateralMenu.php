@@ -6,11 +6,11 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="<?php echo base_url('data-views/dashboard/dist/img/avatar0.png'); ?>       " class="img-circle" alt="User Image">
+                            <img src="<?php echo $this->session->userdata('user_foto'); ?>       " class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
                             <p><?php echo $this->session->userdata('user_name'); ?></p>
-                            <a href="<?php echo base_url($this->uri->segment(1).'/dashboard'); ?>"><i class="fa fa-user-circle text-success"></i> <?php echo $this->session->userdata('entidade'); ?> </a>
+                            <a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-user-circle text-success"></i> <?php echo $this->session->userdata('entidade'); ?> </a>
                         </div>
                     </div>
                     

@@ -17,28 +17,59 @@ class Manage extends CI_Controller {
         $this->load->library(array('session', 'pagination'));
     }
 
-
-
     public function administrador($valor_pagina = 0) {
 
         isSessionStarted();
+        $is_search = FALSE;
+        $sqlCountRows = NULL;
+        $sqlTableData = NULL;
+        $offset = $valor_pagina;
+        $perPage = 8;
+        $escolha = NULL;
+        $escolha2 = NULL;
+        $field_table = '';
+        $data_table = '';
+        $total_rows = 0;
+        $value_post = $this->input->post('table_search');
         
+        if($this->input->post('clear_search') !== NULL):
+            $this->session->set_userdata('table_search','');
+            $value_post = '';
+        endif;
+        
+        // TESTE
+        // echo 'Post:'.$this->input->post('table_search');
+        // echo 'Userdata:'.$this->session->userdata('table_search');
+        //$this->session->userdata('is_search') !== NULL  
+        
+        //Verificação para saber qual sql se deve executar
+        if ( (strcmp($value_post, '') != 0)  || (strcmp($this->session->userdata('table_search'), '') != 0) ):
+           
+            if((strcmp($this->input->post('table_search'), '') != 0)):
+            $this->session->set_userdata('table_search',$this->input->post('table_search')) ;
+            $this->session->set_userdata('dropdown_search',$this->input->post('dropdown_search'));
+            endif;
+            
+            $data_table = $this->session->userdata('table_search');
+            $field_table = $this->session->userdata('dropdown_search');
+            
+            $sqlCountRows = 'select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id and pessoa.' . $field_table . ' LIKE \'%' . $data_table . '%\'';
+            $sqlTableData = 'select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id and pessoa.' . $field_table . ' LIKE \'%' . $data_table . '%\' ORDER BY administrador.id asc LIMIT ' . $offset . ',' . $perPage;
+            
+        else:
+             $this->session->set_userdata('table_search','');
+            $value_post = '';
+            $sqlCountRows = 'select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id';
+            $sqlTableData = 'select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id ORDER BY administrador.id asc LIMIT ' . $offset . ',' . $perPage;
+        endif;
 
-        //Não foi inserido nenhuma string para procurar no banco de dados
-        //Somente roda se for a primeira vez
-        // XXX SISTEMA FICOU MAIS RAPIDO
-        if ($this->session->userdata('countLastResult') == NULL):
-            //Rodando no banco de dados para setar a variavel de total de resultados do MODEL
-            $this->manage->getData('select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id');
-            $this->session->set_userdata('countLastResult', $this->manage->countLastResult);
-            
-         endif;
-            
-           $total_rows = $this->session->userdata('countLastResult');
+        //Contando resultados para criar a paginação
+        $this->manage->getData($sqlCountRows);
+        $total_rows = $this->manage->countLastResult;
 
         $config = array(
             'base_url' => base_url('/manage/administrador'),
-            'per_page' => 8,
+            'per_page' => $perPage,
             'num_links' => 3,
             'uri_segment' => 3,
             'total_rows' => $total_rows,
@@ -61,23 +92,24 @@ class Manage extends CI_Controller {
             'next_link' => 'Próximo'
         );
 
-
-
         //Campos da tabela
         $dados['table_field'] = '
-           <th>ID</th>
-           <th>Nome</th>
-           <th>Email</th>
-           <th>Status</th>
-           <th>Ações</th>    
+           <th  style="text-align: center">ID</th>
+           <th  style="text-align: center">Nome</th>
+           <th  style="text-align: center">Email</th>
+           <th  style="text-align: center">Status</th>
+           <th  style="text-align: center">Ações</th>    
            ';
 
         //Opções de campos da drodown_search
         $dados['dropdown_options'] = '   
             <option value="primeiroNome">Nome</option>
-            <option>ID</option>
-            <option>Email</option>
             ';
+        //Deixar o dropdown selecionado
+        $escolha = (strcmp($field_table,'ID') == 0) ? '<option selected>ID</option>' : '<option>ID</option>';
+        $escolha2 = (strcmp($field_table,'Email') == 0) ? '<option selected>Email</option>' : '<option>Email</option>';
+        $dados['dropdown_options'] = $dados['dropdown_options'].$escolha.$escolha2; 
+        
 
         //Titulo da view
         $dados['title'] = 'Administradores';
@@ -93,24 +125,20 @@ class Manage extends CI_Controller {
         //Carrega dados da tabela
         //$dados['tableAdm'] = $this->manage->getData('select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id  ORDER BY administrador.id ');
         //$this->manage->table = 'pessoa';
-
-        $offset = $valor_pagina;
-        log_message("info", 'OFFSET demonostrado: ' . $offset);
         // $dados['tableAdm'] = $this->manage->getDataCI('administrador.id','asc','pessoa.id','administrador.FK_Pessoa_id','','',$config['per_page'],$offset);
 
 
-       
-        $dados['table'] = $this->manage->getData('select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id ORDER BY administrador.id asc LIMIT ' . $offset . ',' . $config['per_page']);
+
+        $dados['table'] = $this->manage->getData($sqlTableData);
 
         $this->load->view('/administrador/gerencia/adm_gerencia', $dados);
     }
-
 
     /**
      * Carrega o perfil do usuário
      * @param type $userid
      */
-    public function userProfile($entidade,$userid = NULL) {
+    public function userProfile($entidade, $userid = NULL) {
 
 
         isSessionStarted();
@@ -120,7 +148,7 @@ class Manage extends CI_Controller {
             $this->load->view('error_404');
         else:
 
-            $result = $this->manage->getData('select * from pessoa,'.$entidade.' where pessoa.id = '.$entidade.'.FK_Pessoa_id and '.$entidade.'.id = ' . $userid);
+            $result = $this->manage->getData('select * from pessoa,' . $entidade . ' where pessoa.id = ' . $entidade . '.FK_Pessoa_id and ' . $entidade . '.id = ' . $userid);
             //Usuário não existe
             if ($result == NULL):
                 $this->load->view('error_404');
@@ -136,110 +164,11 @@ class Manage extends CI_Controller {
             endif;
         endif;
     }
-    
-    
-    /*
-     * Faz a busca no banco de dados e retorna as tuplas encontradas baseados nos parametros
-     */
-    public function search($table = '',$field = '', $data = '',$valor_pagina = 0){
-        
-        isSessionStarted();
-        
-        
-        if( (strcmp($table, 'administrador') == 0 && strcmp($data, '') != 0) || (strcmp($table, 'professor') == 0  && strcmp($data, '') != 0)  || (strcmp($table, 'aluno') == 0 && strcmp($data, '') != 0)  ):
-        
 
-        //Não foi inserido nenhuma string para procurar no banco de dados
-        //Somente roda se for a primeira vez
-        // XXX SISTEMA FICOU MAIS RAPIDO
-        if ($this->session->userdata('countLastResultSearch') == NULL):
-            //Rodando no banco de dados para setar a variavel de total de resultados do MODEL
-            $this->manage->getData('select * from pessoa,'.$table.' where pessoa.id = '.$table.'.FK_Pessoa_id');
-            $this->session->set_userdata('countLastResultSearch', $this->manage->countLastResult);
-         endif;
-            
-           $total_rows = $this->session->userdata('countLastResultSearch');
-
-        $config = array(
-            'base_url' => base_url('/manage/search/'.$this->uri->segment(3).'/'.$this->uri->segment(4).'/'.$this->uri->segment(5)),
-            'per_page' => 8,
-            'num_links' => 3,
-            'uri_segment' => 6,
-            'total_rows' => $total_rows,
-            'full_tag_open' => '<ul class="pagination"  style="float:right" >',
-            'full_tag_close' => '</ul>',
-            'first_link' => TRUE,
-            'last_link' => FALSE,
-            'num_tag_open' => '<li>',
-            'num_tag_close' => '</li>',
-            'cur_tag_open' => '<li class="active"><a>',
-            'cur_tag_close' => '</a></li>',
-            'first_tag_open' => '<li>',
-            'first_tag_close' => '</li>',
-            'prev_tag_open' => '<li>',
-            'prev_tag_close' => '</li>',
-            'next_tag_open' => '<li>',
-            'next_tag_close' => '</li>',
-            'first_link' => 'Primeiro',
-            'prev_link' => 'Anterior',
-            'next_link' => 'Próximo'
-        );
-
-
-        if(strcmp($table, 'administrador') == 0):    
-        //Campos da tabela
-        $dados['table_field'] = '
-           <th>ID</th>
-           <th>Nome</th>
-           <th>Email</th>
-           <th>Status</th>
-           <th>Ações</th>    
-           ';
-         
-        //Opções de campos da drodown_search
-        $dados['dropdown_options'] = '   
-            <option value="primeiroNome">Nome</option>
-            <option>ID</option>
-            <option>Email</option>
-            ';
-
-        //Titulo da view
-        $dados['title'] = 'Administradores';
-        
-        endif;
-        
-        
-        
-        //Inicializo a classe de paginação
-        $this->pagination->initialize($config);
-
-        //Criação do HTML com os links
-        $dados['pagination'] = $this->pagination->create_links();
-
-        //Paginação criada com função interna (Não utilizada porque não é padronizada como a library do CODE IGNITER)
-        //$dados['pagination'] = createLinksPagination($config['total_rows'], $config['per_page'], $config['num_links'], $config['base_url'], $config['uri_segment']);
-        //Carrega dados da tabela
-        //$dados['tableAdm'] = $this->manage->getData('select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id  ORDER BY administrador.id ');
-        //$this->manage->table = 'pessoa';
-
-        $offset = $valor_pagina;
-        log_message("info", 'OFFSET demonostrado: ' . $offset);
-        // $dados['tableAdm'] = $this->manage->getDataCI('administrador.id','asc','pessoa.id','administrador.FK_Pessoa_id','','',$config['per_page'],$offset);
-
-
-       
-        $dados['table'] = $this->manage->getData('select * from pessoa,'.$table.' where pessoa.id = '.$table.'.FK_Pessoa_id and pessoa.'.$field.' like \'%'.$data.'%\' ORDER BY '.$table.'.id asc LIMIT ' . $offset . ',' . $config['per_page']);
-
-        $this->load->view('/administrador/gerencia/adm_gerencia', $dados);
-       
-         else:
-           $this->load->view('error_404');
-        endif;
-    }//search
-    
-
-
+  
 }//class
+
+
 
 
 

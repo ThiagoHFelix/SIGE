@@ -24,7 +24,7 @@
 
                 <div class="login" >
 
-                    <a href=" <?php echo base_url('pt_BR/login'); ?> ">   <input class="btn" type="submit" value="<?php echo $title_btn_login; ?>" name="login" /> </a>
+                    <a href=" <?php echo base_url('/login'); ?> ">   <input class="btn" type="submit" value="<?php echo $title_btn_login; ?>" name="login" /> </a>
 
                 </div>
 

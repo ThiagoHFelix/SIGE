@@ -53,15 +53,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'pages';
 /*************************************************************/
 //Login
-$route['pt_BR/login/(:any)'] = 'login/view/$1';
-$route['en/login/(:any)'] = 'login/view/$1';
-$route['pt_BR/login'] = 'login/view/$1';
-$route['en/login'] = 'login/view/$1';
+$route['login/(:any)'] = 'login/index/$1';
 /*************************************************************/
 
 /*************************************************************/
 //Logout
-$route['pt_BR/dashboard/logout'] = 'dashboard/logout/$1';
+
 /*************************************************************/
 //Gerenciamento Administrador
 $route['pt_BR/manage/administrador/'] = 'manage/administrador/';

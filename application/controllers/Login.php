@@ -14,15 +14,13 @@ class Login extends CI_Controller {
         $this->load->model('Login_model', 'Login');
         
         $this->Login->table = 'pessoa';
-    }
-
-//Construct
-
-    public function view($entidade) {
+    }//Construct
 
 
 
+    public function index($entidade = 'administrador') {
 
+        
         //Verifico se o usuário já logou 
         if ($this->session->userdata('logged_in') != NULL):
             redirect(base_url('/dashboard'), 'reflesh');
