@@ -3,7 +3,10 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Default Dashborad</title>
+        <title>Home</title>
+        
+        <link rel="shortcut icon" href="<?php echo base_url('/data-views/dashboard/dist/img/favicon.ico'); ?> " type="image/x-icon">
+       
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
@@ -50,57 +53,189 @@
                 <section class="content-header">
                     <h1>
                         Dashboard
-                        <small>Em desenvolvimento</small>
                     </h1>
                     <ol class="breadcrumb">
-                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-dashboard"></i> Home </a></li>                      
+                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-home"></i> Inicio </a></li>                      
                     </ol>
                 </section>
 
                 <!-- Main content -->
                 <section class="content">
 
-                    <!-- Default box -->
-                    <div class="box box-solid box-primary" style="height: 800px">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Title</h3>
 
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                                        title="Collapse">
-                                    <i class="fa fa-minus"></i></button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                                    <i class="fa fa-times"></i></button>
+                    <div class="row">
+
+
+                        <div  class="col-md-12" >
+
+
+                            <div class="box box-primary " style="height: 200px;" >
+
+                                <!-- HEADER -->
+                                <div class="box-header with-border" >
+                                    <h3 class="box-title"> Links Rápidos </h3>
+
+                                </div>
+
+                                <!-- BODY -->
+
+                                <div class="box-body" style="height: 200px; ">
+
+                                    <a href="#">  <button class="btn btn-app btn-lg" >
+                                            <span class="fa fa-user-plus" aria-hidden="true"></span>
+                                            Matricular Aluno
+                                        </button> </a>
+                                    
+                                    <a href="#">  <button class="btn btn-app btn-lg" >
+                                            <span class="fa fa-user-plus" aria-hidden="true"></span>
+                                            Matricular Professor
+                                        </button> </a>
+                                    
+                                    <a href="#">  <button class="btn btn-app btn-lg" >
+                                            <span class="fa fa-user-plus" aria-hidden="true"></span>
+                                            Cadastrar Administrador
+                                        </button> </a>
+
+                                    <a href="#">  <button class="btn btn-app" >
+                                            <span class="fa fa-users" aria-hidden="true"></span>
+                                            Alunos
+                                        </button> </a>
+
+                                    <a href="#">  <button class="btn btn-app" >
+                                            <span class="fa fa-users" aria-hidden="true"></span>
+                                            Professores
+                                        </button> </a>
+
+                                    <a href="#">  <button class="btn btn-app" >
+                                            <span class="fa fa-users" aria-hidden="true"></span>
+                                            Administradores
+                                        </button> </a>
+
+                                    <a href="#">  <button class="btn btn-app" >
+                                            <span class="fa fa-graduation-cap" aria-hidden="true"></span>
+                                            Cursos
+                                        </button> </a>
+
+                                    <a href="#">  <button class="btn btn-app" >
+                                            <span class="fa fa-book" aria-hidden="true"></span>
+                                            Matérias
+                                        </button> </a>
+
+                                    <a href="#">  <button class="btn btn-app" >
+                                            <span class="fa fa-users" aria-hidden="true"></span>
+                                            Turmas
+                                        </button> </a>
+
+                                    <a href="#">  <button class="btn btn-app" >
+                                            <span class="fa fa-pencil" aria-hidden="true"></span>
+                                            Registrar Nota
+                                        </button> </a>
+
+                                    <a href="#">  <button class="btn btn-app" >
+                                            <span class="fa fa-comments" aria-hidden="true"></span>
+                                            Chat
+                                        </button> </a>
+
+                                    <a href="#">  <button class="btn btn-app" >
+                                            <span class="fa fa-area-chart" aria-hidden="true"></span>
+                                            Relatórios
+                                        </button> </a>
+
+                                    <a href="#">  <button class="btn btn-app" >
+                                            <span class="fa fa-gears" aria-hidden="true"></span>
+                                            Configuração
+                                        </button> </a>
+
+                                </div>
+
+                                <!-- /.box-body -->
+
+
 
                             </div>
+
+
                         </div>
 
-                        <div class="body-box">
-                            <!-- BODY -->
-
-                         <!--   <!-- /.INFO-BOX 
-                            <div class="info-box">
-                                <!-- Apply any bg-* class to to the icon to color it 
-                                <span class="info-box-icon bg-red"><i class="fa fa-user"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Usuários cadastrados</span>
-                                    <span class="info-box-number">93,139</span>
-                                </div><!-- /.info-box-content -->
-                            </div><!-- /.info-box -->
-
-                          
-
-
-
-                            <!-- BODY -->
-                        </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            Footer
-                        </div>
-                        <!-- /.box-footer-->
                     </div>
-                    <!-- /.box -->
+
+                    <!----------------- SEGUNDA LINHA -------------------------------------->
+
+                    <div class="row" >
+
+                        <!-- BOX LEFT -->
+                        <div class="col-md-8">
+
+                            <div class="box box-primary" style="height: 235px;">
+                                <!------------------ INICIO BOX ------------------->
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Quadro de Avisos</h3>
+                                </div>
+
+                                <div class="box-body ">
+                                    <!------------------ INICIO BODY---------------->
+
+
+
+                                    <!------------------ FIM BODY------------------->
+                                </div>
+
+                                <div class="box-footer with-border">
+
+
+
+                                </div>
+
+                                <!------------------ FIM BOX ------------------->
+                            </div>
+
+                        </div>
+
+
+                        <!-- BOX RIGHT -->
+                        <div class="col-md-4" >
+                            <!------------------ MENSAGENS BOX ------------------->
+                            <div class="info-box">
+                                <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Novas Mensagens</span>
+                                    <span class="info-box-number">2</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!------------------ /. MENSAGENS BOX ------------------->
+
+                            <!------------------  ALUNOS MATRICULADOS ------------------->
+                            <div class="small-box bg-yellow">
+                                <div class="inner">
+                                    <h3>25</h3>
+
+                                    <p>Alunos Matriculados</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-person-add"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">
+                                    More info <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                            <!------------------ /. ALUNOS MATRICULADOS ------------------->
+
+
+                        </div>
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
 
                 </section>
                 <!-- /.content -->

@@ -17,6 +17,11 @@ class Manage extends CI_Controller {
         $this->load->library(array('session', 'pagination'));
     }
 
+    
+    /**
+     * Lista a table com todos os administradores e toda as opções de manipulação
+     * @param type $valor_pagina Número de paginação (Opcional)
+     */
     public function administrador($valor_pagina = 0) {
 
         isSessionStarted();
