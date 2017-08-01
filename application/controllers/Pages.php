@@ -30,7 +30,7 @@ class Pages extends CI_Controller {
 		$data['menu_contact'] = 'Contato';
 		$data['title_btn_login'] = 'Sistema Escolar (BETA)';
                 
-  	$this->load->view('Welcome',$data);
+  	$this->load->view('newLogin',$data);
 
 	}//view
 

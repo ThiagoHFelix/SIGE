@@ -18,7 +18,9 @@
          <!-- search form -->
       
           <div  class="sidebar-form" style="height: 35px; text-align: center; ">
-              <p class="box-title" style="color:white; margin-top:5px;"><?php echo 'Hoje: '. date('d/m/Y')?></p>
+              <p class="box-title" style="color:white; margin-top:5px;"><?php
+              date_default_timezone_set('America/Sao_Paulo');
+              echo 'Hoje: '. date('d/m/Y')?></p>
         </div>
       
       <!-- /.search form -->

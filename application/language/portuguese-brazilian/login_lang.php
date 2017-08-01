@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 $lang['title'] = 'Login';
-$lang['recovery_pass'] = 'Esqueceu?';
+$lang['recovery_pass'] = 'Esqueceu a senha ou email ?';
 $lang['button_login'] = 'Logar';
 $lang['placeholder_user'] = 'Email';
 $lang['placeholder_password'] = 'Senha';

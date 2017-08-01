@@ -27,8 +27,8 @@ class Login extends CI_Controller {
         endif;
 
 
-        $data['title'] = 'Login';
-        $data['recovery_pass'] = 'Esqueceu?';
+        $data['title'] = 'Centro Escolar | Login';
+        $data['recovery_pass'] = 'Esqueceu a senha ou email ?';
         $data['button_login'] = 'Logar';
         $data['placeholder_user'] = 'Email';
         $data['placeholder_password'] = 'Senha';
@@ -94,7 +94,7 @@ class Login extends CI_Controller {
             $data['inform_login'] = validation_errors();
         endif;
 
-        $this->load->view('Login', $data);
+        $this->load->view('newLogin', $data);
     }//View
 
     
