@@ -5,9 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Home</title>
         
-        <link rel="shortcut icon" href="<?php echo base_url('/data-views/dashboard/dist/img/favicon.ico'); ?> " type="image/x-icon">
-       
-        <!-- Tell the browser to be responsive to screen width -->
+         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
         <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>  ">
@@ -81,21 +79,7 @@
 
                                 <div class="box-body" style="height: 200px; ">
 
-                                    <a href="#">  <button class="btn btn-app btn-lg" >
-                                            <span class="fa fa-user-plus" aria-hidden="true"></span>
-                                            Matricular Aluno
-                                        </button> </a>
-                                    
-                                    <a href="#">  <button class="btn btn-app btn-lg" >
-                                            <span class="fa fa-user-plus" aria-hidden="true"></span>
-                                            Matricular Professor
-                                        </button> </a>
-                                    
-                                    <a href="#">  <button class="btn btn-app btn-lg" >
-                                            <span class="fa fa-user-plus" aria-hidden="true"></span>
-                                            Cadastrar Administrador
-                                        </button> </a>
-
+                                   
                                     <a href="#">  <button class="btn btn-app" >
                                             <span class="fa fa-users" aria-hidden="true"></span>
                                             Alunos
@@ -106,7 +90,7 @@
                                             Professores
                                         </button> </a>
 
-                                    <a href="#">  <button class="btn btn-app" >
+                                    <a href="<?php echo base_url('/manage/administrador'); ?>">  <button class="btn btn-app" >
                                             <span class="fa fa-users" aria-hidden="true"></span>
                                             Administradores
                                         </button> </a>

@@ -1,72 +1,106 @@
 <!DOCTYPE html>
-<html >
+<html>
     <head>
-        <meta charset="UTF-8">
-        <title><?php echo $this->lang->line('title'); ?> </title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title><?php echo $title; ?></title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.7 -->
+        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/bower_components/font-awesome/css/font-awesome.min.css'); ?>">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/bower_components/Ionicons/css/ionicons.min.css'); ?>">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/dist/css/AdminLTE.min.css'); ?>">
+        <!-- iCheck -->
+        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/plugins/iCheck/square/blue.css'); ?>">
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
 
-
-        <link rel="stylesheet" href="<?php echo base_url('data-views/login/css/style.css?v=2'); ?>">
-
-
-
+        <!-- Google Font -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
         <style type="text/css">
+
+            
+            
+            body{
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.2)), color-stop(100%,rgba(255,255,255,0.2))), url("<?php echo base_url('data-views/home/img/background.jpg '); ?> ") repeat 0 0;
+                backface-visibility: 10;
+                background-size: 300px; 
+                display: flex;
+            }
 
         </style>
 
-
     </head>
-
-    <body> 
-      
-        <div class="select_language" >
-
-
-            <ul class="languagepicker roundborders">
-                <a ><li><img src=""/>Language</li></a>
-                <a href="<?php echo base_url('login'); ?>"><li><img src="http://i41.tinypic.com/zx4ity.jpg"/>Portuguese</li></a>
-                <a href="<?php echo base_url('login'); ?>"><li><img src="http://i64.tinypic.com/fd60km.png"/>English</li></a>
-            </ul>
-
-
-
-        </div>
-
-
-        <form method="post" action="<?php echo base_url('login/' . $this->uri->segment(2)); ?>" >
-            <div class="wrap">
-
-                <!--    <div class="avatar">
-                        <img id="user_img" onchange="loadImg()" src="<?php echo base_url('/data-views/login/img/avatar.png'); ?>">
-                    </div>  -->
-
-                <p class="main_title"> Centro Escolar </p>
-
-                <input type="text" name="username" value="<?php echo setValue('username'); ?>" placeholder="<?php echo $this->lang->line('placeholder_user'); ?>" >
-                <div class="bar">
-                    <i></i>
-                </div>
-                <input type="password" name="password" value="<?php
-                echo setValue('password');
-                ?>" placeholder="<?php echo $this->lang->line('placeholder_password'); ?>" >
-                <a href="forgot" class="forgot_link"><?php echo $this->lang->line('recovery_pass'); ?></a>
-
-                <div  class="entidadepicker-div" >
-                    <ul class="roundborders entidadepicker" style="display: inline;  "> 
-                        <a href="<?php echo base_url('/login/administrador'); ?>"> <li  > <?php echo $this->lang->line('adm_login'); ?> </li> </a>
-                        <a href="<?php echo base_url('/login/professor'); ?>">  <li > <?php echo $this->lang->line('prof_login'); ?> </li> </a>
-                        <a href="<?php echo base_url('/login/aluno'); ?>"> <li > <?php echo $this->lang->line('alun_login'); ?> </li> </a>
-                    </ul>
-                </div>
-           
-
-                <button> <?php echo $this->lang->line('button_login'); ?> </button>
-                <p class="validation_erros" > <?php echo $inform_login; ?> </p>
+    <body class="hold-transition  ">
+        
+        <div class="login-box-body">
+            <div class="login-logo" style="padding-top:0px;">
+                <a href="<?php echo base_url(); ?>"><b>C</b>entro - <b>E</b>scolar</a>
             </div>
+            <!-- /.login-logo -->
+            <div class="login-box-body">
+                <p class="login-box-msg">Identifique-se para utilzar o sistema</p>
 
-        </form>
-        <script src="<?php echo base_url('data-views/login/js/script.js'); ?>"></script>
+                <form action="<?php echo base_url('/login/' . $this->uri->segment(2)); ?>" method="post">
+                    <div class="form-group has-feedback">
+                        <input  name="username" type="email" class="form-control" value="<?php echo setValue('username'); ?>" placeholder="Email">
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input name="password" type="password" class="form-control" value="<?php echo setValue('password'); ?>" placeholder="<?php echo $this->lang->line('placeholder_password'); ?>">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+                        <!-- /.col -->
+                        <div class="col-xs-12 text-center">
+                            <div class="" >
+                                <p class="validation_erros" > <?php echo $inform_login; ?> </p>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-book"></i><?php echo $this->lang->line('button_login'); ?> </button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
 
+                <div class="social-auth-links text-center">
+                    <p>Logar como</p>
+                    <a href="<?php echo base_url('/login/administrador'); ?>" class="btn btn-block btn-social btn-primary btn-flat"><i class="fa fa-user"></i> Administrador</a>
+                    <a href="<?php echo base_url('/login/professor'); ?>" class="btn btn-block btn-social btn-info btn-flat"><i class="fa fa-user"></i> Professor</a>
+                    <a href="<?php echo base_url('/login/aluno'); ?>" class="btn btn-block btn-social btn-success btn-flat"><i class="fa fa-user"></i> Aluno</a>
+                    <br/>
+                    <a href="#" class="link-muted" style="text-align: center"><?php echo $this->lang->line('recovery_pass'); ?></a><br>
+
+                </div>
+                <!-- /.social-auth-links -->
+
+            </div>
+            <!-- /.login-box-body -->
+        </div>
+        <!-- /.login-box -->
+
+        <!-- jQuery 3 -->
+        <script src="<?php echo base_url('data-views/dashboard/bower_components/jquery/dist/jquery.min.js'); ?>"></script>
+        <!-- Bootstrap 3.3.7 -->
+        <script src="<?php echo base_url('data-views/dashboard/bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
+        <!-- iCheck -->
+        <script src="<?php echo base_url('data-views/dashboard/plugins/iCheck/icheck.min.js'); ?>"></script>
+        <script>
+            $(function () {
+                $('input').iCheck({
+                    checkboxClass: 'icheckbox_square-blue',
+                    radioClass: 'iradio_square-blue',
+                    increaseArea: '20%' // optional
+                });
+            });
+        </script>
     </body>
 </html>

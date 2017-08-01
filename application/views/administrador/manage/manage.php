@@ -50,11 +50,11 @@
                 <section class="content-header">
                     <h1>
                         <?php echo $title; ?>
-                        <small>Em desenvolvimento</small>
+
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-dashboard"></i> Home </a></li>                      
-                        <li><a href="<?php echo base_url('/manage/'.$this->uri->segment(2)); ?>"><i class="fa fa-users"></i><?php echo $title; ?></a></li>                       
+                        <li><a href="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"><i class="fa fa-users"></i><?php echo $title; ?></a></li>                       
                     </ol>
                 </section>
 
@@ -66,25 +66,20 @@
                         <div class="box box-primary"  >
                             <div class="box-header" >
 
-                                <div class="btn-group-vertical">
-                                    <button class="btn btn-sm fa fa-user-plus" style="width: 200%; margin-top:0px;"></button>
+                                <div class="btn-group-vertical ">
+                                    <a href="<?php echo base_url('/manage/cadastro/'.$this->uri->segment(2)); ?>">    <button class="btn btn-sm fa fa-user-plus" style="width: 200%;"></button> </a>
                                 </div>
 
-
-
                                 <div class="box-tools">
-                                    <form method="post" action="<?php echo  base_url('/manage/'.$this->uri->segment(2)); 
-                                    
-                                    
-                                    ?>"    >
+                                    <form method="post" action="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"    >
                                         <div class="input-group input-group-sm" style=" width:340px;">
                                             <div class="input-group-btn  input-group-sm" >
                                                 <button name="clear_search" class="fa fa-close btn btn-default pull-left btn-sm"> <small>Limpar pesquisa</small></button>
                                             </div>   
-                                            
-                                            <input type="text" name="table_search" value="<?php echo  $this->session->userdata('table_search'); ?>" class="form-control pull-right" placeholder="Search">
+
+                                            <input type="text" name="table_search" value="<?php echo $this->session->userdata('table_search'); ?>" class="form-control pull-right" placeholder="Search">
                                             <div class="input-group-btn  input-group-sm" style="width:80px;">
-                                               <select name="dropdown_search" class="form-control pull-left dropdown dropdown-header" >
+                                                <select name="dropdown_search" class="form-control pull-left dropdown dropdown-header" >
                                                     <?php echo $dropdown_options; ?>
                                                 </select>
                                             </div> 
@@ -101,9 +96,9 @@
                             <!-- /.box-header -->
                             <div class="box-body table-responsive no-padding">
                                 <table class="table table-striped"  style="text-align: center">
-                                    
+
                                     <tr > <?php echo $table_field; ?> </tr>
-                                    
+
                                     <?php
                                     if ($table != NULL):
 
@@ -124,7 +119,7 @@
 
                                             endif;
 
-                                            $url = base_url( '/manage/userprofile/administrador/' . $row['id']);
+                                            $url = base_url('/manage/userprofile/administrador/' . $row['id']);
                                             echo "
                                                 
                                                      <td >
@@ -135,8 +130,7 @@
                                                             
                                                         </div>
                                                      </td>
-                                                
-                                                ";
+                                                 ";
 
 
                                         endforeach;
@@ -158,7 +152,6 @@
                                 <?php
                                 echo $pagination;
                                 ?>
-
                                 <!--  
                                   <ul class="pagination" style="float:right">
                                       <li class="active"><a  href="#">1</a></li>

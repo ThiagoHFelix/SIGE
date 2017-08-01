@@ -94,7 +94,7 @@ class Login extends CI_Controller {
             $data['inform_login'] = validation_errors();
         endif;
 
-        $this->load->view('newLogin', $data);
+        $this->load->view('Login', $data);
     }//View
 
     

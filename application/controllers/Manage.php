@@ -136,7 +136,7 @@ class Manage extends CI_Controller {
 
         $dados['table'] = $this->manage->getData($sqlTableData);
 
-        $this->load->view('/administrador/gerencia/adm_gerencia', $dados);
+        $this->load->view('/administrador/manage/manage', $dados);
     }
 
     /**
@@ -144,8 +144,7 @@ class Manage extends CI_Controller {
      * @param type $userid
      */
     public function userProfile($entidade, $userid = NULL) {
-
-
+        
         isSessionStarted();
 
         //Verificação de parâmetro 
@@ -164,12 +163,38 @@ class Manage extends CI_Controller {
                     $dados = $row;
 
                 endforeach;
-                $this->load->view('/administrador/gerencia/user/adm_userprofile', $dados);
+                $this->load->view('administrador/manage/user/userprofile', $dados);
 
             endif;
         endif;
     }
+    
+    
+    
+    /**
+     * Cadastra entidades no banco de dados
+     */
+    public function cadastro($entidade){
+       
+        isSessionStarted();
+        
+        //cadastro de administrador
+      if(strcmp($entidade, 'administrador') == 0):
+          $this->cadAdministrador();
+      endif;  
+        
+      
+      
+    }//cadastro
 
+    /**
+     * Faz o cadastro do administrador no banco de dados
+     */
+    private function cadAdministrador(){
+        
+        $this->load->view('administrador/manage/cadastro_administrador');
+        
+    }//cadAdministrador
   
 }//class
 

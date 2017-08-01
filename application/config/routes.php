@@ -50,30 +50,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 
-$route['default_controller'] = 'login';
 /*************************************************************/
-//Login
+$route['default_controller'] = 'login';
 $route['login/(:any)'] = 'login/index/$1';
 /*************************************************************/
-
-/*************************************************************/
-//Logout
-
-/*************************************************************/
-//Gerenciamento Administrador
-$route['pt_BR/manage/administrador/'] = 'manage/administrador/';
-    //User Profile
-    $route['pt_BR/manage/administrador/userprofile/(:num)/'] = 'manage/userprofile/$1';
-/*************************************************************/
-//Gerenciamento Professor
-$route['pt_BR/manage/professor'] = 'manage/view/$1';
-/*************************************************************/
-//Gerenciamento Aluno
-$route['pt_BR/manage/aluno'] = 'manage/view/$1';
-/*************************************************************/
-
-
-//$route['(:any)'] = 'pages/view/$1';
 
 
 /*
