@@ -15,6 +15,15 @@ class Manage_model extends CI_Model {
         
     }//construct
 
+    /**
+     * Retorna o ultimo erro ocorrido no banco de dados 
+     * @return type
+     */
+    public function returnLastError(){
+        
+        return $this->db->error();
+        
+    }//returnLastError
     
     
     /**
@@ -70,6 +79,24 @@ class Manage_model extends CI_Model {
     }//getDataCI
 
     
+     /**
+     * Make a verification in the database looking for a datafield
+     * @param type $data The table's data that you looking for
+     * @param type $field The table's field in the database
+     * @param type $table The table's name in the database
+     * @return boolean
+     */
+    public function verificData($data, $field, $table) {
+
+        $this->db->where($field, $data);
+        $query = $this->db->get($table);
+        if ($query->num_rows() > 0):
+            return TRUE;
+        else:
+            return FALSE;
+        endif;
+    }//verificData
+    
     
     
     /**
@@ -91,6 +118,28 @@ class Manage_model extends CI_Model {
         
     }//getData
 
+    
+    public function getMax($table,$field){
+        
+        $this->db->select_max($field);
+        $this->db->get($table);
+        
+        
+    }//getMax
+    
+    
+    
+    /**
+     * Faz um inset na tabela passada
+     */
+    public function insert($table,$dados){
+        
+        return $this->db->insert($table,$dados);
+        
+    }//insert 
+    
+    
+    
 
     
 }//class

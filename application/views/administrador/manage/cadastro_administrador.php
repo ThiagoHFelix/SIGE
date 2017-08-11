@@ -33,9 +33,10 @@
 
 
 
-
     </head>
     <body class="hold-transition <?php echo $this->session->userdata('main_theme'); ?> sidebar-mini">
+
+
         <!-- Site wrapper -->
         <div class="wrapper">
 
@@ -55,9 +56,9 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                     
+
                     <a href="<?php echo base_url('/manage/administrador'); ?>"> <button class="fa fa-arrow-circle-left btn btn-primary btn-sm"> <small>Voltar</small></button> </a> 
-                   
+
                     <ol class="breadcrumb">
                         <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-home"></i> Inicio </a></li>                      
                     </ol>
@@ -73,14 +74,28 @@
                                 <div class=" box-header register-logo">
                                     <a> Administrador</a>
                                 </div>
-                              
+
 
                                 <form  method="post" action="<?php echo base_url('/manage/cadastro/' . $this->uri->segment(3)); ?>" >
+
+                                    <div class="row" >
+                                        <div class="col-md-12" >
+
+                                            <div class="form-group has-feedback" style="margin-left: 16px;margin-right: 16px;">
+
+                                                <input type="file" class="form-control"  name="up_img"  size="20">
+
+                                            </div>
+
+                                        </div> 
+
+                                    </div>
+
 
                                     <div class="col-md-6">
                                         <!--------------- PRIMEIRO NOME --------------->
                                         <div class="form-group has-feedback">
-                                            <input  name="primeiroNome" type="text" class="form-control" value="<?php echo setValue('primeiroNome'); ?>" placeholder="Primerio Nome">
+                                            <input required name="primeiroNome" type="text" class="form-control" value="<?php echo setValue('primeiroNome'); ?>" placeholder="Primerio Nome">
                                             <span class="glyphicon glyphicon-user form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. PRIMEIRO NOME --------------->
@@ -111,7 +126,7 @@
 
                                         <!--------------- CEP --------------->
                                         <div class="form-group has-feedback">
-                                            <input  name="cep" id="cep" type="text" class="form-control" value="<?php echo setValue('cep'); ?>" placeholder="CEP (* Deve conter pontos)" 
+                                            <input  name="cep" id="cep" type="text" class="form-control" value="<?php echo setValue('cep'); ?>" placeholder="CEP" 
                                                     data-inputmask='"mask": "99999-999"' data-mask
                                                     >
                                             <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
@@ -178,7 +193,19 @@
                                         </div>
                                         <!--------------- /. RUA --------------->
 
-                                          <p class="register-box-msg">Avisos</p> 
+
+
+
+                                        <!--------------- AVISO --------------->
+                                        <div class="form-group has-feedback form-control" style="background-color: #eeeeee">
+                                            <span class="fa fa-warning form-control-feedback"></span>
+                                            <span class="text-center" ><?php echo $avisos; ?></span>
+
+                                            <!--------------- ANCORA PARA O AVISO -------------->
+
+
+                                        </div>
+                                        <!--------------- /. AVISO --------------->
 
                                     </div>
 
@@ -186,135 +213,133 @@
 
                                         <!--------------- EMAIL --------------->
                                         <div class="form-group has-feedback">
-                                            <input  name="email" type="email" class="form-control "  value="<?php echo setValue('email'); ?>" placeholder="Email">
+                                            <input required name="email" type="email" class="form-control "  value="<?php echo setValue('email'); ?>" placeholder="Email">
                                             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. EMAIL --------------->
-                                        
+
                                         <!--------------- NUMERO DA RESIDENCIA --------------->
                                         <div class="form-group has-feedback">
                                             <input  name="residencia" type="number" class="form-control "  value="<?php echo setValue('residencia'); ?>" placeholder="Número de residencia">
                                             <span class="fa fa-home form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. NUMERO DA RESIDENCIA --------------->
-                                        
+
                                         <!--------------- CPF --------------->
                                         <div class="form-group has-feedback">
                                             <input  name="cpf" type="text" class="form-control "  value="<?php echo setValue('cpf'); ?>" placeholder="CPF"
-                                                data-inputmask='"mask": "999.999.999-99"' data-mask    
+                                                    data-inputmask='"mask": "999.999.999-99"' data-mask    
                                                     >
                                             <span class="fa fa-user-circle-o form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. CPF --------------->
-                                        
+
                                         <!--------------- RG --------------->
                                         <div class="form-group has-feedback">
                                             <input  name="rg" type="text" class="form-control "  value="<?php echo setValue('rg'); ?>" placeholder="RG"
-                                               data-inputmask='"mask": "99.999.999-*"' data-mask     
+                                                    data-inputmask='"mask": "99.999.999-*"' data-mask     
                                                     >
                                             <span class="fa fa-user-circle form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. RG --------------->
-                                        
+
                                         <!--------------- TELEFONE --------------->
                                         <div class="form-group has-feedback">
                                             <input  name="telefone" type="tel" class="form-control "  value="<?php echo setValue('telefone'); ?>" placeholder="Telefone"
-                                               data-inputmask='"mask": "(99) 9999-99999"' data-mask     
+                                                    data-inputmask='"mask": "(99) 9999-99999"' data-mask     
                                                     >
                                             <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. TELEFONE --------------->
-                                        
-                                          <!--------------- SEXO --------------->
-                                          <div class="form-group has-feedback">
-                                              <select class="form-control" name="sexo" >
-                                                  <option>Sexo</option>
-                                                  <option>Masculino</option>
-                                                  <option>Feminino</option>
-                                              </select>
-                                          </div>
+
+                                        <!--------------- SEXO --------------->
+                                        <div class="form-group has-feedback">
+                                            <select class="form-control" name="sexo" >
+                                                <option>Sexo</option>
+                                                <option>Masculino</option>
+                                                <option>Feminino</option>
+                                            </select>
+                                        </div>
                                         <!--------------- /. SEXO --------------->
-                                        
-                                        
-                                        
+
                                         <!--------------- SENHA --------------->
                                         <div class="form-group has-feedback">
-                                            <input  required name="senha" type="text" class="form-control" minlength="5" maxlength="20" value="<?php echo setValue('senha'); ?>" placeholder="Senha">
+                                            <input  required name="senha" type="password" class="form-control" minlength="5" maxlength="20" value="<?php echo setValue('senha'); ?>" placeholder="Senha">
                                             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. SENHA --------------->
-                                        
-                                        
+
+
                                         <!--------------- CONFIRMAÇÃO DA SENHA --------------->
                                         <div class="form-group has-feedback">
-                                            <input required name="conf_senha" type="text" class="form-control" minlength="5" maxlength="20" value="<?php echo setValue('conf_senha'); ?>" placeholder="Confirme a senha">
+                                            <input required name="conf_senha" type="password" class="form-control" minlength="5" maxlength="20" value="<?php echo setValue('conf_senha'); ?>" placeholder="Confirme a senha">
                                             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. CONFIRMAÇÃO DA SENHA --------------->
 
 
-                                         <button type="submit" class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>
+                                        <button type="submit" onclick="ready()" class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>
 
                                     </div>
-
-                                </form>
                             </div>
-
+                            </form>
                         </div>
+
                     </div>
-
-                </section>
-                <!-- /.content -->
             </div>
-            <!-- /.content-wrapper -->
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
 
 
-            <!-- =============================================== -->
-            <?php
-            //Carrega footer
-            $this->load->view('administrador/footer');
-            ?>
+    <!-- =============================================== -->
+    <?php
+    //Carrega footer
+    $this->load->view('administrador/footer');
+    ?>
 
-        </div>
-
-
-        <div class="control-sidebar-bg"></div>
-
-        <!-- ./wrapper -->
-
-        <!-- jQuery 3 -->
-
-        <script src="<?php echo base_url('data-views/dashboard/bower_components/jquery/dist/jquery.min.js'); ?>  "></script>
-        <!-- Bootstrap 3.3.7 -->
-        <script src="<?php echo base_url('data-views/dashboard/bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>     "></script>
-        <!-- SlimScroll -->
-        <script src="<?php echo base_url('data-views/dashboard/bower_components/jquery-slimscroll/jquery.slimscroll.min.js'); ?>     "></script>
-        <!-- FastClick -->
-        <script src="<?php echo base_url('data-views/dashboard/bower_components/fastclick/lib/fastclick.js'); ?>  "></script>
-        <!-- AdminLTE App -->
-        <script src="<?php echo base_url('data-views/dashboard/dist/js/adminlte.min.js'); ?>  "></script>
-        <!-- AdminLTE for demo purposes -->
-        <script src="<?php echo base_url('data-views/dashboard/dist/js/demo.js'); ?>  "></script>
-
-        <!-- Select2 -->
-        <script src="<?php echo base_url('data-views/dashboard/bower_components/select2/dist/js/select2.full.min.js'); ?>"></script>
-
-        <!-- InputMask -->
-        <script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.js'); ?> "></script>
-        <script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.date.extensions.js'); ?>"></script>
-        <script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.extensions.js'); ?>"></script>
-
-        <script>
-            $(function () {
-                //Initialize Select2 Elements
-                $('.select2').select2()
-
-                //Money Euro
-                $('[data-mask]').inputmask()
+</div>
 
 
-            })
-        </script>
+<div class="control-sidebar-bg"></div>
 
-    </body>
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+
+<script src="<?php echo base_url('data-views/dashboard/bower_components/jquery/dist/jquery.min.js'); ?>  "></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="<?php echo base_url('data-views/dashboard/bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>     "></script>
+<!-- SlimScroll -->
+<script src="<?php echo base_url('data-views/dashboard/bower_components/jquery-slimscroll/jquery.slimscroll.min.js'); ?>     "></script>
+<!-- FastClick -->
+<script src="<?php echo base_url('data-views/dashboard/bower_components/fastclick/lib/fastclick.js'); ?>  "></script>
+<!-- AdminLTE App -->
+<script src="<?php echo base_url('data-views/dashboard/dist/js/adminlte.min.js'); ?>  "></script>
+<!-- AdminLTE for demo purposes -->
+<script src="<?php echo base_url('data-views/dashboard/dist/js/demo.js'); ?>  "></script>
+
+<!-- Select2 -->
+<script src="<?php echo base_url('data-views/dashboard/bower_components/select2/dist/js/select2.full.min.js'); ?>"></script>
+
+<!-- InputMask -->
+<script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.js'); ?> "></script>
+<script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.date.extensions.js'); ?>"></script>
+<script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.extensions.js'); ?>"></script>
+
+<script>
+                                            $(function () {
+                                                //Initialize Select2 Elements
+                                                $('.select2').select2()
+
+                                                //Money Euro
+                                                $('[data-mask]').inputmask()
+
+
+                                            })
+</script>
+
+</body>
 </html>

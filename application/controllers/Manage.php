@@ -17,7 +17,6 @@ class Manage extends CI_Controller {
         $this->load->library(array('session', 'pagination'));
     }
 
-    
     /**
      * Lista a table com todos os administradores e toda as opções de manipulação
      * @param type $valor_pagina Número de paginação (Opcional)
@@ -36,33 +35,32 @@ class Manage extends CI_Controller {
         $data_table = '';
         $total_rows = 0;
         $value_post = $this->input->post('table_search');
-        
-        if($this->input->post('clear_search') !== NULL):
-            $this->session->set_userdata('table_search','');
+
+        if ($this->input->post('clear_search') !== NULL):
+            $this->session->set_userdata('table_search', '');
             $value_post = '';
         endif;
-        
+
         // TESTE
         // echo 'Post:'.$this->input->post('table_search');
         // echo 'Userdata:'.$this->session->userdata('table_search');
         //$this->session->userdata('is_search') !== NULL  
-        
         //Verificação para saber qual sql se deve executar
-        if ( (strcmp($value_post, '') != 0)  || (strcmp($this->session->userdata('table_search'), '') != 0) ):
-           
-            if((strcmp($this->input->post('table_search'), '') != 0)):
-            $this->session->set_userdata('table_search',$this->input->post('table_search')) ;
-            $this->session->set_userdata('dropdown_search',$this->input->post('dropdown_search'));
+        if ((strcmp($value_post, '') != 0) || (strcmp($this->session->userdata('table_search'), '') != 0)):
+
+            if ((strcmp($this->input->post('table_search'), '') != 0)):
+                $this->session->set_userdata('table_search', $this->input->post('table_search'));
+                $this->session->set_userdata('dropdown_search', $this->input->post('dropdown_search'));
             endif;
-            
+
             $data_table = $this->session->userdata('table_search');
             $field_table = $this->session->userdata('dropdown_search');
-            
+
             $sqlCountRows = 'select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id and pessoa.' . $field_table . ' LIKE \'%' . $data_table . '%\'';
             $sqlTableData = 'select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id and pessoa.' . $field_table . ' LIKE \'%' . $data_table . '%\' ORDER BY administrador.id asc LIMIT ' . $offset . ',' . $perPage;
-            
+
         else:
-             $this->session->set_userdata('table_search','');
+            $this->session->set_userdata('table_search', '');
             $value_post = '';
             $sqlCountRows = 'select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id';
             $sqlTableData = 'select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id ORDER BY administrador.id asc LIMIT ' . $offset . ',' . $perPage;
@@ -111,10 +109,10 @@ class Manage extends CI_Controller {
             <option value="primeiroNome">Nome</option>
             ';
         //Deixar o dropdown selecionado
-        $escolha = (strcmp($field_table,'ID') == 0) ? '<option selected>ID</option>' : '<option>ID</option>';
-        $escolha2 = (strcmp($field_table,'Email') == 0) ? '<option selected>Email</option>' : '<option>Email</option>';
-        $dados['dropdown_options'] = $dados['dropdown_options'].$escolha.$escolha2; 
-        
+        $escolha = (strcmp($field_table, 'ID') == 0) ? '<option selected>ID</option>' : '<option>ID</option>';
+        $escolha2 = (strcmp($field_table, 'Email') == 0) ? '<option selected>Email</option>' : '<option>Email</option>';
+        $dados['dropdown_options'] = $dados['dropdown_options'] . $escolha . $escolha2;
+
 
         //Titulo da view
         $dados['title'] = 'Administradores';
@@ -144,7 +142,7 @@ class Manage extends CI_Controller {
      * @param type $userid
      */
     public function userProfile($entidade, $userid = NULL) {
-        
+
         isSessionStarted();
 
         //Verificação de parâmetro 
@@ -168,35 +166,106 @@ class Manage extends CI_Controller {
             endif;
         endif;
     }
-    
-    
-    
+
     /**
      * Cadastra entidades no banco de dados
      */
-    public function cadastro($entidade){
-       
+    public function cadastro($entidade) {
+
         isSessionStarted();
-        
+
         //cadastro de administrador
-      if(strcmp($entidade, 'administrador') == 0):
-          $this->cadAdministrador();
-      endif;  
-        
-      
-      
-    }//cadastro
+        if (strcmp($entidade, 'administrador') == 0):
+            $this->cadAdministrador();
+        endif;
+    }
+
+//cadastro
 
     /**
      * Faz o cadastro do administrador no banco de dados
      */
-    private function cadAdministrador(){
+    private function cadAdministrador() {
+
+
+        $this->load->library('form_validation');
+
+
+        //Criando regras para a validação do formulário
+        $this->form_validation->set_rules('primeiroNome', '"Primeiro nome"', 'trim|required|max_length[25]');
+        $this->form_validation->set_rules('email', '"Email"', 'valid_email');
+
+        //TODO verificação no banco de dados para saber se o email já existe
+        if ("'".$this->manage->verificData($this->input->post()['email']."'", 'email', 'pessoa')):
+            
+            log_message('debug','Email duplicado, tentativa de cadastro de email já existente');
+            $data['avisos'] = "<p>Este email já esta cadastrado</p>";
+            $this->load->view('administrador/manage/cadastro_administrador', $data);
         
-        $this->load->view('administrador/manage/cadastro_administrador');
-        
-    }//cadAdministrador
-  
-}//class
+        else:
+            log_message('debug', 'Iniciando insert do administrador');
+
+            if ($this->form_validation->run()):
+
+
+                /* FIXIT não esta funcionando /* Quebrar a string e retirar os simbolos _ 
+                 * if(strcmp($this->input->post('cep'), '') != 0 && strlen($this->input->post('cep')) < 9 ):
+                  $data['avisos'] = 'O campo "CEP" deve ter 9 caracteres';
+                  endif; */
+                $data['avisos'] = NULL;
+
+                $dados = array(
+                    'primeiroNome' => "'" . $this->input->post('primeiroNome') . "'",
+                    'sobrenome' => "'" . $this->input->post('sobrenome') . "'",
+                    'nascimento' => "'" . $this->input->post('nascimento') . "'",
+                    'status' => 1,
+                    'estado' => "'" . $this->input->post('estado') . "'",
+                    'rua' => "'" . $this->input->post('rua') . "'",
+                    'cep' => "'" . $this->input->post('cep') . "'",
+                    'bairro' => "'" . $this->input->post('bairro') . "'",
+                    'cidade' => "'" . $this->input->post('cidade') . "'",
+                    'numResidencia' => $this->input->post('residencia'),
+                    'senha' => "'" . $this->input->post('senha') . "'",
+                    'sexo' => "'" . $this->input->post('sexo') . "'",
+                    'cpf' => "'" . $this->input->post('cpf') . "'",
+                    'rg' => "'" . $this->input->post('rg') . "'",
+                    'telefone' => "'" . $this->input->post('telefone') . "'",
+                    'email' => "'" . $this->input->post('email') . "'",
+                    'foto' => "'" . $this->input->post('foto') . "'"
+                );
+
+                //Inserindo no banco de dados
+                $retorn_inset = $this->manage->insert('pessoa', $dados);
+                if (!$retorn_inset):
+
+                    $dados['avisos'] = $this->manage->returnLastError();
+                    log_message("error", "Um erro ocorreu no banco de dados : " . $this->manage->returnLastError());
+
+                else:
+
+                    //Inserido com sucesso no banco de dados
+                    $dados['avisos'] = '<p>Cadastro realizado com sucesso</p>';
+
+
+
+                endif;
+            else:
+
+                $data['avisos'] = validation_errors();
+
+            endif;
+
+
+            //Carregamento da view de cadastro
+            $this->load->view('administrador/manage/cadastro_administrador', $data);
+            
+        endif;
+    }
+
+//cadAdministrador
+}
+
+//class
 
 
 
