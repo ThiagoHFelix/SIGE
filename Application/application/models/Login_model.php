@@ -29,11 +29,13 @@ class Login_model extends CI_Model {
         else:
             return FALSE;
         endif;
+
+
     }//verificData
 
 
 
- 
+
     public function getDataFromPessoa($where = '') {
 
         $query = $this->db->query("SELECT * FROM pessoa " . $where);
@@ -44,11 +46,11 @@ class Login_model extends CI_Model {
         else:
             return NULL;
         endif;
-        
+
     }//getData
-    
-    
-    
+
+
+
       public function getData($myQuery = '') {
 
         $query = $this->db->query($myQuery);
@@ -57,10 +59,8 @@ class Login_model extends CI_Model {
         else:
             return NULL;
         endif;
-        
+
     }//getData
 
 
 }//Class
-
-

@@ -10,24 +10,23 @@ class Dashboard extends CI_Controller {
         $this->load->model('Dashboard_model','dash');
         $this->load->helper(array('url', 'funcoes'));
         $this->load->library(array('session'));
-       
+
     }//construct
-    
-    
+
+
     /**
      * Carregamento da tela inicial do sitema
      */
     public function index() {
 
-            
-            isSessionStarted();
-            
+          isSessionStarted();
+
             //Tema padrão
             $this->session->set_userdata('main_theme', 'skin-blue');
 
-            //Carregando view 
+            //Carregando view
             //Administrador
-            if (strcmp($this->session->userdata('entidade'), 'administrador') == 0):
+            if (strcmp($this->session->userdata('entidade'), 'Administrador') == 0):
                 $this->load->view('administrador/dashboard');
             endif;
             //Professor
@@ -35,14 +34,14 @@ class Dashboard extends CI_Controller {
                 $this->load->view('professor/dashboard');
             endif;
             //Aluno
-            if (strcmp($this->session->userdata('entidade'), 'aluno') == 0):
+            if (strcmp($this->session->userdata('entidade'), 'Aluno') == 0):
                 $this->load->view('aluno/dashboard');
             endif;
 
 
     }//view
 
-   
+
 
 
     /**
@@ -56,11 +55,3 @@ class Dashboard extends CI_Controller {
     }//logout
 
 }//class
-
-
-
-
-
-
-
-

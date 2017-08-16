@@ -28,12 +28,12 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
         <style type="text/css">
 
-            
-            
+
+
             body{
                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.2)), color-stop(100%,rgba(255,255,255,0.2))), url("<?php echo base_url('data-views/home/img/background.jpg '); ?> ") repeat 0 0;
                 backface-visibility: 10;
-                background-size: 300px; 
+                background-size: 300px;
                 display: flex;
             }
 
@@ -41,7 +41,7 @@
 
     </head>
     <body class="hold-transition  ">
-        
+
         <div class="login-box-body">
             <div class="login-logo" style="padding-top:0px;">
                 <a href="<?php echo base_url(); ?>"><b>C</b>entro - <b>E</b>scolar</a>
@@ -63,7 +63,7 @@
                         <!-- /.col -->
                         <div class="col-xs-12 text-center">
                             <div class="" >
-                                <p class="validation_erros" > <?php echo $inform_login; ?> </p>
+                                <p class="validation_erros" > <?php echo $this->session->flashdata('aviso_login'); ?> </p>
                             </div>
                             <button type="submit" class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-book"></i><?php echo $this->lang->line('button_login'); ?> </button>
                         </div>
@@ -72,7 +72,7 @@
                 </form>
 
                 <div class="social-auth-links text-center">
-                    <p>Logar como</p>
+                    <p> Logar como </p>
                     <a href="<?php echo base_url('/login/administrador'); ?>" class="btn btn-block btn-social btn-primary btn-flat"><i class="fa fa-user"></i> Administrador</a>
                     <a href="<?php echo base_url('/login/professor'); ?>" class="btn btn-block btn-social btn-info btn-flat"><i class="fa fa-user"></i> Professor</a>
                     <a href="<?php echo base_url('/login/aluno'); ?>" class="btn btn-block btn-social btn-success btn-flat"><i class="fa fa-user"></i> Aluno</a>

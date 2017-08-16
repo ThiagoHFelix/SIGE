@@ -7,21 +7,16 @@ class Login extends CI_Controller {
     //Construtor padrão
     public function __construct() {
         parent::__construct();
-        
-        
+
         $this->load->helper(array('url', 'funcoes', 'language'));
         $this->load->library(array('form_validation', 'session'));
-        $this->load->model('Login_model', 'Login');
-        
-        $this->Login->table = 'pessoa';
+
     }//Construct
-
-
 
     public function index($entidade = 'administrador') {
 
-        
-        //Verifico se o usuário já logou 
+
+        //Verifico se o usuário já logou
         if ($this->session->userdata('logged_in') != NULL):
             redirect(base_url('/dashboard'), 'reflesh');
         endif;
@@ -38,83 +33,99 @@ class Login extends CI_Controller {
         $this->form_validation->set_rules('password', $data['placeholder_password'], 'trim|required');
 
         //Validação dos campos
-        if ($this->form_validation->run() == TRUE):
-            //Verificação do email
-            if ($this->Login->verificData($this->input->post()['username'], 'email', 'pessoa')):
-                //Verificação da senha
-                if ($this->Login->verificData($this->input->post()['password'], 'senha', 'pessoa')):
+        if ($this->form_validation->run() == TRUE){
 
-                    //Buscando dados do usuário no banco de dados para registar na sessão
-                    $pessoa = $this->Login->getDataFromPessoa('WHERE status = 1 and email = \'' . $this->input->post()['username'] . '\'');
+          $email = $this->input->post('username');
+          $senha = $this->input->post('password');
+          $this->verifica_login($entidade, $email, $senha);
 
-                    //Registro de dados na sessão
-                    $this->session->set_userdata('user_email', $this->input->post()['username']);
-                    $this->session->set_userdata('user_name', $pessoa['primeiroNome'] . ' ' . $pessoa['sobrenome']);
-                    $this->session->set_userdata('user_foto', $pessoa['foto']);
-                    $this->session->set_userdata('entidade', $entidade);
-
-                    $query = NULL;
-
-                    //verificando se a pessoa logando tem registro como a entidade na qual escolheu 
-                    //
-                    //ADMINISTRADOR
-                    if (strcmp($this->session->userdata('entidade'), 'administrador') == 0):
-                        $query = $this->Login->getData('SELECT administrador.id FROM administrador,pessoa WHERE pessoa.id = administrador.FK_Pessoa_id');
-                    endif;
-
-                    //PROFESSOR
-                    if (strcmp($this->session->userdata('entidade'), 'professor') == 0):
-                        $query = $this->Login->getData('SELECT professor.id FROM professor,pessoa WHERE pessoa.id = professor.FK_Pessoa_id');
-                    endif;
-
-                    //ALUNO
-                    if (strcmp($this->session->userdata('entidade'), 'aluno') == 0):
-                        $query = $this->Login->getData('SELECT aluno.id FROM aluno,pessoa WHERE pessoa.id = aluno.FK_Pessoa_id');
-                    endif;
-
-                    //Redirecionamento
-                    if ($query != NULL):
-                        $this->session->set_userdata('logged_in', TRUE);
-                        redirect($this->uri->segment(1) . '/dashboard', 'reflesh');
-                    endif;
-
-
-
-                endif;
-
-
-            endif;
-
-            //Dados não constram no banco de dados
-            $data['inform_login'] = '<p>' . $this->lang->line('invilid_data') . '</p>';
-
-
-        //Não passando na validação
-        else:
-            $data['inform_login'] = validation_errors();
-        endif;
+        }//if
 
         $this->load->view('Login', $data);
     }//View
 
-    
-    
-  
-    
-    
-    
-    
+    // Faz a verificação dos dados de login se corretos retorna true caso constrario false
+    public function verifica_login($entidade,$email,$senha){
+
+      switch($entidade){
+
+      case 'administrador' :
+
+            $this->load->model('Administrador_model','administrador');
+              if($this->administrador->get_pessoa($senha,$email) != NULL){
+
+              $this->registraDados_session('Administrador');
+
+            }//if
+            else{
+
+              $this->session->set_flashdata('aviso_login','Dados de Administrador inválidos');
+
+            }//else
+
+      break;
+
+      case 'professor':
+
+      $this->load->model('Professor_model','professor');
+        if($this->professor->get_pessoa($senha,$email) != NULL){
+
+        $this->registraDados_session('Professor');
+
+      }//if
+      else{
+
+        $this->session->set_flashdata('aviso_login','Dados de Professor inválidos');
+
+      }//else
+
+      break;
+
+      case 'aluno':
+
+      $this->load->model('Aluno_model','aluno');
+        if($this->aluno->get_pessoa($senha,$email) != NULL){
+
+        $this->registraDados_session('Aluno');
+
+      }//if
+      else{
+
+       $this->session->set_flashdata('aviso_login','Dados de Aluno inválidos');
+
+      }//else
+
+      break;
+
+      default:  $this->session->set_flashdata('aviso_login','Entidade inválida');
+
+      }//switch
+
+    }//verifica_login
+
+    // Faz o registro dos dados necessarios na sessão
+    public function registraDados_session($entidade){
+
+      if($entidade == NULL)
+       exit();
+
+      $senha = $this->input->post('password');
+      $email = $this->input->post('username');
+
+      $pessoa = $this->administrador->get_pessoa($senha,$email);
+
+      
+      $this->session->set_userdata('user_email', $this->input->post()['username']);
+      $this->session->set_userdata('user_name', $pessoa[0]["PRIMEIRONOME"] . ' ' . $pessoa[0]["SOBRENOME"]);
+      $this->session->set_userdata('user_foto', $pessoa[0]["FOTO"]);
+      $this->session->set_userdata('entidade', $entidade);
+      $this->session->set_userdata('logged_in','true');
+
+
+    }//registraDados_session
+
+
+
+
 
 }//Controller
-
-
-
-
-
-
-
-
-
-
-
-
