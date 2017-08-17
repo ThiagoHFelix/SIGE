@@ -72,11 +72,21 @@ class Login extends CI_Controller {
       case 'administrador' :
 
             $this->load->model('Administrador_model','administrador');
-            if($this->administrador->get_pessoa($senha,$email) != NULL){
-
-              $this->registraDados_session('Administrador');
+            $resultado = $this->administrador->get_pessoa($email);
+            
+            if( $resultado != NULL){
+                
+               
+               if(strcmp($resultado[0]['SENHA'], $senha) != 0){
+                   
+                   $this->session->set_flashdata('aviso_login','Dados de Administrador inválidos');
+                   
+               }//IF | SENHA INCORRETA
+               
+               $this->registraDados_session('Administrador');
                redirect(base_url('/dashboard'), 'reflesh');
-
+               
+               
             }//if
             else{
 
@@ -89,10 +99,19 @@ class Login extends CI_Controller {
       case 'professor':
 
       $this->load->model('Professor_model','professor');
-        if($this->professor->get_pessoa($senha,$email) != NULL){
+      $resultado = $this->professor->get_pessoa($email);    
+          
+        if($resultado != NULL){
 
-        $this->registraDados_session('Professor');
-        redirect(base_url('/dashboard'), 'reflesh');
+            if(strcmp($resultado[0]['SENHA'], $senha) != 0){
+                
+                $this->session->set_flashdata('aviso_login','Dados de Professor inválidos');
+                   
+            }//IF | SENHA INCORRETA  
+            
+            
+            $this->registraDados_session('Professor');
+            redirect(base_url('/dashboard'), 'reflesh');
 
       }//if
       else{
@@ -106,15 +125,25 @@ class Login extends CI_Controller {
       case 'aluno':
 
       $this->load->model('Aluno_model','aluno');
-        if($this->aluno->get_pessoa($senha,$email) != NULL){
+      $resultado = $this->aluno->get_pessoa($email);    
+          
+        if($resultado != NULL){
 
+            
+            if(strcmp($resultado[0]['SENHA'], $senha) != 0){
+                 
+                 $this->session->set_flashdata('aviso_login','Dados de Aluno inválidos');
+                 
+            }//IF | SENHA INCORRETA  
+            
+            
         $this->registraDados_session('Aluno');
         redirect(base_url('/dashboard'), 'reflesh');
 
       }//if
       else{
 
-       $this->session->set_flashdata('aviso_login','Dados de Aluno inválidos');
+        $this->session->set_flashdata('aviso_login','Dados de Aluno inválidos');
 
       }//else
 
@@ -134,13 +163,13 @@ class Login extends CI_Controller {
       $email = $this->input->post('username');
 
       if(strcasecmp($entidade,'Administrador') == 0 )
-      $pessoa = $this->administrador->get_pessoa($senha,$email);
+      $pessoa = $this->administrador->get_pessoa($email);
 
       if(strcasecmp($entidade,'Professor') == 0 )
-      $pessoa = $this->professor->get_pessoa($senha,$email);
+      $pessoa = $this->professor->get_pessoa($email);
 
       if(strcasecmp($entidade,'Aluno') == 0 )
-      $pessoa = $this->aluno->get_pessoa($senha,$email);
+      $pessoa = $this->aluno->get_pessoa($email);
 
 
 

@@ -27,8 +27,8 @@ class Aluno_model extends CI_Model implements Pessoa_interface {
   }//registra login
 
 //Busca pessoa no banco de dados, se encontrada retorna um array com seus dados
-public function get_pessoa($senha,$email){
- $query = 'SELECT * FROM PESSOA,ALUNO WHERE PESSOA.ID = ALUNO.FK_Pessoa_id AND PESSOA.SENHA = \''.$senha.'\' AND PESSOA.EMAIL = \''.$email.'\'';
+public function get_pessoa($email){
+ $query = 'SELECT * FROM PESSOA,ALUNO WHERE PESSOA.ID = ALUNO.FK_Pessoa_id AND PESSOA.EMAIL = \''.$email.'\'';
  $resultado = $this->db->query($query);
 
  if($resultado->num_rows() > 0){

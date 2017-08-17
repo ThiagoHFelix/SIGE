@@ -20,15 +20,15 @@ class Professor_model extends CI_Model implements Pessoa_interface {
  }//__construct
 
 //Registra o login do usuário
- public function registra_login($table,$dados){
+ public function registra_login($dados){
 
-   $this->db->insert($table,$dados);
+   $this->db->insert($dados);
 
  }//registra login
 
 //Busca pessoa no banco de dados, se encontrada retorna um array com seus dados
-public function get_pessoa($senha,$email){
- $query = 'SELECT * FROM PESSOA,PROFESSOR WHERE PESSOA.ID = PROFESSOR.FK_Pessoa_id AND PESSOA.SENHA = \''.$senha.'\' AND PESSOA.EMAIL = \''.$email.'\'';
+public function get_pessoa($email){
+ $query = 'SELECT * FROM PESSOA,PROFESSOR WHERE PESSOA.ID = PROFESSOR.FK_Pessoa_id AND PESSOA.EMAIL = \''.$email.'\'';
  $resultado = $this->db->query($query);
 
  if($resultado->num_rows() > 0){

@@ -31,11 +31,11 @@
 
 
             body{
-                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.2)), color-stop(100%,rgba(255,255,255,0.2))), url("<?php echo base_url('data-views/home/img/background2.jpg '); ?> ") repeat 0 0;
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.2)), color-stop(100%,rgba(255,255,255,0.2))), url("<?php echo base_url('data-views/home/img/background3.jpg '); ?> ") repeat 0 0;
                 
                 background-color: #fff;
                 backace-visibility: 10;
-                background-size: 1300px;
+                background-size: 1600px;
                 display: flex;
             }
 

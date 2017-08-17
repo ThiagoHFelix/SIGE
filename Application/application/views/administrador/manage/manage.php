@@ -104,13 +104,13 @@
 
                                         foreach ($table as $row):
                                             echo '<tr>';
-                                            echo '<td>  ' . $row['id'] . ' </td>';
+                                            echo '<td>  ' . $row['ID'] . ' </td>';
 
-                                            echo '<td> ' . $row['primeiroNome'] . ' ' . $row['sobrenome'] . ' </td>';
-                                            echo '<td> ' . $row['email'] . ' </td>';
+                                            echo '<td> ' . $row['PRIMEIRONOME'] . ' ' . $row['SOBRENOME'] . ' </td>';
+                                            echo '<td> ' . $row['EMAIL'] . ' </td>';
 
 
-                                            if ($row['status'] == 1):
+                                            if ($row['STATUS'] == 1):
                                                 echo '<td><span class="label label-primary"> Ativo </span></td>';
 
                                             else:
@@ -119,7 +119,7 @@
 
                                             endif;
 
-                                            $url = base_url('/manage/userprofile/administrador/' . $row['id']);
+                                            $url = base_url('/manage/userprofile/administrador/' . $row['ID']);
                                             echo "
                                                 
                                                      <td >

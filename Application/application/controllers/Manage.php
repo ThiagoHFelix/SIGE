@@ -12,7 +12,7 @@ class Manage extends CI_Controller {
     public function __construct() {
 
         parent::__construct();
-        $this->load->model('Manage_model', 'manage');
+        $this->load->model('Administrador_model', 'administrador');
         $this->load->helper(array('url', 'funcoes'));
         $this->load->library(array('session', 'pagination'));
     }
@@ -24,9 +24,10 @@ class Manage extends CI_Controller {
     public function administrador($valor_pagina = 0) {
 
         isSessionStarted();
+        
         $is_search = FALSE;
-        $sqlCountRows = NULL;
-        $sqlTableData = NULL;
+        $CountRows = NULL;
+        $TableData = NULL;
         $offset = $valor_pagina;
         $perPage = 8;
         $escolha = NULL;
@@ -36,15 +37,15 @@ class Manage extends CI_Controller {
         $total_rows = 0;
         $value_post = $this->input->post('table_search');
 
+        //Limpar busca 
         if ($this->input->post('clear_search') !== NULL):
             $this->session->set_userdata('table_search', '');
             $value_post = '';
         endif;
 
-        // TESTE
-        // echo 'Post:'.$this->input->post('table_search');
-        // echo 'Userdata:'.$this->session->userdata('table_search');
-        //$this->session->userdata('is_search') !== NULL  
+        
+        
+        
         //Verificação para saber qual sql se deve executar
         if ((strcmp($value_post, '') != 0) || (strcmp($this->session->userdata('table_search'), '') != 0)):
 
@@ -56,26 +57,24 @@ class Manage extends CI_Controller {
             $data_table = $this->session->userdata('table_search');
             $field_table = $this->session->userdata('dropdown_search');
 
-            $sqlCountRows = 'select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id and pessoa.' . $field_table . ' LIKE \'%' . $data_table . '%\'';
-            $sqlTableData = 'select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id and pessoa.' . $field_table . ' LIKE \'%' . $data_table . '%\' ORDER BY administrador.id asc LIMIT ' . $offset . ',' . $perPage;
+            $CountRows = $this->administrador->get_total_tupla($data_table,$field_table);
+            $TableData = $this->administrador->get_all_pessoa($offset,$perPage,TRUE.$data_table,$field_table);
 
         else:
             $this->session->set_userdata('table_search', '');
             $value_post = '';
-            $sqlCountRows = 'select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id';
-            $sqlTableData = 'select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id ORDER BY administrador.id asc LIMIT ' . $offset . ',' . $perPage;
-        endif;
+            $CountRows = $this->administrador->get_total_tupla();
+            $TableData = $this->administrador->get_all_pessoa($offset,$perPage);
+           endif;
 
-        //Contando resultados para criar a paginação
-        $this->manage->getData($sqlCountRows);
-        $total_rows = $this->manage->countLastResult;
+        
 
         $config = array(
             'base_url' => base_url('/manage/administrador'),
             'per_page' => $perPage,
             'num_links' => 3,
             'uri_segment' => 3,
-            'total_rows' => $total_rows,
+            'total_rows' => $CountRows,
             'full_tag_open' => '<ul class="pagination"  style="float:right" >',
             'full_tag_close' => '</ul>',
             'first_link' => TRUE,
@@ -108,6 +107,7 @@ class Manage extends CI_Controller {
         $dados['dropdown_options'] = '   
             <option value="primeiroNome">Nome</option>
             ';
+        
         //Deixar o dropdown selecionado
         $escolha = (strcmp($field_table, 'ID') == 0) ? '<option selected>ID</option>' : '<option>ID</option>';
         $escolha2 = (strcmp($field_table, 'Email') == 0) ? '<option selected>Email</option>' : '<option>Email</option>';
@@ -123,16 +123,9 @@ class Manage extends CI_Controller {
         //Criação do HTML com os links
         $dados['pagination'] = $this->pagination->create_links();
 
-        //Paginação criada com função interna (Não utilizada porque não é padronizada como a library do CODE IGNITER)
-        //$dados['pagination'] = createLinksPagination($config['total_rows'], $config['per_page'], $config['num_links'], $config['base_url'], $config['uri_segment']);
-        //Carrega dados da tabela
-        //$dados['tableAdm'] = $this->manage->getData('select * from pessoa,administrador where pessoa.id = administrador.FK_Pessoa_id  ORDER BY administrador.id ');
-        //$this->manage->table = 'pessoa';
-        // $dados['tableAdm'] = $this->manage->getDataCI('administrador.id','asc','pessoa.id','administrador.FK_Pessoa_id','','',$config['per_page'],$offset);
+       
 
-
-
-        $dados['table'] = $this->manage->getData($sqlTableData);
+        $dados['table'] = $TableData;
 
         $this->load->view('/administrador/manage/manage', $dados);
     }

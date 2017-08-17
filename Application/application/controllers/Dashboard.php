@@ -7,7 +7,6 @@ class Dashboard extends CI_Controller {
     public function __construct() {
 
         parent::__construct();
-        $this->load->model('Dashboard_model','dash');
         $this->load->helper(array('url', 'funcoes'));
         $this->load->library(array('session'));
 
@@ -19,7 +18,7 @@ class Dashboard extends CI_Controller {
      */
     public function index() {
 
-          isSessionStarted();
+            isSessionStarted();
 
             //Tema padrão
             $this->session->set_userdata('main_theme', 'skin-blue');
@@ -49,9 +48,54 @@ class Dashboard extends CI_Controller {
      */
     public function logout() {
 
-        $this->session->sess_destroy();
-        redirect(base_url('/login'));
+        
+     $entidade = $this->session->userdata('entidade');
+     $email = $this->session->userdata('user_email');   
+        
+      if(strcasecmp($entidade,'Administrador') == 0 ){
+        $this->load->model('Administrador_model','administrador');
+        $pessoa = $this->administrador->get_pessoa($email);
+      }//Administrador
 
+      if(strcasecmp($entidade,'Professor') == 0 ){
+        $this->load->model('Professor_model','professor');  
+        $pessoa = $this->professor->get_pessoa($email);
+      }//Professor
+
+      if(strcasecmp($entidade,'Aluno') == 0 ){
+        $this->load->model('Aluno_model','aluno');  
+        $pessoa = $this->aluno->get_pessoa($email);
+      }//Aluno
+        
+        /* Registro do logout */
+       $dados_registro = array(
+
+      'MENSAGEM' => 'Saindo no Sistema | '.$entidade,
+      'ID_PESSOA' => $pessoa[0]['ID'],
+      'ID_ENTIDADE' => $pessoa[0]['ID_01'],
+      'USER_EMAIL' => $pessoa[0]['EMAIL']
+
+       );
+
+       $retorno = NULL;
+       
+       if(strcasecmp($entidade,'Administrador') == 0 )
+        $retorno = $this->administrador->registra_login($dados_registro);
+
+       if(strcasecmp($entidade,'Professor') == 0 )
+        $retorno = $this->professor->registra_login($dados_registro);
+
+       if(strcasecmp($entidade,'Aluno') == 0 )
+        $retorno = $this->aluno->registra_login($dados_registro);
+
+       if(!$retorno)
+            log_message('error','Error ao registrar logout no banco de dados');
+     
+           
+       
+       $this->session->sess_destroy();
+        redirect(base_url('/login'));
+       
     }//logout
 
 }//class
