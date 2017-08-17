@@ -13,7 +13,7 @@
         <!-- Ionicons -->
         <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/bower_components/Ionicons/css/ionicons.min.css'); ?>">
         <!-- Theme style -->
-        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/dist/css/AdminLTE.min.css'); ?>">
+        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/dist/css/AdminLTE.min.css?v=3'); ?>">
         <!-- iCheck -->
         <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/plugins/iCheck/square/blue.css'); ?>">
 
@@ -31,20 +31,66 @@
 
 
             body{
-                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.2)), color-stop(100%,rgba(255,255,255,0.2))), url("<?php echo base_url('data-views/home/img/background.jpg '); ?> ") repeat 0 0;
-                backface-visibility: 10;
-                background-size: 300px;
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.2)), color-stop(100%,rgba(255,255,255,0.2))), url("<?php echo base_url('data-views/home/img/background2.jpg '); ?> ") repeat 0 0;
+                
+                background-color: #fff;
+                backace-visibility: 10;
+                background-size: 1300px;
                 display: flex;
             }
 
         </style>
 
+
+        <?php
+
+          //Botão selecionado
+
+          $entidade_selecionada = $this->uri->segment(2);
+
+          $texto_button = array(
+
+            'administrador' => 'Administrador (Selecionado)',
+            'professor' => 'Professor',
+            'aluno' => 'Aluno'
+
+          );
+
+          switch(strtoupper($entidade_selecionada)){
+
+
+            case 'ADMINISTRADOR':
+                    $texto_button['administrador'] =  'Administrador (Selecionado)';
+                    $texto_button['professor'] =  'Professor';
+                    $texto_button['aluno'] =  'Aluno';
+            break;
+
+            case 'PROFESSOR':
+                    $texto_button['administrador'] =  'Administrador';
+                    $texto_button['professor'] =  'Professor (Selecionado)';
+                    $texto_button['aluno'] =  'Aluno';
+            break;
+
+            case 'ALUNO':
+                    $texto_button['administrador'] =  'Administrador';
+                    $texto_button['professor'] =  'Professor';
+                    $texto_button['aluno'] =  'Aluno (Selecionado)';
+            break;
+
+            
+
+          }//switch
+
+
+
+        ?>
+
     </head>
     <body class="hold-transition  ">
 
-        <div class="login-box-body">
+        <div class="login-box">
             <div class="login-logo" style="padding-top:0px;">
-                <a href="<?php echo base_url(); ?>"><b>C</b>entro - <b>E</b>scolar</a>
+                <a style="color:white;" href="<?php echo base_url(); ?>"><b>C</b>entro - <b>E</b>scolar</a>
             </div>
             <!-- /.login-logo -->
             <div class="login-box-body">
@@ -52,11 +98,11 @@
 
                 <form action="<?php echo base_url('/login/' . $this->uri->segment(2)); ?>" method="post">
                     <div class="form-group has-feedback">
-                        <input  name="username" type="email" class="form-control" value="<?php echo setValue('username'); ?>" placeholder="Email">
+                        <input required name="username" type="email" class="form-control" value="<?php echo setValue('username'); ?>" placeholder="Email">
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input name="password" type="password" class="form-control" value="<?php echo setValue('password'); ?>" placeholder="<?php echo $this->lang->line('placeholder_password'); ?>">
+                        <input required name="password" type="password" class="form-control" value="<?php echo setValue('password'); ?>" placeholder="<?php echo $this->lang->line('placeholder_password'); ?>">
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="row">
@@ -65,19 +111,21 @@
                             <div class="" >
                                 <p class="validation_erros" > <?php echo $this->session->flashdata('aviso_login'); ?> </p>
                             </div>
-                            <button type="submit" class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-book"></i><?php echo $this->lang->line('button_login'); ?> </button>
+                            <button type="submit" class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="glyphicon glyphicon-log-in"></i><?php echo $this->lang->line('button_login'); ?> </button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
 
+
+
                 <div class="social-auth-links text-center">
                     <p> Logar como </p>
-                    <a href="<?php echo base_url('/login/administrador'); ?>" class="btn btn-block btn-social btn-primary btn-flat"><i class="fa fa-user"></i> Administrador</a>
-                    <a href="<?php echo base_url('/login/professor'); ?>" class="btn btn-block btn-social btn-info btn-flat"><i class="fa fa-user"></i> Professor</a>
-                    <a href="<?php echo base_url('/login/aluno'); ?>" class="btn btn-block btn-social btn-success btn-flat"><i class="fa fa-user"></i> Aluno</a>
+                    <a href="<?php echo base_url('/login/administrador'); ?>" class="btn btn-block btn-social btn-primary btn-flat"><i class="fa fa-user"></i> <?php echo $texto_button['administrador'];  ?> </a>
+                    <a href="<?php echo base_url('/login/professor'); ?>" class="btn btn-block btn-social btn-info btn-flat"><i class="fa fa-user"></i> <?php echo $texto_button['professor'];  ?> </a>
+                    <a href="<?php echo base_url('/login/aluno'); ?>" class="btn btn-block btn-social btn-success btn-flat"><i class="fa fa-user"></i> <?php echo $texto_button['aluno'];  ?> </a>
                     <br/>
-                    <a href="#" class="link-muted" style="text-align: center"><?php echo $this->lang->line('recovery_pass'); ?></a><br>
+                    <a href="#" class="link-muted" style="text-align: center"><?php echo $this->lang->line('recovery_pass'); ?></a>
 
                 </div>
                 <!-- /.social-auth-links -->
@@ -101,6 +149,8 @@
                     increaseArea: '20%' // optional
                 });
             });
+
+
         </script>
     </body>
 </html>

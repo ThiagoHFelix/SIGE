@@ -57,21 +57,21 @@ if (!function_exists('createLinksPagination')):
         //Calculando href da pagina anterior
         $backPage = ($ci->uri->segment($segment)-$perPage);
         if( $backPage < 0):
-               $backPage = 0;     
+               $backPage = 0;
         endif;
-        
-        
+
+
         $result = ' <ul class="pagination" style="float:right"> ';
         $result = $result.' <li><a href="'.$base_url.'/'.$backPage.'">Anterior</a></li>';
-           
+
         $nextResultPage = 0;
         $j = 0;
-        
+
         $nowSegment = $ci->uri->segment($segment);
 
         for ($i = 0; $i < $totalLinks; $i++):
-            
-      
+
+
             //Primeira vez ---
             if ($i == 0):
 
@@ -80,51 +80,51 @@ if (!function_exists('createLinksPagination')):
                 else:
                     $li = '<li class="active"><a href="' . $base_url . '/0">' . ($i + 1) . '</a></li>';
                 endif;
-                
+
                  $result = $result . $li;
-                
+
                 continue;
 
             endif;
-            
+
             //Apartir da segunda vez ---
             if (($nextResultPage + ( $j + $perPage)) != $nowSegment):
                 $li = '<li><a href="' . $base_url . '/' . ($nextResultPage + ($j = $j + $perPage)) . '">' . ($i + 1) . '</a></li>';
             else:
                 $li = '<li class="active"><a href="' . $base_url . '/' . ($nextResultPage + ($j = $j + $perPage)) . '">' . ($i + 1) . '</a></li>';
             endif;
-            
-            
+
+
             $result = $result . $li;
 
         endfor;
-        
-        
-        //Button proxima página 
+
+
+        //Button proxima página
          $backPage = ($ci->uri->segment($segment)+$perPage);
          $result = $result.' <li><a href="'.$base_url.'/'.$backPage.'">Próximo</a></li>';
-         
-         
+
+
         return $result = $result . '</ul> ';
-        
+
     }//createLinksPagination
 
 endif;
 
 
 if(!function_exists('getVersion')):
-    
-    
+
+
     function getVersion($paramer){
-    
+
         if(strcmp($paramer, 'n') == 0):
             return '0.3';
         endif;
-        
-        return 'Release 0.3';   
-    
+
+        return 'Release 0.3';
+
     }//getVersion
-    
-    
-    
+
+
+
 endif;

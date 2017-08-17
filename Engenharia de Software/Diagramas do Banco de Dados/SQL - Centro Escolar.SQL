@@ -1,8 +1,8 @@
 /* Created by Thiago Henrique Felix */
 /*
 * 14/08/2017
-* NOTAS DE ADPTA«√O
-* VERSION SQL - 0.1
+* NOTAS DE ADPTA√á√ÉO
+* VERSION SQL - 0.2
 *
 */
 
@@ -28,15 +28,15 @@ CREATE TABLE Pessoa (
     foto varchar(50),
     celular varchar(14),
     estado_civil varchar(20),
-    
+
     CONSTRAINT PK_Pessoa PRIMARY KEY (id)
-    
+
 );
 
 CREATE TABLE Administrador (
     id integer,
     FK_Pessoa_id integer,
-    
+
     CONSTRAINT PK_Administrador PRIMARY KEY (id)
 );
 
@@ -45,7 +45,7 @@ CREATE TABLE Professor (
     Area_atuacao varchar(50),
     Informacoes_adicionais varchar(255),
     FK_Pessoa_id integer,
-    
+
     CONSTRAINT PK_Professor PRIMARY KEY (id)
 );
 
@@ -54,7 +54,7 @@ CREATE TABLE Aluno (
     Numero_Chamada integer,
     info_add varchar(255),
     FK_Pessoa_id integer,
-    
+
     CONSTRAINT PK_Aluno PRIMARY KEY (id)
 );
 
@@ -63,7 +63,7 @@ CREATE TABLE Curso (
     titulo varchar(60),
     status char(1),
     descricao varchar(250),
-    
+
     CONSTRAINT PK_Curso PRIMARY KEY (id)
 );
 
@@ -78,7 +78,7 @@ CREATE TABLE Materia (
     bibliografia varchar(250),
     extraClasse varchar(250),
     Avaliacoes varchar(250),
-    
+
     CONSTRAINT PK_Materia PRIMARY KEY (id)
 );
 
@@ -97,8 +97,8 @@ CREATE TABLE Curso_materia (
     quant_max_aluno integer,
     Informacoes_adicionais_ varchar(255),
     status char(1),
-    
-    
+
+
    CONSTRAINT PK_Curso_materia PRIMARY KEY (FK_Materia_id, FK_Curso_id)
 );
 
@@ -108,7 +108,7 @@ CREATE TABLE Matricula (
     data_hora timestamp,
     status char(1),
     info_add varchar(255),
-    
+
     CONSTRAINT PK_Matricula PRIMARY KEY (FK_Curso_id, FK_Aluno_id)
 );
 
@@ -119,7 +119,7 @@ CREATE TABLE Avaliado (
     nome varchar(25),
     Nota numeric(2,1),
     complemento varchar(255),
-    
+
     CONSTRAINT PK_Avaliado PRIMARY KEY (FK_Aluno_id, FK_Materia_id)
 );
 
@@ -129,7 +129,7 @@ CREATE TABLE Frequenta (
     Data date,
     Presenca char(1),
     Hora time,
-    
+
     CONSTRAINT PK_Frequenta PRIMARY KEY (FK_Materia_id, FK_Aluno_id)
 );
 
@@ -144,7 +144,7 @@ CREATE TABLE sistem_log (
     id_pessoa integer,
     id_entidade integer,
     user_banco varchar(20),
-    
+
     CONSTRAINT PK_Sistem_log PRIMARY KEY (id)
 );
 
@@ -161,7 +161,7 @@ CREATE TABLE audit_matricula (
     datahora timestamp,
     status char(1),
     info_add varchar(255),
-    
+
     CONSTRAINT PK_audit_matricula PRIMARY KEY (id)
 );
 
@@ -174,7 +174,7 @@ CREATE TABLE audit_frequencia (
     fk_aluno_id integer,
     presenca char(1),
     operacao varchar(20),
-    
+
     CONSTRAINT PK_Audit_fre PRIMARY KEY (id)
 );
 
@@ -187,7 +187,7 @@ CREATE TABLE audit_avaliado (
     fk_materia_id integer,
     fk_aluno_id integer,
     nome varchar(25),
-    
+
     CONSTRAINT PK_Audit_avali PRIMARY KEY (id)
 );
 
@@ -197,8 +197,8 @@ CREATE TABLE history (
     hora time,
     operacao varchar(20),
     banco_user varchar(20),
-     
-    CONSTRAINT PK_History PRIMARY KEY (id) 
+
+    CONSTRAINT PK_History PRIMARY KEY (id)
 );
 
 
@@ -246,11 +246,11 @@ ALTER TABLE Frequenta ADD CONSTRAINT FK_Frequenta_0
 ALTER TABLE Frequenta ADD CONSTRAINT FK_Frequenta_1
     FOREIGN KEY (FK_Aluno_id)
     REFERENCES Aluno (id);
-       
+
 
 /*======================================================================*/
- /* CriaÁ„o de GENERATOR */
- 
+ /* Cria√ß√£o de GENERATOR */
+
 
 CREATE GENERATOR GN_PESSOA;
 CREATE GENERATOR GN_ADMINISTRADOR;
@@ -275,18 +275,18 @@ CREATE GENERATOR GN_AUDIT_AVALI;
 
 SET TERM^;
 
-CREATE TRIGGER TR_PESSOA FOR PESSOA 
-ACTIVE 
+CREATE TRIGGER TR_PESSOA FOR PESSOA
+ACTIVE
 BEFORE INSERT OR UPDATE OR DELETE
 AS
 BEGIN
-    
+
     IF(INSERTING) THEN BEGIN
-        
+
         IF(NEW.ID IS NULL) THEN BEGIN
             NEW.ID = GEN_ID(GN_PESSOA,1);
         END
-        
+
         INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -294,11 +294,11 @@ BEGIN
          'INSERT',
          CURRENT_USER
         );
-            
+
     END
-    
+
     IF(DELETING) THEN BEGIN
-    
+
          INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -306,11 +306,11 @@ BEGIN
          'DELETE',
          CURRENT_USER
         );
-    
+
     END
-    
+
     IF(UPDATING) THEN BEGIN
-    
+
          INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -318,9 +318,9 @@ BEGIN
          'UPDATE',
          CURRENT_USER
         );
-    
+
     END
-    
+
 END^
 
 SET TERM;^
@@ -330,18 +330,18 @@ SET TERM;^
 
 SET TERM^;
 
-CREATE TRIGGER TR_ADMINISTRADOR FOR ADMINISTRADOR 
-ACTIVE 
+CREATE TRIGGER TR_ADMINISTRADOR FOR ADMINISTRADOR
+ACTIVE
 BEFORE INSERT OR UPDATE OR DELETE
 AS
 BEGIN
-    
+
     IF(INSERTING) THEN BEGIN
-        
+
          IF(NEW.ID IS NULL) THEN BEGIN
             NEW.ID = GEN_ID(GN_ADMINISTRADOR,1);
         END
-        
+
            INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -349,11 +349,11 @@ BEGIN
          'INSERT',
          CURRENT_USER
         );
-            
+
     END
-    
+
     IF(DELETING) THEN BEGIN
-        
+
            INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -361,11 +361,11 @@ BEGIN
          'DELETE',
          CURRENT_USER
         );
-        
+
     END
-    
+
     IF(UPDATING) THEN BEGIN
-    
+
            INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -373,9 +373,9 @@ BEGIN
          'UPDATE',
          CURRENT_USER
         );
-    
+
     END
-    
+
 END^
 
 SET TERM;^
@@ -385,18 +385,18 @@ SET TERM;^
 
 SET TERM^;
 
-CREATE TRIGGER TR_PROFESSOR FOR PROFESSOR 
-ACTIVE 
+CREATE TRIGGER TR_PROFESSOR FOR PROFESSOR
+ACTIVE
 BEFORE INSERT OR UPDATE OR DELETE
 AS
 BEGIN
-    
+
     IF(INSERTING) THEN BEGIN
          IF(NEW.ID IS NULL) THEN BEGIN
             NEW.ID = GEN_ID(GN_PROFESSOR,1);
         END
-    
-    
+
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -405,9 +405,9 @@ BEGIN
          CURRENT_USER
         );
     END
-    
+
     IF(DELETING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -415,11 +415,11 @@ BEGIN
          'DELETE',
          CURRENT_USER
         );
-    
+
     END
-    
+
     IF(UPDATING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -427,9 +427,9 @@ BEGIN
          'UPDATE',
          CURRENT_USER
         );
-    
+
     END
-    
+
 END^
 
 SET TERM;^
@@ -439,18 +439,18 @@ SET TERM;^
 
 SET TERM^;
 
-CREATE TRIGGER TR_ALUNO FOR ALUNO 
-ACTIVE 
+CREATE TRIGGER TR_ALUNO FOR ALUNO
+ACTIVE
 BEFORE INSERT OR UPDATE OR DELETE
 AS
 BEGIN
-    
+
     IF(INSERTING) THEN BEGIN
          IF(NEW.ID IS NULL) THEN BEGIN
             NEW.ID = GEN_ID(GN_ALUNO,1);
         END
-    
-    
+
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -459,9 +459,9 @@ BEGIN
          CURRENT_USER
         );
     END
-    
+
     IF(DELETING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -469,11 +469,11 @@ BEGIN
          'DELETE',
          CURRENT_USER
         );
-    
+
     END
-    
+
     IF(UPDATING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -481,9 +481,9 @@ BEGIN
          'UPDATE',
          CURRENT_USER
         );
-    
+
     END
-    
+
 END^
 
 SET TERM;^
@@ -493,14 +493,14 @@ SET TERM;^
 
 SET TERM^;
 
-CREATE TRIGGER TR_MATRICULA FOR MATRICULA 
-ACTIVE 
+CREATE TRIGGER TR_MATRICULA FOR MATRICULA
+ACTIVE
 BEFORE INSERT OR UPDATE OR DELETE
 AS
 BEGIN
-    
+
     IF(INSERTING) THEN BEGIN
-        
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -508,11 +508,11 @@ BEGIN
          'INSERT',
          CURRENT_USER
         );
-        
+
     END
-    
+
     IF(DELETING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -520,11 +520,11 @@ BEGIN
          'DELETE',
          CURRENT_USER
         );
-    
+
     END
-    
+
     IF(UPDATING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -532,9 +532,9 @@ BEGIN
          'UPDATE',
          CURRENT_USER
         );
-    
+
     END
-    
+
 END^
 
 SET TERM;^
@@ -544,18 +544,18 @@ SET TERM;^
 
 SET TERM^;
 
-CREATE TRIGGER TR_CURSO FOR CURSO 
-ACTIVE 
+CREATE TRIGGER TR_CURSO FOR CURSO
+ACTIVE
 BEFORE INSERT OR UPDATE OR DELETE
 AS
 BEGIN
-    
+
     IF(INSERTING) THEN BEGIN
          IF(NEW.ID IS NULL) THEN BEGIN
             NEW.ID = GEN_ID(GN_CURSO,1);
         END
-    
-    
+
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -563,11 +563,11 @@ BEGIN
          'INSERT',
          CURRENT_USER
         );
-        
+
     END
-    
+
     IF(DELETING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -575,11 +575,11 @@ BEGIN
          'DELETE',
          CURRENT_USER
         );
-    
+
     END
-    
+
     IF(UPDATING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -587,9 +587,9 @@ BEGIN
          'UPDATE',
          CURRENT_USER
         );
-    
+
     END
-    
+
 END^
 
 SET TERM;^
@@ -599,14 +599,14 @@ SET TERM;^
 
 SET TERM^;
 
-CREATE TRIGGER TR_CURSO_MATERIA FOR CURSO_MATERIA 
-ACTIVE 
+CREATE TRIGGER TR_CURSO_MATERIA FOR CURSO_MATERIA
+ACTIVE
 BEFORE INSERT OR UPDATE OR DELETE
 AS
 BEGIN
-    
+
     IF(INSERTING) THEN BEGIN
-        
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -614,11 +614,11 @@ BEGIN
          'INSERT',
          CURRENT_USER
         );
-        
+
     END
-    
+
     IF(DELETING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -626,11 +626,11 @@ BEGIN
          'DELETE',
          CURRENT_USER
         );
-    
+
     END
-    
+
     IF(UPDATING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -638,9 +638,9 @@ BEGIN
          'UPDATE',
          CURRENT_USER
         );
-    
+
     END
-    
+
 END^
 
 SET TERM;^
@@ -650,18 +650,18 @@ SET TERM;^
 
 SET TERM^;
 
-CREATE TRIGGER TR_MATERIA FOR MATERIA 
-ACTIVE 
+CREATE TRIGGER TR_MATERIA FOR MATERIA
+ACTIVE
 BEFORE INSERT OR UPDATE OR DELETE
 AS
 BEGIN
-    
+
     IF(INSERTING) THEN BEGIN
          IF(NEW.ID IS NULL) THEN BEGIN
             NEW.ID = GEN_ID(GN_MATERIA,1);
         END
-    
-    
+
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -669,11 +669,11 @@ BEGIN
          'INSERT',
          CURRENT_USER
         );
-        
+
     END
-    
+
     IF(DELETING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -681,11 +681,11 @@ BEGIN
          'DELETE',
          CURRENT_USER
         );
-    
+
     END
-    
+
     IF(UPDATING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -693,9 +693,9 @@ BEGIN
          'UPDATE',
          CURRENT_USER
         );
-    
+
     END
-    
+
 END^
 
 SET TERM;^
@@ -705,14 +705,14 @@ SET TERM;^
 
 SET TERM^;
 
-CREATE TRIGGER TR_FREQUENTA FOR FREQUENTA 
-ACTIVE 
+CREATE TRIGGER TR_FREQUENTA FOR FREQUENTA
+ACTIVE
 BEFORE INSERT OR UPDATE OR DELETE
 AS
 BEGIN
-    
+
     IF(INSERTING) THEN BEGIN
-        
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -720,11 +720,11 @@ BEGIN
          'INSERT',
          CURRENT_USER
         );
-        
+
     END
-    
+
     IF(DELETING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -732,11 +732,11 @@ BEGIN
          'DELETE',
          CURRENT_USER
         );
-    
+
     END
-    
+
     IF(UPDATING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -744,9 +744,9 @@ BEGIN
          'UPDATE',
          CURRENT_USER
         );
-    
+
     END
-    
+
 END^
 
 SET TERM;^
@@ -756,14 +756,14 @@ SET TERM;^
 
 SET TERM^;
 
-CREATE TRIGGER TR_AVALIADO FOR AVALIADO 
-ACTIVE 
+CREATE TRIGGER TR_AVALIADO FOR AVALIADO
+ACTIVE
 BEFORE INSERT OR UPDATE OR DELETE
 AS
 BEGIN
-    
+
     IF(INSERTING) THEN BEGIN
-     
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -771,11 +771,11 @@ BEGIN
          'INSERT',
          CURRENT_USER
         );
-    
+
     END
-    
+
     IF(DELETING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -783,11 +783,11 @@ BEGIN
          'DELETE',
          CURRENT_USER
         );
-    
+
     END
-    
+
     IF(UPDATING) THEN BEGIN
-    
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -795,12 +795,68 @@ BEGIN
          'UPDATE',
          CURRENT_USER
         );
-    
+
     END
-    
+
 END^
 
 SET TERM;^
 
 /*======================================================================*/
+/* SISTEM_LOG */
 
+SET TERM^;
+
+CREATE TRIGGER TR_SISLTEM_LOG FOR SISTEM_LOG
+ACTIVE
+BEFORE INSERT OR UPDATE OR DELETE
+AS
+BEGIN
+
+    IF(INSERTING) THEN BEGIN
+
+        /* TABLE'S INSERT */
+        NEW.DATA = CURRENT_DATE;
+        NEW.HORA = CURRENT_TIME;
+        NEW.ID = GEN_ID(GN_SISTEM_LOG,1);
+        NEW.USER_BANCO = CURRENT_USER;
+
+          INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'INSERT',
+         CURRENT_USER
+        );
+
+    END
+
+    IF(DELETING) THEN BEGIN
+
+          INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'DELETE',
+         CURRENT_USER
+        );
+
+    END
+
+    IF(UPDATING) THEN BEGIN
+
+          INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'UPDATE',
+         CURRENT_USER
+        );
+
+    END
+
+END^
+
+SET TERM;^
+
+/*======================================================================*/
