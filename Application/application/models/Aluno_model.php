@@ -57,6 +57,20 @@ return NULL;
 }//get_all_pessoa
 
 
+//Busca pessoa pelo id no banco de dados e retorna um array
+public function getPessoaById($id){
+    
+    $query  = 'SELECT * FROM ALUNO,PESSOA WHERE PESSOA.ID = ALUNO.FK_PESSOA_ID AND ALUNO.ID = '.$id;
+   
+    
+    $resultado = $this->db->query($query);
+    
+    return $resultado->result_array()[0];
+    
+}//getPessoaById
+
+
+
 //Destroi o objeto
 public function __destruct(){}//destruct
 

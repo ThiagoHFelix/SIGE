@@ -69,29 +69,29 @@
                             <!-- Profile Image -->
                             <div class="box box-primary">
                                 <div class="box-body box-profile">
-                                    <img class="profile-user-img img-responsive img-circle" src="<?php  echo $foto; ?>" alt="User profile picture">
+                                    <img class="profile-user-img img-responsive img-circle" src="<?php  echo $FOTO; ?>" alt="User profile picture">
 
-                                    <h3 class="profile-username text-center"><?php echo $primeiroNome.' '.$sobrenome; ?></h3>
+                                    <h3 class="profile-username text-center"> <?php echo $PRIMEIRONOME.' '.$SOBRENOME; ?></h3>
 
-                                    <p class="text-muted text-center">Administrador</p>
+                                    <p class="text-muted text-center"> <?php echo $entidade; ?> </p>
 
                                     <ul class="list-group list-group-unbordered">
                                         <li class="list-group-item">
-                                            <b>E-mail</b> <a class="pull-right"><?php echo $email; ?></a>
+                                            <b>E-mail</b> <a class="pull-right"><?php  echo $EMAIL; ?></a>
                                         </li>
                                         <li class="list-group-item">
-                                            <b>Telefone</b> <a class="pull-right"><?php echo $telefone; ?></a>
+                                            <b>Telefone</b> <a class="pull-right"><?php  echo $TELEFONE; ?></a>
                                         </li>
                                         <li class="list-group-item">
                                             <b>Sexo</b> <a class="pull-right"><?php 
                                             
-                                            if($sexo == 1):
+                                           /* if($sexo == 1):
                                                 echo 'Masculino';
                                             else:
                                                 echo 'Feminino';
                                             endif;
                                             
-                                            
+                                            */
                                             ?></a>
                                         </li>
                                     </ul>

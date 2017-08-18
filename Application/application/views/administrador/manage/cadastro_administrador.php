@@ -57,10 +57,10 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
 
-                    <a href="<?php echo base_url('/manage/administrador'); ?>"> <button class="fa fa-arrow-circle-left btn btn-primary btn-sm"> <small>Voltar</small></button> </a> 
+                    <a href="<?php echo base_url('/manage/administrador'); ?>"> <button class="fa fa-arrow-circle-left btn btn-primary btn-sm"> <small>Voltar</small></button> </a>
 
                     <ol class="breadcrumb">
-                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-home"></i> Inicio </a></li>                      
+                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-home"></i> Inicio </a></li>
                     </ol>
                 </section>
 
@@ -87,7 +87,7 @@
 
                                             </div>
 
-                                        </div> 
+                                        </div>
 
                                     </div>
 
@@ -120,13 +120,13 @@
                                                 <option > Selecione o status </option>
                                                 <option > Ativo </option>
                                                 <option > Desativo </option>
-                                            </select> 
+                                            </select>
                                         </div>
                                         <!--------------- /. STATUS --------------->
 
                                         <!--------------- CEP --------------->
                                         <div class="form-group has-feedback">
-                                            <input  name="cep" id="cep" type="text" class="form-control" value="<?php echo setValue('cep'); ?>" placeholder="CEP" 
+                                            <input  name="cep" id="cep" type="text" class="form-control" value="<?php echo setValue('cep'); ?>" placeholder="CEP"
                                                     data-inputmask='"mask": "99999-999"' data-mask
                                                     >
                                             <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
@@ -193,13 +193,10 @@
                                         </div>
                                         <!--------------- /. RUA --------------->
 
-
-
-
                                         <!--------------- AVISO --------------->
                                         <div class="form-group has-feedback form-control" style="background-color: #eeeeee">
                                             <span class="fa fa-warning form-control-feedback"></span>
-                                            <span class="text-center" ><?php echo $avisos; ?></span>
+                                            <span class="text-center" ><?php ?></span>
 
                                             <!--------------- ANCORA PARA O AVISO -------------->
 
@@ -228,7 +225,7 @@
                                         <!--------------- CPF --------------->
                                         <div class="form-group has-feedback">
                                             <input  name="cpf" type="text" class="form-control "  value="<?php echo setValue('cpf'); ?>" placeholder="CPF"
-                                                    data-inputmask='"mask": "999.999.999-99"' data-mask    
+                                                    data-inputmask='"mask": "999.999.999-99"' data-mask
                                                     >
                                             <span class="fa fa-user-circle-o form-control-feedback"></span>
                                         </div>
@@ -237,7 +234,7 @@
                                         <!--------------- RG --------------->
                                         <div class="form-group has-feedback">
                                             <input  name="rg" type="text" class="form-control "  value="<?php echo setValue('rg'); ?>" placeholder="RG"
-                                                    data-inputmask='"mask": "99.999.999-*"' data-mask     
+                                                    data-inputmask='"mask": "99.999.999-*"' data-mask
                                                     >
                                             <span class="fa fa-user-circle form-control-feedback"></span>
                                         </div>
@@ -246,7 +243,7 @@
                                         <!--------------- TELEFONE --------------->
                                         <div class="form-group has-feedback">
                                             <input  name="telefone" type="tel" class="form-control "  value="<?php echo setValue('telefone'); ?>" placeholder="Telefone"
-                                                    data-inputmask='"mask": "(99) 9999-99999"' data-mask     
+                                                    data-inputmask='"mask": "(99) 9999-99999"' data-mask
                                                     >
                                             <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
                                         </div>
