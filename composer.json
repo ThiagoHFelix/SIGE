@@ -1,0 +1,13 @@
+{
+    "name": "SIGE",
+    "description": "SIGE - Sistema de Gerenciamento Escolar",
+    "authors": [
+        {
+            "name": "Thiago Henrique Felix",
+            "email": "thiagohenriquefelix12@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    }
+}

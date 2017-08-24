@@ -8,27 +8,29 @@
 
 
 CREATE TABLE Pessoa (
+
     id integer,
-    primeiroNome varchar(25),
-    sobrenome varchar(60),
-    nascimento date,
-    status char(1),
+    primeiroNome varchar(25) NOT NULL,
+    sobrenome varchar(60) NOT NULL,
+    nascimento date NOT NULL,
+    status varchar(10) NOT NULL,/* Ativado e Desativado */
     Estado char(2),
     Rua varchar(50),
     CEP char(9),
     Bairro varchar(50),
     Cidade varchar(60),
     numResidencia integer,
-    senha varchar(50),
-    sexo char(1),
+    senha varchar(20) NOT NULL,/* Maximo de carecteres permitidos sao 20 */
+    sexo varchar(9),/* Masculino e Feminino */
     cpf char(14),
     rg varchar(15),
     telefone varchar(14),
-    email varchar(40),
+    email varchar(40) NOT NULL,
     foto varchar(50),
     celular varchar(14),
-    estado_civil varchar(20),
-
+    
+    CONSTRAINT Check_Status check (upper(status) in ('ATIVADO','DESATIVADO')),
+    CONSTRAINT Check_Sexo check (upper(sexo) in ('MASCULINO', 'FEMININO') ),
     CONSTRAINT PK_Pessoa PRIMARY KEY (id)
 
 );
