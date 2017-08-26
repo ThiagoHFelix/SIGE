@@ -200,61 +200,155 @@ class Manage extends CI_Controller {
     }//cadastro
 
 
-
     /**
      * Faz o cadastro do administrador no banco de dados
      */
     private function cadAdministrador() {
 
-        $this->load->library('form_validation');
+        $this->load->library(array('form_validation','session'));
         $this->load->model('Administrador_model','administrador');
 
         //Criando regras para a validação do formulário
         $this->form_validation->set_rules('primeiroNome', '"Primeiro nome"', 'trim|required|max_length[25]');
-        $this->form_validation->set_rules('email', '"Email"', 'valid_email');
+        $this->form_validation->set_rules('sobrenome', '"Sobrenome"', 'trim|required|max_length[60]');
+        $this->form_validation->set_rules('sexo', '"Sexo"', 'trim|required');
+        $this->form_validation->set_rules('nascimento', '"Nascimento"', 'trim|required');
+        $this->form_validation->set_rules('senha', '"Senha"', 'trim|required|max_length[20]|min_length[5]');
+        $this->form_validation->set_rules('conf_senha', '"Confirmação da senha"', 'trim|required|max_length[20]|min_length[5]|matches[senha]');
+        $this->form_validation->set_rules('email', '"Email"', 'valid_email|max_length[40]');
 
-        log_message('debug', 'Iniciando insert do administrador');
 
-            if ($this->form_validation->run()):
+        //inicio a verificação da regras
+        if ($this->form_validation->run()){
+
+          //busco dados para verificação do campo sexo
+          $sexo_inserido = $this->input->post('sexo');
+
+          //busco dados para verificação do email no banco de dados
+          $email_inserido = $this->input->post('email');
+          $retorno = $this->administrador->get_pessoa($email_inserido);
+
+          //verificação do campo sexo
+          if(strcmp(strtoupper($sexo_inserido),'SEXO') == 0){
+
+              $this->session->set_flashdata('mensagem_usuario','<p>Campo "Sexo" não foi selecionado</p>');
+
+          }//if | campo sexo
+          //verificação do email no banco de dados
+          else if($retorno != NULL){
+
+             $this->session->set_flashdata('mensagem_usuario','<p>Este email já está cadastrado</p>');
+
+          }//if | retorno
+
+
+          //Email não está cadastrado no banco de dados
+          else{
+
+            $nome_imagem = NULL;
+            $local_imagem = NULL;
+
+          if($_FILES['imagem']['name'] != NULL){
+
+            $nome_imagem = uniqid().'-'.time();
+
+            //Configuração do upload da imagem
+            $config['file_name'] = $nome_imagem;
+            $config['upload_path'] = './user_img/';
+            $config['allowed_types'] = 'jpg|png';
+            $config['max_size'] = 1024;
+            $config['max_width'] = 1024;
+            $config['max_height'] = 768;
+
+            $this->load->library('upload',$config);
+
+            if(!$this->upload->do_upload('imagem')){
+
+              $retorno = $this->upload->display_errors();
+              $this->session->set_flashdata('mensagem_usuario',$retorno);
+
+            }//if | do_upload fail
+            else{
+
+              $dados_img = $this->upload->data();
+              $local_imagem = $dados_img['file_path'].''.$dados_img['file_name'];
+
+
+            }//else | do_upload sucess
+
+          }//if | Imagem inserida
+          else{
+
+              $local_imagem = base_url('/user_img/avatar.png');
+
+          }//else | imagem não inserida
 
                 $dados = array(
-                    'primeiroNome' => "'" . $this->input->post('primeiroNome') . "'",
-                    'sobrenome' => "'" . $this->input->post('sobrenome') . "'",
-                    'nascimento' => "'" . $this->input->post('nascimento') . "'",
-                    'status' => 1,
-                    'estado' => "'" . $this->input->post('estado') . "'",
-                    'rua' => "'" . $this->input->post('rua') . "'",
-                    'cep' => "'" . $this->input->post('cep') . "'",
-                    'bairro' => "'" . $this->input->post('bairro') . "'",
-                    'cidade' => "'" . $this->input->post('cidade') . "'",
-                    'numResidencia' => $this->input->post('residencia'),
-                    'senha' => "'" . $this->input->post('senha') . "'",
-                    'sexo' => "'" . $this->input->post('sexo') . "'",
-                    'cpf' => "'" . $this->input->post('cpf') . "'",
-                    'rg' => "'" . $this->input->post('rg') . "'",
-                    'telefone' => "'" . $this->input->post('telefone') . "'",
-                    'email' => "'" . $this->input->post('email') . "'",
-                    'foto' => "'" . $this->input->post('foto') . "'"
+
+                    'PRIMEIRONOME' => "" . $this->input->post('primeiroNome') . "",
+                    'SOBRENOME' => "". $this->input->post('sobrenome') . "",
+                    'NASCIMENTO' => "" . $this->input->post('nascimento') . "",
+                    'STATUS' => 'Ativado',
+                    'ESTADO' => "" . $this->input->post('estado') . "",
+                    'RUA' => "" . $this->input->post('rua') . "",
+                    'CEP' => "" . $this->input->post('cep') . "",
+                    'BAIRRO' => "" . $this->input->post('bairro') . "",
+                    'CIDADE' => "" . $this->input->post('cidade') . "",
+                    'NUMRESIDENCIA' => $this->input->post('residencia'),
+                    'SENHA' => "" . $this->input->post('senha') . "",
+                    'SEXO' => "" . $this->input->post('sexo') . "",
+                    'CPF' => "" . $this->input->post('cpf') . "",
+                    'RG' => "" . $this->input->post('rg') . "",
+                    'TELEFONE' => "" . $this->input->post('telefone') . "",
+                    'EMAIL' => "" . $this->input->post('email') . "",
+                    'FOTO' => "" . $local_imagem . ""
+
                 );
 
-                //  Inserindo no banco de dados
-                //  $retorn_inset = $this->manage->insert('pessoa', $dados);
-                if (!$retorn_inset):
 
-                    log_message("error", "Um erro ocorreu no banco de dados : " . $this->manage->returnLastError());
+                $retorno = $this->administrador->insert_pessoa($dados);
+                if(!$retorno){
 
-                else:
+                      $this->session->set_flashdata('mensagem_usuario','<p> Não foi possível cadastrar o administrador no banco de dados <br/> CONTATE O ADMINISTRADOR </p> - CADASTRO DE PESSOA');
 
-                  //Inserido com sucesso no banco de dados
-                  '<p>Cadastro realizado com sucesso</p>';
+                }//if | retorno pessoa
+                else{
 
-                endif;
+                  $dados_pessoa = $this->administrador->get_pessoa_only($dados['EMAIL']);
 
 
-      endif;//if | Inicial
+
+                  $dados = array ( 'FK_PESSOA_ID' => $dados_pessoa[0]['ID']);
+                  $retorno = $this->administrador->insert_adm($dados);
+
+                  if(!$retorno){
+
+                        $this->session->set_flashdata('mensagem_usuario','<p> Não foi possível cadastrar o administrador no banco de dados <br/> CONTATE O ADMINISTRADOR </p> - CADASTRO DE ADMINISTRADOR');
+
+                  }//if | retorno administrador
+                  else{
+
+                      $this->session->set_flashdata('mensagem_usuario','<p> Cadastro realizado com sucesso =D =D =D =D </p>');
+
+                  }//else | cadastro sucess
+
+
+                } //else | retorno pessoa
+
+
+              }//else | Todos os dados validados
+
+          }//if | Validação de dados
+          else{
+
+            $this->session->set_flashdata('mensagem_usuario',validation_errors());
+
+          }// Dados não validados
+
+
 
             //Carregamento da view de cadastro
-            $this->load->view('administrador/manage/cadastro_administrador',$dados);
+            $this->load->view('administrador/manage/cadastro_administrador');
 
 
     }//cadAdministrador

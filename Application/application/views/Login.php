@@ -32,7 +32,7 @@
 
             body{
                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.2)), color-stop(100%,rgba(255,255,255,0.2))), url("<?php echo base_url('data-views/home/img/background3.jpg '); ?> ") repeat 0 0;
-                
+
                 background-color: #fff;
                 backace-visibility: 10;
                 background-size: 1600px;
@@ -77,7 +77,7 @@
                     $texto_button['aluno'] =  'Aluno (Selecionado)';
             break;
 
-            
+
 
           }//switch
 
@@ -90,7 +90,7 @@
 
         <div class="login-box">
             <div class="login-logo" style="padding-top:0px;">
-                <a style="color:white;" href="<?php echo base_url(); ?>"><b>C</b>entro - <b>E</b>scolar</a>
+                <a style="color:white;" href="<?php echo base_url(); ?>"><b>SIGE</b></a>
             </div>
             <!-- /.login-logo -->
             <div class="login-box-body">

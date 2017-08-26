@@ -76,14 +76,14 @@
                                 </div>
 
 
-                                <form  method="post" action="<?php echo base_url('/manage/cadastro/' . $this->uri->segment(3)); ?>" >
+                              <?php echo form_open_multipart('manage/cadastro/administrador');  ?>
 
                                     <div class="row" >
                                         <div class="col-md-12" >
 
                                             <div class="form-group has-feedback" style="margin-left: 16px;margin-right: 16px;">
 
-                                                <input type="file" class="form-control"  name="up_img"  size="20">
+                                                <input type="file" class="form-control" id="imagem" name="imagem"  size="20">
 
                                             </div>
 
@@ -93,23 +93,25 @@
 
 
                                     <div class="col-md-6">
+
+
                                         <!--------------- PRIMEIRO NOME --------------->
                                         <div class="form-group has-feedback">
-                                            <input required name="primeiroNome" type="text" class="form-control" value="<?php echo setValue('primeiroNome'); ?>" placeholder="Primerio Nome">
+                                            <input style = "border:1px solid black" required name="primeiroNome" type="text" class="form-control " value="<?php echo setValue('primeiroNome'); ?>" placeholder="Primerio Nome">
                                             <span class="glyphicon glyphicon-user form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. PRIMEIRO NOME --------------->
 
                                         <!--------------- SOBRENOME --------------->
                                         <div class="form-group has-feedback">
-                                            <input  name="sobrenome" type="text" class="form-control" value="<?php echo setValue('sobrenome'); ?>" placeholder="Sobrenome">
+                                            <input style = "border:1px solid black"  required name="sobrenome" type="text" class="form-control" value="<?php echo setValue('sobrenome'); ?>" placeholder="Sobrenome">
                                             <span class="glyphicon glyphicon-user form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. SOBRENOME --------------->
 
                                         <!--------------- NASCIMENTO --------------->
                                         <div class="form-group has-feedback">
-                                            <input  name="nascimento" type="date" class="form-control" value="<?php echo setValue('nascimento'); ?>" placeholder="Data de nascimento">
+                                            <input style = "border:1px solid black"  required name="nascimento" type="date" class="form-control" value="<?php echo setValue('nascimento'); ?>" placeholder="Data de nascimento">
                                             <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. NASCIMENTO --------------->
@@ -137,7 +139,7 @@
                                         <!--------------- ESTADO --------------->
                                         <div class="form-group ">
                                             <select class="form-control " name="estado">
-                                                <option>Selecione seu estado</option>
+                                                <option value="">Selecione seu estado</option>
                                                 <option value="AC">Acre</option>
                                                 <option value="AL">Alagoas</option>
                                                 <option value="AP">Amapá</option>
@@ -196,11 +198,8 @@
                                         <!--------------- AVISO --------------->
                                         <div class="form-group has-feedback form-control" style="background-color: #eeeeee">
                                             <span class="fa fa-warning form-control-feedback"></span>
-                                            <span class="text-center" ><?php ?></span>
-
+                                            <span class="text-center" ><?php echo $this->session->flashdata('mensagem_usuario'); ?></span>
                                             <!--------------- ANCORA PARA O AVISO -------------->
-
-
                                         </div>
                                         <!--------------- /. AVISO --------------->
 
@@ -210,7 +209,7 @@
 
                                         <!--------------- EMAIL --------------->
                                         <div class="form-group has-feedback">
-                                            <input required name="email" type="email" class="form-control "  value="<?php echo setValue('email'); ?>" placeholder="Email">
+                                            <input style = "border:1px solid black"  required name="email" type="email" class="form-control "  value="<?php echo setValue('email'); ?>" placeholder="Email">
                                             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. EMAIL --------------->
@@ -251,7 +250,7 @@
 
                                         <!--------------- SEXO --------------->
                                         <div class="form-group has-feedback">
-                                            <select class="form-control" name="sexo" >
+                                            <select style = "border:1px solid black"  required class="form-control" name="sexo" >
                                                 <option>Sexo</option>
                                                 <option>Masculino</option>
                                                 <option>Feminino</option>
@@ -261,7 +260,7 @@
 
                                         <!--------------- SENHA --------------->
                                         <div class="form-group has-feedback">
-                                            <input  required name="senha" type="password" class="form-control" minlength="5" maxlength="20" value="<?php echo setValue('senha'); ?>" placeholder="Senha">
+                                            <input style = "border:1px solid black"  required name="senha" type="password" class="form-control" minlength="5" maxlength="20" value="<?php echo setValue('senha'); ?>" placeholder="Senha">
                                             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. SENHA --------------->
@@ -269,13 +268,13 @@
 
                                         <!--------------- CONFIRMAÇÃO DA SENHA --------------->
                                         <div class="form-group has-feedback">
-                                            <input required name="conf_senha" type="password" class="form-control" minlength="5" maxlength="20" value="<?php echo setValue('conf_senha'); ?>" placeholder="Confirme a senha">
+                                            <input style = "border:1px solid black"  required name="conf_senha" type="password" class="form-control" minlength="5" maxlength="20" value="<?php echo setValue('conf_senha'); ?>" placeholder="Confirme a senha">
                                             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. CONFIRMAÇÃO DA SENHA --------------->
 
 
-                                        <button type="submit" onclick="ready()" class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>
+                                        <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>
 
                                     </div>
                             </div>

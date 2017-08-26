@@ -11,6 +11,8 @@ require_once APPPATH .'interfaces/Pessoa_interface.php';
 
 class Administrador_model extends CI_Model implements Pessoa_interface {
 
+
+
  // Construtor padrão
  public function __construct(){
 
@@ -19,6 +21,20 @@ class Administrador_model extends CI_Model implements Pessoa_interface {
 
  }//__construct
 
+//insere uma pessoa e administrador no banco de dados
+ public function insert_pessoa($dados){
+
+  return $this->db->insert('PESSOA',$dados);
+
+ }//insert_pessoa
+
+//insere um administrador no banco de dados
+public function insert_adm($dados){
+
+  return $this->db->insert('ADMINISTRADOR',$dados);
+
+}//insert_adm
+
 //Registra o login do usuário
  public function registra_login($dados){
 
@@ -26,10 +42,27 @@ class Administrador_model extends CI_Model implements Pessoa_interface {
 
  }//registra login
 
-//Busca pessoa no banco de dados, se encontrada retorna um array com seus dados
+//Busca administrador no banco de dados, se encontrada retorna um array com seus dados
 public function get_pessoa($email){
 
  $query = 'SELECT * FROM PESSOA,ADMINISTRADOR WHERE PESSOA.ID = ADMINISTRADOR.FK_Pessoa_id AND PESSOA.EMAIL = \''.$email.'\'';
+
+ $resultado = $this->db->query($query);
+
+ if($resultado->num_rows() > 0){
+
+      return $resultado->result_array();
+
+ }//if
+
+ return NULL;
+
+}//getPessoa
+
+//Busca pessoa no banco de dados, se encontrada retorna um array com seus dados
+public function get_pessoa_only($email){
+
+ $query = 'SELECT * FROM PESSOA WHERE PESSOA.EMAIL =\''.$email.'\'';
 
  $resultado = $this->db->query($query);
 

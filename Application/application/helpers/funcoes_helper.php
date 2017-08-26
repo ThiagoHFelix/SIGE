@@ -118,10 +118,10 @@ if(!function_exists('getVersion')):
     function getVersion($paramer){
 
         if(strcmp($paramer, 'n') == 0):
-            return '0.3';
+            return '0.10';
         endif;
 
-        return 'Release 0.3';
+        return 'Release 0.10';
 
     }//getVersion
 
