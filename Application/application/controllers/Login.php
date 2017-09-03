@@ -4,7 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login extends CI_Controller {
 
-    //Construtor padrão
+    /**
+     * Construtor padrão
+     */
     public function __construct() {
 
         parent::__construct();
@@ -13,7 +15,11 @@ class Login extends CI_Controller {
         $this->load->library(array('form_validation', 'session'));
 
     }//Construct
-
+    
+    /**
+     * Método inicial
+     * @param type $entidade
+     */
     public function index($entidade = 'administrador') {
 
 
@@ -37,7 +43,7 @@ class Login extends CI_Controller {
         endif;
 
         //Dados da view
-        $data['title'] = 'Centro Escolar | Login';
+        $data['title'] = 'SIGE | Login';
         $data['recovery_pass'] = 'Esqueceu a senha ou email ?';
         $data['button_login'] = 'Logar';
         $data['placeholder_user'] = 'Email';
@@ -58,13 +64,18 @@ class Login extends CI_Controller {
         else{
              $this->session->set_flashdata('aviso_login', validation_errors());
         }//else
-       
-        
+
+
         $this->load->view('Login', $data);
 
     }//View
 
-    // Faz a verificação dos dados de login se corretos retorna true caso constrario false
+    /**
+     * Faz a verificação dos dados de login se corretos retorna true caso constrario false
+     * @param type $entidade
+     * @param type $email
+     * @param type $senha
+     */
     public function verifica_login($entidade,$email,$senha){
 
       switch($entidade){
@@ -73,20 +84,19 @@ class Login extends CI_Controller {
 
             $this->load->model('Administrador_model','administrador');
             $resultado = $this->administrador->get_pessoa($email);
-            
+
             if( $resultado != NULL){
-                
-               
+
                if(strcmp($resultado[0]['SENHA'], $senha) != 0){
-                   
+
                    $this->session->set_flashdata('aviso_login','Dados de Administrador inválidos');
-                   
+
                }//IF | SENHA INCORRETA
-               
-               $this->registraDados_session('Administrador');
-               redirect(base_url('/dashboard'), 'reflesh');
-               
-               
+               else{
+                     $this->registraDados_session('Administrador');
+                     redirect(base_url('/dashboard'), 'reflesh');
+               }//else | SENHA CORRETA
+
             }//if
             else{
 
@@ -99,17 +109,17 @@ class Login extends CI_Controller {
       case 'professor':
 
       $this->load->model('Professor_model','professor');
-      $resultado = $this->professor->get_pessoa($email);    
-          
+      $resultado = $this->professor->get_pessoa($email);
+
         if($resultado != NULL){
 
             if(strcmp($resultado[0]['SENHA'], $senha) != 0){
-                
+
                 $this->session->set_flashdata('aviso_login','Dados de Professor inválidos');
-                   
-            }//IF | SENHA INCORRETA  
-            
-            
+
+            }//IF | SENHA INCORRETA
+
+
             $this->registraDados_session('Professor');
             redirect(base_url('/dashboard'), 'reflesh');
 
@@ -125,18 +135,18 @@ class Login extends CI_Controller {
       case 'aluno':
 
       $this->load->model('Aluno_model','aluno');
-      $resultado = $this->aluno->get_pessoa($email);    
-          
+      $resultado = $this->aluno->get_pessoa($email);
+
         if($resultado != NULL){
 
-            
+
             if(strcmp($resultado[0]['SENHA'], $senha) != 0){
-                 
+
                  $this->session->set_flashdata('aviso_login','Dados de Aluno inválidos');
-                 
-            }//IF | SENHA INCORRETA  
-            
-            
+
+            }//IF | SENHA INCORRETA
+
+
         $this->registraDados_session('Aluno');
         redirect(base_url('/dashboard'), 'reflesh');
 
@@ -155,7 +165,10 @@ class Login extends CI_Controller {
 
     }//verifica_login
 
-    // Faz o registro dos dados necessarios na sessão e no banco de dados
+    /**
+     * Faz o registro dos dados necessarios na sessão e no banco de dados
+     * @param type $entidade
+     */
     public function registraDados_session($entidade){
 
 
@@ -204,8 +217,5 @@ class Login extends CI_Controller {
 
     }//registraDados_session
 
-
-
-
-
+    
 }//Controller

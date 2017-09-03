@@ -20,6 +20,64 @@ class Administrador_model extends CI_Model implements Pessoa_interface {
    $this->load->database();
 
  }//__construct
+ 
+ /**
+  * Atualiza dados na tabela administrador
+  * @param type $data
+  * @return type
+  */
+ public function updateAdministrador($data,$idPessoa){
+     
+   $retorno =  $this->db->update('PESSOA',$data,array('ID' => $idPessoa));
+   return $retorno; 
+   
+ }//updateAdministrador
+ 
+/**
+ * Ativa administrador no banco de dados
+ * @param int $id
+ * @return boolean
+ */
+public function ativar(int $id){
+    
+       
+    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Ativado\' WHERE PESSOA.ID = '.$id; 
+    log_message('info','Function ativar - Administrador -> '.$query);
+    $retorno = $this->db->query($query);
+    
+    //log_message
+    log_message('info','Table afective -> '.$retorno);
+    
+    $this->db->close();
+    
+    if($retorno > 0)
+        return TRUE;
+    else
+        return FALSE;
+    
+    
+}//ativar
+ 
+ //desativa administrador no banco de dados
+ public function desativar(int $id){
+   
+     
+    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Desativado\' WHERE PESSOA.ID = '.$id; 
+    log_message('info','Function desativar - Administrador -> '.$query);
+    $retorno = $this->db->query($query);
+    
+    //log_message
+    log_message('info','Table afective -> '.$retorno);
+    
+    $this->db->close();
+    
+    if($retorno > 0)
+        return TRUE;
+    else
+        return FALSE;
+    
+    
+ }//desativar
 
 //insere uma pessoa e administrador no banco de dados
  public function insert_pessoa($dados){
@@ -82,7 +140,7 @@ public function get_all_pessoa($offset =  '', $per_page = '',$is_search = FALSE,
     if(!$is_search)
          $query  = 'SELECT FIRST '.$per_page.' SKIP '.$offset.' * FROM ADMINISTRADOR,PESSOA WHERE PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID ORDER BY ADMINISTRADOR.ID' ;
     else
-         $query  = 'SELECT FIRST '.$per_page.' SKIP '.$offset.'  * FROM ADMINISTRADOR,PESSOA WHERE PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID ORDER BY ADMINISTRADOR.ID ';
+         $query  = 'SELECT FIRST '.$per_page.' SKIP '.$offset.'  * FROM ADMINISTRADOR,PESSOA WHERE PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID AND PESSOA.'.$coluna.' LIKE \'%'.$dado.'%\' ORDER BY ADMINISTRADOR.ID' ;
 
 
    $resultado = $this->db->query($query);
@@ -111,19 +169,44 @@ public function get_total_tupla($dado = '',$coluna = ''){
 
 }//get_total_tupla
 
+/**
+ * Busca pessoa pelo id no banco de dados e retorna um array
+ * @param type $id Identificação do administrador no banco de dados
+ * @return type Array com dados do administrador ou NULL
+ */
+public function getPessoaById($id = NULL , $idPessoa = NULL){
 
-//Busca pessoa pelo id no banco de dados e retorna um array
-public function getPessoaById($id){
-
-    $query  = 'SELECT * FROM ADMINISTRADOR,PESSOA WHERE PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID AND ADMINISTRADOR.ID = '.$id;
+    if($idPessoa != NULL)
+        $query  = 'SELECT * FROM ADMINISTRADOR,PESSOA WHERE PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID AND PESSOA.ID = '.$idPessoa;
+    else if($id != NULL)
+        $query  = 'SELECT * FROM ADMINISTRADOR,PESSOA WHERE PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID AND ADMINISTRADOR.ID = '.$id;
 
     $resultado = $this->db->query($query);
 
-    return $resultado->result_array()[0];
+     if($resultado->num_rows() > 0){
+
+      return $resultado->result_array()[0];
+
+    }//if
+    
+    else 
+        return NULL;
 
 }//getPessoaById
 
-
+//verifica se o id de pessoa é um adminstrador
+public function isAdministradorById(int $id){
+    
+    $query = "SELECT * FROM PESSOA,ADMINISTRADOR  WHERE PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID AND PESSOA.ID = ".$id;
+    
+    $retorno = $this->db->query($query);
+    
+    if($retorno->num_rows() > 0)
+        return TRUE;
+    else
+        return FALSE;
+    
+}//isAdministradorById
 
 //Destroi o objeto
 public function __destruct(){}//destruct

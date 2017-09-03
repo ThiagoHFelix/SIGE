@@ -48,13 +48,13 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    
-                    <a href="<?php echo base_url('/manage/administrador'); ?>"> <button class="fa fa-arrow-circle-left btn btn-primary btn-sm"> <small>Voltar</small></button> </a> 
-                    
+
+                    <a href="<?php echo base_url('/manage/administrador'); ?>"> <button class="fa fa-arrow-circle-left btn btn-primary btn-sm"> <small>Voltar</small></button> </a>
+
                     <ol class="breadcrumb">
-                        <li><a href="<?php echo base_url($this->uri->segment(1) . '/dashboard'); ?>"><i class="fa fa-dashboard"></i> Home </a></li>                      
-                        <li><a href="<?php echo base_url($this->uri->segment(1) . '/manage/administrador'); ?>"><i class="fa fa-users"></i> Gerenciamento Administradores </a></li>                      
-                        <li><a href="<?php echo base_url($this->uri->segment(1) . '/manage/administrador/userprofile/'.$this->uri->segment(5)); ?>"><i class="fa fa-users"></i> Perfil de usuário </a></li>                      
+                        <li><a href="<?php echo base_url($this->uri->segment(1) . '/dashboard'); ?>"><i class="fa fa-dashboard"></i> Home </a></li>
+                        <li><a href="<?php echo base_url($this->uri->segment(1) . '/manage/administrador'); ?>"><i class="fa fa-users"></i> Gerenciamento Administradores </a></li>
+                        <li><a href="<?php echo base_url($this->uri->segment(1) . '/manage/administrador/userprofile/'.$this->uri->segment(5)); ?>"><i class="fa fa-users"></i> Perfil de usuário </a></li>
                     </ol>
                 </section>
 
@@ -83,22 +83,17 @@
                                             <b>Telefone</b> <a class="pull-right"><?php  echo $TELEFONE; ?></a>
                                         </li>
                                         <li class="list-group-item">
-                                            <b>Sexo</b> <a class="pull-right"><?php 
-                                            
-                                           /* if($sexo == 1):
-                                                echo 'Masculino';
-                                            else:
-                                                echo 'Feminino';
-                                            endif;
-                                            
-                                            */
+                                            <b>Sexo</b> <a class="pull-right"><?php
+
+                                           echo $SEXO;
+
                                             ?></a>
                                         </li>
                                     </ul>
-                                    
+
                                     <a href="#" class="btn btn-primary btn-block"><b>Editar</b></a>
                                     <a href="#" class="btn btn-danger btn-block"><b>Excluir</b></a>
-                                    
+
                                 </div>
                                 <!-- /.box-body -->
                             </div>
@@ -115,31 +110,31 @@
                                     <strong><i class="fa fa-book margin-r-5"></i> Cursos </strong>
 
                                     <p class="text-muted">
-                                       Todos os cursos cadastrados 
+
                                     </p>
 
                                     <hr>
 
                                     <strong><i class="fa fa-map-marker margin-r-5"></i> Matérias </strong>
 
-                                    <p class="text-muted"> Todas as matérias cadastradas </p>
+                                    <p class="text-muted"> </p>
 
                                     <hr>
 
                                     <strong><i class="fa fa-pencil margin-r-5"></i> Matérias Finalizadas </strong>
 
                                     <p>
-                                       
-                                        <span class="label label-success">Português</span>
-                                        <span class="label label-success">Matemática</span>
-                                        
+
+                                        <span class="label label-success"></span>
+                                        <span class="label label-success"></span>
+
                                     </p>
 
                                     <hr>
 
-                                    <strong><i class="fa fa-file-text-o margin-r-5"></i> Quem sou eu </strong>
+                                    <strong><i class="fa fa-file-text-o margin-r-5"></i> Dados Adicionais </strong>
 
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+                                    <p></p>
                                 </div>
                                 <!-- /.box-body -->
                             </div>
@@ -152,7 +147,78 @@
                         <div class="col-md-9 ">
 
 
-                            <div class=" box box-primary " style=" height: 790px;"> </div>
+                            <div class=" box box-primary " style=" height: 790px;">
+
+
+
+                                <!------- TITULO ------>
+                                <div class="col-md-12">
+
+                                  <div class="box-header register-logo">
+                                      Dados do Administrador
+                                  </div>
+                                <!-------/ TITULO ------>
+                              </div>
+
+
+
+
+                                <!-------/ COL-MD-12 ------>
+
+                                <!------- ESQUERDA ------>
+                                  <div class="col-md-5" >
+
+                                    <div class="register-logo" style="font-size:20pt; ">
+                                      Endereço
+                                    </div>
+
+
+                                    <div id="dados" style=" margin-left:25px;  font-size:12pt;" >
+
+                                      <p> <?php echo '- ESTADO: '.$ESTADO; ?> </p>
+                                      <p> <?php echo '- CIDADE: '.$CIDADE; ?> </p>
+                                      <p> <?php echo '- BAIRRO: '.$BAIRRO; ?> </p>
+                                      <p> <?php echo '- CEP: '.$CEP; ?> </p>
+                                      <p> <?php echo '- RUA: '.$RUA; ?> </p>
+                                      <p> <?php echo '- NUMERO DE RESIDENCIA: '.$NUMRESIDENCIA; ?> </p>
+
+
+                                    </div>
+
+
+
+                                  </div>
+                                  <!-------/ ESQUERDA ------>
+
+                                  <!------- DIREITA ------>
+                                  <div class="col-md-6" >
+
+                                    <div class="register-logo" style="font-size:20pt;">
+                                      Dados Pessoais
+                                    </div>
+
+                                    <div id="dados" style=" margin-left:25px; font-size:12pt; " >
+
+                                      <p> <?php echo '- CEF: '.$CPF; ?> </p>
+                                      <p> <?php echo '- RG: '.$RG; ?> </p>
+                                      <p> <?php echo '- TELEFONE: '.$TELEFONE; ?> </p>
+                                      <p> <?php echo '- REGISTRO: '.$ID; ?> </p>
+
+                                    </div>
+
+
+                                  </div>
+                                  <!-------/ DIREITA ------>
+
+
+
+
+
+
+
+
+                            </div>
+                            <!-------/ BOX-PRIMARY ------>
 
                         </div>
 

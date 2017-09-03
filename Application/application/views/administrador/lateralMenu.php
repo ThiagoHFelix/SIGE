@@ -74,7 +74,7 @@
                     <!-- ADMINISTRADOR -->
                     <li><a href="<?php echo base_url('/manage/administrador'); ?>"><i class="fa fa-users"></i> Administrador </a></li>
                     <!-- PROFESSOR -->
-                    <li><a href="#"><i class="fa fa-users"></i> Professor </a></li>
+                    <li><a href="<?php echo base_url('/manage/professor'); ?>"><i class="fa fa-users"></i> Professor </a></li>
                     <!-- ALUNO -->
                     <li><a href="#"><i class="fa fa-users"></i> Aluno </a></li>
                     <!-- MATÉRIA -->

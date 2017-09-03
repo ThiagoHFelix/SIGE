@@ -2,9 +2,9 @@
     <!-- Logo -->
     <a href="<?php echo base_url('dashboard'); ?>" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b></b>CE</span>
+        <span class="logo-mini"><b>SIGE</b></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Centro Escolar</b></span>
+        <span class="logo-lg"><b>SIGE</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -59,7 +59,7 @@
                         if (strcmp($this->session->userdata('user_foto'), "") == 0):
                             echo base_url('data-views/dashboard/dist/img/avatar0.png');
                         else:
-                            //FIXIT padronizar 
+                            //FIXIT padronizar
                             echo $this->session->userdata('user_foto');
                         endif;
                         ?>  " class="user-image" alt="User Image">
@@ -79,7 +79,7 @@
                         if (strcmp($this->session->userdata('user_foto'), "") == 0):
                             echo base_url('data-views/dashboard/dist/img/avatar0.png');
                         else:
-                            //FIXIT padronizar 
+                            //FIXIT padronizar
                             echo $this->session->userdata('user_foto');
                         endif;
                         ?>  " class="img-circle" alt="User Image">
@@ -117,7 +117,7 @@
                             </div>
                         </li>
                     </ul>
-                </li>   
+                </li>
 
             </ul>
         </div>

@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Home</title>
-        
+        <title>SIGE | Home</title>
+
          <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
@@ -53,7 +53,7 @@
                         Dashboard
                     </h1>
                     <ol class="breadcrumb">
-                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-home"></i> Inicio </a></li>                      
+                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-home"></i> Inicio </a></li>
                     </ol>
                 </section>
 
@@ -79,13 +79,13 @@
 
                                 <div class="box-body" style="height: 200px; ">
 
-                                   
+
                                     <a href="#">  <button class="btn btn-app" >
                                             <span class="fa fa-users" aria-hidden="true"></span>
                                             Alunos
                                         </button> </a>
 
-                                    <a href="#">  <button class="btn btn-app" >
+                                    <a href="<?php echo base_url('/manage/professor'); ?>">  <button class="btn btn-app" >
                                             <span class="fa fa-users" aria-hidden="true"></span>
                                             Professores
                                         </button> </a>
@@ -125,9 +125,9 @@
                                             Relatórios
                                         </button> </a>
 
-                                    <a href="#">  <button class="btn btn-app" >
+                                    <a href="<?php echo base_url('manage/configuration'); ?>">  <button class="btn btn-app" >
                                             <span class="fa fa-gears" aria-hidden="true"></span>
-                                            Configuração
+                                            Configurações
                                         </button> </a>
 
                                 </div>

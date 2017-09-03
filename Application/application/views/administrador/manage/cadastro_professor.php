@@ -57,7 +57,7 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
 
-                    <a href="<?php echo base_url('/manage/administrador'); ?>"> <button class="fa fa-arrow-circle-left btn btn-primary btn-sm"> <small>Voltar</small></button> </a>
+                    <a href="<?php echo base_url('/manage/professor'); ?>"> <button class="fa fa-arrow-circle-left btn btn-primary btn-sm"> <small>Voltar</small></button> </a>
 
                     <ol class="breadcrumb">
                         <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-home"></i> Inicio </a></li>
@@ -72,11 +72,11 @@
 
                             <div class="box box-primary" style="height: 700px; margin-left: auto; margin-right: auto;">
                                 <div class=" box-header register-logo">
-                                    <a> Cadastro de Administrador</a>
+                                    <a> Cadastro de Professor </a>
                                 </div>
 
 
-                              <?php echo form_open_multipart('manage/cadastro/administrador');  ?>
+                              <?php echo form_open_multipart('manage/cadastro/professor');  ?>
 
 
 
@@ -273,6 +273,7 @@
                                             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. CONFIRMAÇÃO DA SENHA --------------->
+
 
                                         <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>
 

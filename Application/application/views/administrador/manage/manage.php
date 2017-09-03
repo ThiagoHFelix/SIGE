@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title><?php echo $title; ?></title>
+        <title><?php echo 'SIGE | ' . $title; ?></title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
@@ -27,6 +27,45 @@
 
         <!-- Google Font -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+        <script type="text/javascript">
+
+            function confirmaDelete(id) {
+
+                var retorno = confirm('Deseja realmente desativar este usuário ?');
+
+                if (retorno == true) {
+
+                    window.location = "<?php echo base_url('/manage/desativar/administrador/') ?>".concat(id);
+
+                }//if | retorno
+
+
+
+            }//function
+
+
+            function confirmaActive(id) {
+
+
+                var retorno = confirm('Deseja realmente ativar este usuário ?');
+
+                if (retorno == true) {
+
+                    window.location = "<?php echo base_url('/manage/ativar/administrador/') ?>".concat(id);
+
+                }//if | retorno
+
+
+
+
+            }//function 
+
+
+        </script>   
+
+
+
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <!-- Site wrapper -->
@@ -53,21 +92,32 @@
 
                     </h1>
                     <ol class="breadcrumb">
-                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-dashboard"></i> Home </a></li>                      
-                        <li><a href="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"><i class="fa fa-users"></i><?php echo $title; ?></a></li>                       
+                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-dashboard"></i> Home </a></li>
+                        <li><a href="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"><i class="fa fa-users"></i><?php echo $title; ?></a></li>
                     </ol>
                 </section>
 
                 <!-- Main content -->
-                <section class="content" style="height:590px;">
+                <section class="content" style="height:690px;">
 
 
                     <div class="col-xs-12">
+
+
+
+                        <?php
+                        //Variavel responsável por avisar usuário sobre o sucesso do cadastro
+                        echo $this->session->flashdata('mensagem_manage');
+                        ?>
+
+
                         <div class="box box-primary"  >
                             <div class="box-header" >
 
+
+
                                 <div class="btn-group-vertical ">
-                                    <a href="<?php echo base_url('/manage/cadastro/'.$this->uri->segment(2)); ?>">    <button class="btn btn-sm fa fa-user-plus" style="width: 200%;"></button> </a>
+                                    <a href="<?php echo base_url('/manage/cadastro/' . $this->uri->segment(2)); ?>">    <button class="btn btn-sm fa fa-user-plus" style="width: 200%;"></button> </a>
                                 </div>
 
                                 <div class="box-tools">
@@ -75,14 +125,16 @@
                                         <div class="input-group input-group-sm" style=" width:340px;">
                                             <div class="input-group-btn  input-group-sm" >
                                                 <button name="clear_search" class="fa fa-close btn btn-default pull-left btn-sm"> <small>Limpar pesquisa</small></button>
-                                            </div>   
+                                            </div>
 
                                             <input type="text" name="table_search" value="<?php echo $this->session->userdata('table_search'); ?>" class="form-control pull-right" placeholder="Search">
                                             <div class="input-group-btn  input-group-sm" style="width:80px;">
+
                                                 <select name="dropdown_search" class="form-control pull-left dropdown dropdown-header" >
                                                     <?php echo $dropdown_options; ?>
                                                 </select>
-                                            </div> 
+
+                                            </div>
                                             <div class="input-group-btn">
                                                 <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                                             </div>
@@ -95,52 +147,73 @@
 
                             <!-- /.box-header -->
                             <div class="box-body table-responsive no-padding">
-                                <table class="table table-striped"  style="text-align: center">
+                                <table id="table_info" class="table table-bordered table-hover"  style="text-align: center">
 
-                                    <tr > <?php echo $table_field; ?> </tr>
+                                    <thead>  <tr> <?php echo $table_field; ?> </tr> </thead>
+                                    <tbody>
+                                        <?php
+                                        if ($table != NULL):
 
-                                    <?php
-                                    if ($table != NULL):
+                                            foreach ($table as $row):
+                                                echo '<tr>';
+                                                echo '<td>  ' . $row['FK_PESSOA_ID'] . ' </td>';
 
-                                        foreach ($table as $row):
-                                            echo '<tr>';
-                                            echo '<td>  ' . $row['ID'] . ' </td>';
-
-                                            echo '<td> ' . $row['PRIMEIRONOME'] . ' ' . $row['SOBRENOME'] . ' </td>';
-                                            echo '<td> ' . $row['EMAIL'] . ' </td>';
+                                                echo '<td> ' . $row['PRIMEIRONOME'] . ' ' . $row['SOBRENOME'] . ' </td>';
+                                                echo '<td> ' . $row['EMAIL'] . ' </td>';
 
 
-                                            if ($row['STATUS'] == 1):
-                                                echo '<td><span class="label label-primary"> Ativo </span></td>';
+                                                if (strcmp(strtoupper($row['STATUS']), 'ATIVADO') == 0):
+                                                    echo '<td><span class="label label-primary"> Ativado </span></td>';
 
-                                            else:
+                                                else:
 
-                                                echo '<td><span class="label label-danger"> Desativado </span></td>';
+                                                    echo '<td><span class="label label-danger"> Desativado </span></td>';
 
-                                            endif;
+                                                endif;
 
-                                            $url = base_url('/manage/userprofile/administrador/' . $row['ID']);
-                                            echo "
-                                                
+                                                $url = base_url('/manage/userprofile/administrador/' . $row['ID']);
+
+                                                if (strcmp(strtoupper($row['STATUS']), 'ATIVADO') == 0):
+
+                                                    $button = "
+
                                                      <td >
                                                         <div class=\"btn-group\">
                                                              <a href=\" " . $url . "  \">   <button class=\"fa fa-user btn  btn-primary\" ></button> </a>
-                                                                 <a>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
-                                                            <a>   <button class=\"fa fa-user-times btn btn-danger\"></button> </a>
-                                                            
+                                                                 <a href='" . base_url('/manage/alter/administrador/' . $row['FK_PESSOA_ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
+                                                            <a>   <button onclick=\"confirmaDelete(" . $row['FK_PESSOA_ID'] . ")\" class=\"fa fa-lock btn btn-danger\"></button> </a>
+
                                                         </div>
                                                      </td>
                                                  ";
 
+                                                else:
 
-                                        endforeach;
+                                                    $button = "
 
-                                    endif;
-                                    ?>
+                                                     <td >
+                                                        <div class=\"btn-group\">
+                                                             <a href=\" " . $url . "  \">   <button class=\"fa fa-user btn  btn-primary\" ></button> </a>
+                                                                 <a href='" . base_url('/manage/alter/administrador/' . $row['FK_PESSOA_ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
+                                                            <a>   <button onclick=\"confirmaActive(" . $row['FK_PESSOA_ID'] . ")\" class=\"fa fa-unlock btn btn-info\"></button> </a>
+
+                                                        </div>
+                                                     </td>
+                                                 ";
+
+                                                endif;
+
+                                                echo $button;
 
 
-                                    </tr> 
+                                            endforeach;
 
+                                        endif;
+                                        ?>
+
+
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                             <!-- /.box-body -->
@@ -152,12 +225,12 @@
                                 <?php
                                 echo $pagination;
                                 ?>
-                                <!--  
+                                <!--
                                   <ul class="pagination" style="float:right">
                                       <li class="active"><a  href="#">1</a></li>
                                       <li><a href="#">2</a></li>
                                       <li><a href="#">3</a></li>
-                                  </ul>  
+                                  </ul>
                                 -->
                             </div>
                             <!-- /.box -->
@@ -198,5 +271,21 @@
                 $('.sidebar-menu').tree()
             })
         </script>
+
+        <script>
+            $(function () {
+                $('#table_info').DataTable()
+                $('#table_info').DataTable({
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': false,
+                    'ordering': true,
+                    'info': true,
+                    'autoWidth': false
+                })
+            })
+        </script>
+
+
     </body>
 </html>
