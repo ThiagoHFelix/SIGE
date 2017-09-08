@@ -36,7 +36,7 @@
 
                 if (retorno == true) {
 
-                    window.location = "<?php echo base_url('/manage/desativar/administrador/') ?>".concat(id);
+                    window.location = "<?php echo base_url('/manage/desativar/'.$this->uri->segment(2).'/')  ?>".concat(id);
 
                 }//if | retorno
 
@@ -52,7 +52,7 @@
 
                 if (retorno == true) {
 
-                    window.location = "<?php echo base_url('/manage/ativar/administrador/') ?>".concat(id);
+                    window.location = "<?php echo base_url('/manage/ativar/'.$this->uri->segment(2).'/') ?>".concat(id);
 
                 }//if | retorno
 
@@ -171,7 +171,7 @@
 
                                                 endif;
 
-                                                $url = base_url('/manage/userprofile/administrador/' . $row['ID']);
+                                                $url = base_url('/manage/userprofile/'.$this->uri->segment(2).'/' . $row['ID']);
 
                                                 if (strcmp(strtoupper($row['STATUS']), 'ATIVADO') == 0):
 
@@ -180,7 +180,7 @@
                                                      <td >
                                                         <div class=\"btn-group\">
                                                              <a href=\" " . $url . "  \">   <button class=\"fa fa-user btn  btn-primary\" ></button> </a>
-                                                                 <a href='" . base_url('/manage/alter/administrador/' . $row['FK_PESSOA_ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
+                                                                 <a href='" . base_url('/manage/alter/'.$this->uri->segment(2).'/' . $row['FK_PESSOA_ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
                                                             <a>   <button onclick=\"confirmaDelete(" . $row['FK_PESSOA_ID'] . ")\" class=\"fa fa-lock btn btn-danger\"></button> </a>
 
                                                         </div>
@@ -194,7 +194,7 @@
                                                      <td >
                                                         <div class=\"btn-group\">
                                                              <a href=\" " . $url . "  \">   <button class=\"fa fa-user btn  btn-primary\" ></button> </a>
-                                                                 <a href='" . base_url('/manage/alter/administrador/' . $row['FK_PESSOA_ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
+                                                                 <a href='" . base_url('/manage/alter/'.$this->uri->segment(2).'/' . $row['FK_PESSOA_ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
                                                             <a>   <button onclick=\"confirmaActive(" . $row['FK_PESSOA_ID'] . ")\" class=\"fa fa-unlock btn btn-info\"></button> </a>
 
                                                         </div>

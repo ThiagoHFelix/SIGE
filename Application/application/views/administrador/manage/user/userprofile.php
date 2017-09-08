@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Default Dashborad</title>
+        <title>SIGE - Perfil de Usuário</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
@@ -49,12 +49,12 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
 
-                    <a href="<?php echo base_url('/manage/administrador'); ?>"> <button class="fa fa-arrow-circle-left btn btn-primary btn-sm"> <small>Voltar</small></button> </a>
+                    <a href="<?php echo base_url('/manage/'.$this->uri->segment(3)); ?>"> <button class="fa fa-arrow-circle-left btn btn-primary btn-sm"> <small>Voltar</small></button> </a>
 
                     <ol class="breadcrumb">
-                        <li><a href="<?php echo base_url($this->uri->segment(1) . '/dashboard'); ?>"><i class="fa fa-dashboard"></i> Home </a></li>
-                        <li><a href="<?php echo base_url($this->uri->segment(1) . '/manage/administrador'); ?>"><i class="fa fa-users"></i> Gerenciamento Administradores </a></li>
-                        <li><a href="<?php echo base_url($this->uri->segment(1) . '/manage/administrador/userprofile/'.$this->uri->segment(5)); ?>"><i class="fa fa-users"></i> Perfil de usuário </a></li>
+                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-dashboard"></i> Home </a></li>
+                        <li><a href="<?php echo base_url('/manage/'.$this->uri->segment(3)); ?>"><i class="fa fa-users"></i> Gerenciamento <?php echo $this->uri->segment(3); ?> </a></li>
+                        <li><a href="<?php echo base_url('/manage/userprofile/'.$this->uri->segment(3).'/'.$this->uri->segment(4)); ?>"><i class="fa fa-users"></i> Perfil de usuário </a></li>
                     </ol>
                 </section>
 
@@ -155,7 +155,7 @@
                                 <div class="col-md-12">
 
                                   <div class="box-header register-logo">
-                                      Dados do Administrador
+                                     
                                   </div>
                                 <!-------/ TITULO ------>
                               </div>

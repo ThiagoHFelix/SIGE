@@ -93,8 +93,23 @@ class Login extends CI_Controller {
 
                }//IF | SENHA INCORRETA
                else{
-                     $this->registraDados_session('Administrador');
-                     redirect(base_url('/dashboard'), 'reflesh');
+                     
+                     //VERIFICANDO SE A CONTA ESTÁ ATIVADA
+                     if(strcmp(strtoupper($resultado[0]['STATUS']),'ATIVADO') == 0){
+                         
+                         $this->registraDados_session('Administrador');
+                         redirect(base_url('/dashboard'), 'reflesh');
+                         
+                     }//IF 
+                     else{
+                         
+                         $this->session->set_flashdata('aviso_login','Esta conta está desativada');
+                         
+                     }//ELSE | CONTA ESTÁ DESATIVADA
+                     
+                     
+                     
+                     
                }//else | SENHA CORRETA
 
             }//if
@@ -118,15 +133,26 @@ class Login extends CI_Controller {
                 $this->session->set_flashdata('aviso_login','Dados de Professor inválidos');
 
             }//IF | SENHA INCORRETA
+            else{
 
-
-            $this->registraDados_session('Professor');
-            redirect(base_url('/dashboard'), 'reflesh');
-
+                //VERIFICANDO SE A CONTA ESTÁ ATIVADA
+                if(strcmp(strtoupper($resultado[0]['STATUS']),'ATIVADO') == 0){
+                         
+                    $this->registraDados_session('Professor');
+                    redirect(base_url('/dashboard'), 'reflesh');
+                         
+                }//IF 
+                else{
+                         
+                    $this->session->set_flashdata('aviso_login','Esta conta está desativada');
+                         
+                }//ELSE | CONTA ESTÁ DESATIVADA
+            
+            }//else | SENHA CORRETA
       }//if
       else{
 
-        $this->session->set_flashdata('aviso_login','Dados de Professor inválidos');
+            $this->session->set_flashdata('aviso_login','Dados de Professor inválidos');
 
       }//else
 
@@ -146,10 +172,20 @@ class Login extends CI_Controller {
 
             }//IF | SENHA INCORRETA
 
-
-        $this->registraDados_session('Aluno');
-        redirect(base_url('/dashboard'), 'reflesh');
-
+            else{
+                     //VERIFICANDO SE A CONTA ESTÁ ATIVADA
+                     if(strcmp(strtoupper($resultado[0]['STATUS']),'ATIVADO') == 0){
+                         
+                         $this->registraDados_session('Aluno');
+                         redirect(base_url('/dashboard'), 'reflesh');
+                         
+                     }//IF 
+                     else{
+                         
+                         $this->session->set_flashdata('aviso_login','Esta conta está desativada');
+                         
+                     }//ELSE | CONTA ESTÁ DESATIVADA
+            }//ELSE | SENHA CORRETA
       }//if
       else{
 

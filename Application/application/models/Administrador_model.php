@@ -103,7 +103,7 @@ public function insert_adm($dados){
 //Busca administrador no banco de dados, se encontrada retorna um array com seus dados
 public function get_pessoa($email){
 
- $query = 'SELECT * FROM PESSOA,ADMINISTRADOR WHERE PESSOA.ID = ADMINISTRADOR.FK_Pessoa_id AND PESSOA.EMAIL = \''.$email.'\'';
+ $query = 'SELECT * FROM PESSOA,ADMINISTRADOR WHERE PESSOA.ID = ADMINISTRADOR.FK_Pessoa_id AND upper(PESSOA.EMAIL) = upper(\''.$email.'\')';
 
  $resultado = $this->db->query($query);
 
@@ -172,7 +172,7 @@ public function get_total_tupla($dado = '',$coluna = ''){
 /**
  * Busca pessoa pelo id no banco de dados e retorna um array
  * @param type $id Identificação do administrador no banco de dados
- * @return type Array com dados do administrador ou NULL
+ * @return type Array com dados do professor ou NULL
  */
 public function getPessoaById($id = NULL , $idPessoa = NULL){
 
@@ -194,7 +194,7 @@ public function getPessoaById($id = NULL , $idPessoa = NULL){
 
 }//getPessoaById
 
-//verifica se o id de pessoa é um adminstrador
+//verifica se o id de pessoa é um administrador
 public function isAdministradorById(int $id){
     
     $query = "SELECT * FROM PESSOA,ADMINISTRADOR  WHERE PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID AND PESSOA.ID = ".$id;

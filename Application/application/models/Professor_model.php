@@ -97,7 +97,7 @@ public function insert_professor($dados){
  * @return type
  */
 public function get_pessoa($email){
- $query = 'SELECT * FROM PESSOA,PROFESSOR WHERE PESSOA.ID = PROFESSOR.FK_Pessoa_id AND PESSOA.EMAIL = \''.$email.'\'';
+ $query = 'SELECT * FROM PESSOA,PROFESSOR WHERE PESSOA.ID = PROFESSOR.FK_Pessoa_id AND upper(PESSOA.EMAIL) = upper(\''.$email.'\')';
  $resultado = $this->db->query($query);
 
  if($resultado->num_rows() > 0){
@@ -131,17 +131,115 @@ return NULL;
 
 }//get_all_pessoa
 
-//Busca pessoa pelo id no banco de dados e retorna um array
-public function getPessoaById($id){
-    
-    $query  = 'SELECT * FROM PROFESSOR,PESSOA WHERE PESSOA.ID = PROFESSOR.FK_PESSOA_ID AND PROFESSOR.ID = '.$id;
-   
-    
+/**
+ * Busca pessoa pelo id no banco de dados e retorna um array
+ * @param type $id Identificação do professor no banco de dados
+ * @return type Array com dados do professor ou NULL
+ */
+public function getPessoaById($id = NULL , $idPessoa = NULL){
+
+    if($idPessoa != NULL)
+        $query  = 'SELECT * FROM PROFESSOR,PESSOA WHERE PESSOA.ID = PROFESSOR.FK_PESSOA_ID AND PESSOA.ID = '.$idPessoa;
+    else if($id != NULL)
+        $query  = 'SELECT * FROM PROFESSOR,PESSOA WHERE PESSOA.ID = PROFESSOR.FK_PESSOA_ID AND PROFESSOR.ID = '.$id;
+
     $resultado = $this->db->query($query);
+
+     if($resultado->num_rows() > 0){
+
+      return $resultado->result_array()[0];
+
+    }//if
     
-    return $resultado->result_array()[0];
-    
+    else 
+        return NULL;
+
 }//getPessoaById
+
+/**
+ * verifica se o id de pessoa é um professor
+ * @param int $id
+ * @return boolean
+ */
+public function isProfessorById(int $id){
+    
+    $query = "SELECT * FROM PESSOA,PROFESSOR  WHERE PESSOA.ID = PROFESSOR.FK_PESSOA_ID AND PESSOA.ID = ".$id;
+    
+    $retorno = $this->db->query($query);
+    
+    if($retorno->num_rows() > 0)
+        return TRUE;
+    else
+        return FALSE;
+    
+}//isProfessorById
+
+
+ /**
+  * Atualiza dados na tabela professor
+  * @param type $data
+  * @return type
+  */
+ public function updateProfessor($data,$idPessoa){
+     
+   $retorno =  $this->db->update('PESSOA',$data,array('ID' => $idPessoa));
+   return $retorno; 
+   
+ }//updateProfessor
+
+ 
+ 
+ /**
+ * Ativa professor no banco de dados
+ * @param int $id
+ * @return boolean
+ */
+public function ativar(int $id){
+    
+       
+    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Ativado\' WHERE PESSOA.ID = '.$id; 
+    log_message('info','Function ativar - Professor -> '.$query);
+    $retorno = $this->db->query($query);
+    
+    //log_message
+    log_message('info','Table afective -> '.$retorno);
+    
+    $this->db->close();
+    
+    if($retorno > 0)
+        return TRUE;
+    else
+        return FALSE;
+    
+    
+}//ativar
+ 
+ 
+
+ /**
+  * desativa professor no banco de dados
+  * @param int $id
+  * @return boolean
+  */
+ public function desativar(int $id){
+   
+     
+    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Desativado\' WHERE PESSOA.ID = '.$id; 
+    log_message('info','Function desativar - Professor -> '.$query);
+    $retorno = $this->db->query($query);
+    
+    //log_message
+    log_message('info','Table afective -> '.$retorno);
+    
+    $this->db->close();
+    
+    if($retorno > 0)
+        return TRUE;
+    else
+        return FALSE;
+    
+    
+ }//desativar
 
 //Destroi o objeto
 public function __destruct(){}//destruct

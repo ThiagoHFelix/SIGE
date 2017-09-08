@@ -80,7 +80,7 @@
                                 <div class="box-body" style="height: 200px; ">
 
 
-                                    <a href="#">  <button class="btn btn-app" >
+                                    <a href="<?php echo base_url('/manage/aluno'); ?>">  <button class="btn btn-app" >
                                             <span class="fa fa-users" aria-hidden="true"></span>
                                             Alunos
                                         </button> </a>
@@ -128,6 +128,10 @@
                                     <a href="<?php echo base_url('manage/configuration'); ?>">  <button class="btn btn-app" >
                                             <span class="fa fa-gears" aria-hidden="true"></span>
                                             Configurações
+                                        </button> </a>
+                                    <a href="<?php echo base_url('manage/log'); ?>">  <button class="btn btn-app" >
+                                            <span class="fa fa-gears" aria-hidden="true"></span>
+                                            Logs
                                         </button> </a>
 
                                 </div>
