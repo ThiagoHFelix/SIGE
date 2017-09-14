@@ -24,6 +24,7 @@ class Administrador_model extends CI_Model implements Pessoa_interface {
  /**
   * Atualiza dados na tabela administrador
   * @param type $data
+  * @param type $idPessoa
   * @return type
   */
  public function updateAdministrador($data,$idPessoa){

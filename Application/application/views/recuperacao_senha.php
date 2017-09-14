@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title><?php echo $title; ?></title>
+        <title>SIGE | Recuperação de dados</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
@@ -47,68 +47,33 @@
 
 
 
-        <?php
-        //Botão selecionado
-
-        $entidade_selecionada = $this->uri->segment(2);
-
-        $texto_button = array(
-            'administrador' => 'Administrador (Selecionado)',
-            'professor' => 'Professor',
-            'aluno' => 'Aluno'
-        );
-
-        switch (strtoupper($entidade_selecionada)) {
-
-
-            case 'ADMINISTRADOR':
-                $texto_button['administrador'] = 'Administrador (Selecionado)';
-                $texto_button['professor'] = 'Professor';
-                $texto_button['aluno'] = 'Aluno';
-                break;
-
-            case 'PROFESSOR':
-                $texto_button['administrador'] = 'Administrador';
-                $texto_button['professor'] = 'Professor (Selecionado)';
-                $texto_button['aluno'] = 'Aluno';
-                break;
-
-            case 'ALUNO':
-                $texto_button['administrador'] = 'Administrador';
-                $texto_button['professor'] = 'Professor';
-                $texto_button['aluno'] = 'Aluno (Selecionado)';
-                break;
-        }//switch
-        ?>
 
     </head>
     <body class="hold-transition  ">
 
         <div class="login-box">
             <div class="login-logo" style="padding-top:0px;">
-                <a style="color:white;" href="<?php echo base_url(); ?>"><b>SIGE</b></a>
+                <a style="color:white;" href="<?php echo base_url('login/recover'); ?>"><b>SIGE</b></a>
             </div>
             <!-- /.login-logo -->
             <div id="login-body" class='login-box-body'>
-                <p class="login-box-msg">Identifique-se para utilzar o sistema</p>
+                <p class="login-box-msg">Insira o email cadastrado</p>
+                <p class="login-box-msg">Uma nova senha será gerada e enviada ao email inserido, se o mesmo estiver cadastrado</p>
 
              
-                    <form action="<?php echo base_url('/login/' . $this->uri->segment(2)); ?>" method="post">
+                    <form action="<?php echo base_url('/login/recover'); ?>" method="post">
                         <div class="form-group has-feedback">
-                            <input required name="username" type="email" class="form-control" value="<?php echo setValue('username'); ?>" placeholder="Email">
+                            <input  name="email_recover" type="email" class="form-control" value="<?php echo setValue('email_recover'); ?>" placeholder="Email">
                             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                         </div>
-                        <div class="form-group has-feedback">
-                            <input required name="password" type="password" class="form-control" value="<?php echo setValue('password'); ?>" placeholder="<?php echo $this->lang->line('placeholder_password'); ?>">
-                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                        </div>
+                       
                         <div class="row">
                             <!-- /.col -->
                             <div class="col-xs-12 text-center">
                                 <div class="" >
-                                    <p class="validation_erros" > <?php echo $this->session->flashdata('aviso_login'); ?> </p>
+                                    <p class="validation_erros" > <?php echo $this->session->flashdata('aviso_recuperacao'); ?> </p>
                                 </div>
-                                <button type="submit" class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="glyphicon glyphicon-log-in"></i><?php echo $this->lang->line('button_login'); ?> </button>
+                                <button type="submit" class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="glyphicon glyphicon-log-in"></i>Enviar</button>
                             </div>
                             <!-- /.col -->
                         </div>
@@ -117,13 +82,7 @@
 
 
                 <div class="social-auth-links text-center">
-                    <p> Logar como </p>
-                    <a href="<?php echo base_url('/login/administrador'); ?>" class="btn btn-block btn-social btn-primary btn-flat"><i class="fa fa-user"></i> <?php echo $texto_button['administrador']; ?> </a>
-                    <a href="<?php echo base_url('/login/professor'); ?>" class="btn btn-block btn-social btn-info btn-flat"><i class="fa fa-user"></i> <?php echo $texto_button['professor']; ?> </a>
-                    <a href="<?php echo base_url('/login/aluno'); ?>" class="btn btn-block btn-social btn-success btn-flat"><i class="fa fa-user"></i> <?php echo $texto_button['aluno']; ?> </a>
-                    <br/>
-                    <a href="<?php echo base_url('login/recover'); ?>" id="recuperacao_senha" class="link-muted" style="text-align: center"><?php echo $this->lang->line('recovery_pass'); ?></a>
-
+                    <a href="<?php echo base_url('/login'); ?>" id="recuperacao_senha" class="link-muted" style="text-align: center">Voltar</a>
                 </div>
                 <!-- /.social-auth-links -->
 
