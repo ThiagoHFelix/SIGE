@@ -104,8 +104,11 @@ $.AdminLTE.options = {
     //The button to open and close the chat contacts pane
     contactToggleSelector: '[data-widget="chat-pane-toggle"]'
   },
-  //Define the set of colors to use globally around the website
+  //Define the set of colors to use globally around the website 
+  
+  /**/
   colors: {
+    
     lightBlue: "#3c8dbc",
     red: "#f56954",
     green: "#00a65a",
@@ -122,6 +125,7 @@ $.AdminLTE.options = {
     maroon: "#D81B60",
     black: "#222222",
     gray: "#d2d6de"
+   
   },
   //The standard screen sizes that bootstrap uses.
   //If you change these in the variables.less file, change

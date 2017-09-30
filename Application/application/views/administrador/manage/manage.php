@@ -36,7 +36,7 @@
 
                 if (retorno == true) {
 
-                    window.location = "<?php echo base_url('/manage/desativar/'.$this->uri->segment(2).'/')  ?>".concat(id);
+                    window.location = "<?php echo base_url('/manage/desativar/' . $this->uri->segment(2) . '/') ?>".concat(id);
 
                 }//if | retorno
 
@@ -52,17 +52,17 @@
 
                 if (retorno == true) {
 
-                    window.location = "<?php echo base_url('/manage/ativar/'.$this->uri->segment(2).'/') ?>".concat(id);
+                    window.location = "<?php echo base_url('/manage/ativar/' . $this->uri->segment(2) . '/') ?>".concat(id);
 
                 }//if | retorno
 
 
 
 
-            }//function 
+            }//function
 
 
-        </script>   
+        </script>
 
 
 
@@ -85,17 +85,7 @@
 
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <h1>
-                        <?php echo $title; ?>
 
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-dashboard"></i> Home </a></li>
-                        <li><a href="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"><i class="fa fa-users"></i><?php echo $title; ?></a></li>
-                    </ol>
-                </section>
 
                 <!-- Main content -->
                 <section class="content" style="height:690px;">
@@ -111,14 +101,19 @@
                         ?>
 
 
-                        <div class="box box-primary"  >
+
+                        <div class="box box-solid"  >
                             <div class="box-header" >
 
 
 
-                                <div class="btn-group-vertical ">
-                                    <a href="<?php echo base_url('/manage/cadastro/' . $this->uri->segment(2)); ?>">    <button class="btn btn-sm fa fa-user-plus" style="width: 200%;"></button> </a>
+                                <div class="pull-left">
+                                    <a href="<?php echo base_url('/manage/cadastro/' . $this->uri->segment(2)); ?>">    <button class="btn btn-primary fa fa-user-plus" style="width: 200%;"></button> </a>
+
                                 </div>
+
+
+
 
                                 <div class="box-tools">
                                     <form method="post" action="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"    >
@@ -147,7 +142,7 @@
 
                             <!-- /.box-header -->
                             <div class="box-body table-responsive no-padding">
-                                <table id="table_info" class="table table-bordered table-hover"  style="text-align: center">
+                                <table id="table_info" class="table table-responsive table-hover text-center" >
 
                                     <thead>  <tr> <?php echo $table_field; ?> </tr> </thead>
                                     <tbody>
@@ -171,7 +166,7 @@
 
                                                 endif;
 
-                                                $url = base_url('/manage/userprofile/'.$this->uri->segment(2).'/' . $row['ID']);
+                                                $url = base_url('/manage/userprofile/' . $this->uri->segment(2) . '/' . $row['ID']);
 
                                                 if (strcmp(strtoupper($row['STATUS']), 'ATIVADO') == 0):
 
@@ -180,7 +175,7 @@
                                                      <td >
                                                         <div class=\"btn-group\">
                                                              <a href=\" " . $url . "  \">   <button class=\"fa fa-user btn  btn-primary\" ></button> </a>
-                                                                 <a href='" . base_url('/manage/alter/'.$this->uri->segment(2).'/' . $row['FK_PESSOA_ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
+                                                                 <a href='" . base_url('/manage/alter/' . $this->uri->segment(2) . '/' . $row['FK_PESSOA_ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
                                                             <a>   <button onclick=\"confirmaDelete(" . $row['FK_PESSOA_ID'] . ")\" class=\"fa fa-lock btn btn-danger\"></button> </a>
 
                                                         </div>
@@ -194,7 +189,7 @@
                                                      <td >
                                                         <div class=\"btn-group\">
                                                              <a href=\" " . $url . "  \">   <button class=\"fa fa-user btn  btn-primary\" ></button> </a>
-                                                                 <a href='" . base_url('/manage/alter/'.$this->uri->segment(2).'/' . $row['FK_PESSOA_ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
+                                                                 <a href='" . base_url('/manage/alter/' . $this->uri->segment(2) . '/' . $row['FK_PESSOA_ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
                                                             <a>   <button onclick=\"confirmaActive(" . $row['FK_PESSOA_ID'] . ")\" class=\"fa fa-unlock btn btn-info\"></button> </a>
 
                                                         </div>

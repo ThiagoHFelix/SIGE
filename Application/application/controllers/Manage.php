@@ -20,26 +20,26 @@ class Manage extends CI_Controller {
         $this->load->library(array('session', 'pagination'));
 
     }//Construtor | Padrão
-    
-    
+
+
     /**
      * Lista todas as matérias registradas no banco de dados
      * @param type $valor_pagina
      */
     public function materia($valor_pagina = 0){
-        
-        
+
+
         $this->load->model('Materia_model','materia');
-        
+
      //   die($this->materia->getAllTupla());
-        
+
         isSessionStarted();
 
         $is_search = FALSE;
         $CountRows = NULL;
         $TableData = NULL;
         $offset = $valor_pagina;
-        $perPage = 8;
+        $perPage = 20;
         $escolha = NULL;
         $escolha2 = NULL;
         $field_table = '';
@@ -50,7 +50,7 @@ class Manage extends CI_Controller {
        //inicia a busca
         if(strcmp($this->input->post('table_search'), '') != 0){
           $this->session->set_userdata('is_search',TRUE);
-      
+
         }//IF | IS_SEARCH
 
         //Limpar busca
@@ -61,7 +61,7 @@ class Manage extends CI_Controller {
         //Verificação para saber qual sql se deve executar
       if ($this->session->userdata('is_search')):
 
-            if ((strcmp($this->input->post('table_search'), '') != 0)):
+      /*      if ((strcmp($this->input->post('table_search'), '') != 0)):
                 $this->session->set_userdata('table_search', $this->input->post('table_search'));
                 $this->session->set_userdata('dropdown_search', $this->input->post('dropdown_search'));
             endif;
@@ -73,17 +73,18 @@ class Manage extends CI_Controller {
             $TableData = $this->administrador->get_all_pessoa($offset,$perPage,TRUE,$data_table,$field_table);
 
             unset($_POST['table_search']);
-            
+      */
+
         else:
             $this->session->set_userdata('is_search', FALSE);
-            $CountRows = $this->administrador->get_total_tupla();
-            $TableData = $this->administrador->get_all_pessoa($offset,$perPage);
+            $CountRows = $this->materia->getAllTupla();
+            $TableData = $this->materia->getAll($perPage,$offset);
       endif;
 
 
 
         $config = array(
-            'base_url' => base_url('/manage/administrador'),
+            'base_url' => base_url('/manage/materia'),
             'per_page' => $perPage,
             'num_links' => 3,
             'uri_segment' => 3,
@@ -109,11 +110,11 @@ class Manage extends CI_Controller {
 
         //Campos da tabela
         $dados['table_field'] = '
-           <th  style="text-align: center">ID</th>
+
            <th  style="text-align: center">Titulo</th>
-           <th  style="text-align: center">Email</th>
            <th  style="text-align: center">Status</th>
            <th  style="text-align: center">Ações</th>
+
            ';
 
 
@@ -129,13 +130,11 @@ class Manage extends CI_Controller {
         $dados['table'] = $TableData;
 
         $this->load->view('/administrador/manage/manage_materia', $dados);
-        
-    }//materias
-    
 
-    
+    }//materias
+
     /**
-     * Lista a table com todos os administradores 
+     * Lista a table com todos os administradores
      * @param type $valor_pagina Número de paginação (Opcional)
      */
     public function administrador($valor_pagina = 0) {
@@ -157,7 +156,7 @@ class Manage extends CI_Controller {
        //inicia a busca
         if(strcmp($this->input->post('table_search'), '') != 0){
           $this->session->set_userdata('is_search',TRUE);
-      
+
         }//IF | IS_SEARCH
 
         //Limpar busca
@@ -180,7 +179,7 @@ class Manage extends CI_Controller {
             $TableData = $this->administrador->get_all_pessoa($offset,$perPage,TRUE,$data_table,$field_table);
 
             unset($_POST['table_search']);
-            
+
         else:
             $this->session->set_userdata('is_search', FALSE);
             $CountRows = $this->administrador->get_total_tupla();
@@ -251,14 +250,14 @@ class Manage extends CI_Controller {
     }
 
     /**
-     * Lista a table com todos os professores 
+     * Lista a table com todos os professores
      * @param type $valor_pagina
      */
     public function professor($valor_pagina = 0){
-        
+
         isSessionStarted();
         $this->load->model('professor_model','professor');
-        
+
         $is_search = FALSE;
         $CountRows = NULL;
         $TableData = NULL;
@@ -274,7 +273,7 @@ class Manage extends CI_Controller {
        //inicia a busca
         if(strcmp($this->input->post('table_search'), '') != 0){
           $this->session->set_userdata('is_search',TRUE);
-      
+
         }//IF | IS_SEARCH
 
         //Limpar busca
@@ -297,7 +296,7 @@ class Manage extends CI_Controller {
             $TableData = $this->professor->get_all_pessoa($offset,$perPage,TRUE,$data_table,$field_table);
 
             unset($_POST['table_search']);
-            
+
         else:
             $this->session->set_userdata('is_search', FALSE);
             $CountRows = $this->professor->get_total_tupla();
@@ -365,15 +364,18 @@ class Manage extends CI_Controller {
         $dados['table'] = $TableData;
 
         $this->load->view('/administrador/manage/manage', $dados);
-        
+
     }//professor
-    
-    
+
+    /**
+     * Lista a table com todos os alunos
+     * @param type $valor_pagina
+     */
     public function aluno($valor_pagina = 0){
-        
+
         isSessionStarted();
         $this->load->model('aluno_model','aluno');
-        
+
         $is_search = FALSE;
         $CountRows = NULL;
         $TableData = NULL;
@@ -389,7 +391,7 @@ class Manage extends CI_Controller {
        //inicia a busca
         if(strcmp($this->input->post('table_search'), '') != 0){
           $this->session->set_userdata('is_search',TRUE);
-      
+
         }//IF | IS_SEARCH
 
         //Limpar busca
@@ -412,7 +414,7 @@ class Manage extends CI_Controller {
             $TableData = $this->aluno->get_all_pessoa($offset,$perPage,TRUE,$data_table,$field_table);
 
             unset($_POST['table_search']);
-            
+
         else:
             $this->session->set_userdata('is_search', FALSE);
             $CountRows = $this->aluno->get_total_tupla();
@@ -474,15 +476,15 @@ class Manage extends CI_Controller {
 
         //Criação do HTML com os links
         $dados['pagination'] = $this->pagination->create_links();
-        
+
         $dados['table'] = $TableData;
 
         $this->load->view('/administrador/manage/manage', $dados);
-        
-        
+
+
     }//aluno
-    
-    
+
+
     /**
      * Carrega o perfil do usuário
      * @param type $userid
@@ -538,48 +540,48 @@ class Manage extends CI_Controller {
      * Redireciona entidade para o método de modificação
      */
     public function alter($entidade = NULL, int $id =  NULL){
-        
+
         isSessionStarted();
-             
+
         if($entidade ==  NULL || $id == NULL){
              show_404();
              log_message('info','Access in function desativar of class Manage with out parameters');
         }//if | NULL parameters
-     
-        
-        
+
+
+
         switch(strtoupper($entidade)){
-            
-            
+
+
             case 'ADMINISTRADOR':
                 $this->alterAdministrador($id);
                 break;
-            
+
             case 'PROFESSOR':
                 $this->alterProfessor($id);
                 break;
-            
+
             case 'ALUNO':
                 $this->alterAluno($id);
                 break;
-            
+
             default: show_404();
-            
-            
-            
+
+
+
         }//switch
-       
-        
+
+
     }//alter
-    
+
     /**
-     * 
+     *
      * @param int $id
      */
     private function alterAdministrador(int $id){
-        
+
         //isSessionStarted();
-        
+
         $this->load->model('administrador_model','adm');
         //Verificando se adminstrador existe no banco de dados
         $retorno = $this->adm->isAdministradorById($id);
@@ -588,9 +590,9 @@ class Manage extends CI_Controller {
             log_message('info', 'Menage->desativar('.$entidade.','.$id.') -> Entidade não existe no banco de dados');
             redirect(base_url('/manage/administrador'),'reflash');
         }//if | $retorno
-          
+
         //Verificação
-        
+
         $this->load->library(array('form_validation','session'));
         $this->load->model('Administrador_model','administrador');
 
@@ -617,7 +619,7 @@ class Manage extends CI_Controller {
               $this->session->set_flashdata('mensagem_usuario','<div class=" alert alert-warning"> Campo "Sexo" não foi selecionado </div>');
 
           }//if | campo sexo
-        
+
           else{
 
             $nome_imagem = NULL;
@@ -686,12 +688,12 @@ class Manage extends CI_Controller {
                          $this->session->set_flashdata('mensagem_manage','<div class=" alert alert-success" style=" text-align:center;"> Administrador atualizado com sucesso </div>');
                          redirect(base_url().'manage/administrador');
                 }//if | retorno pessoa
-                  
-                
+
+
                 $this->session->set_flashdata('mensagem_usuario','<div class=" alert alert-danger"> Não foi possível cadastrar o administrador no banco de dados <br/> CONTATE O ADMINISTRADOR </div> ');
-                  
-              
-              
+
+
+
 
 
               }//else | Todos os dados validados
@@ -703,25 +705,25 @@ class Manage extends CI_Controller {
 
           }// Dados não validados
 
-          
+
             //Buscando dados do administrador
             $resultado = $this->adm->getPessoaById(NULL,$id);
 
             //Carregamento da view de alteração
             $this->load->view('administrador/manage/alter/alter_administrador',$resultado);
-            
+
             $this->adm->__destruct();
-        
-        
-    }//alterAdministrador 
-    
+
+
+    }//alterAdministrador
+
     /**
      * Altera dados do professor no banco de dados
      * @param int $id
      */
     private function alterProfessor(int $id){
-        
-          
+
+
         $this->load->model('professor_model','professor');
         //Verificando se professor existe no banco de dados
         $retorno = $this->professor->isProfessorById($id);
@@ -730,9 +732,9 @@ class Manage extends CI_Controller {
             log_message('info', 'Menage->desativar('.$entidade.','.$id.') -> Entidade não existe no banco de dados');
             redirect(base_url('/manage/professor'),'reflash');
         }//if | $retorno
-          
+
         //Verificação
-        
+
         $this->load->library(array('form_validation','session'));
 
         //Criando regras para a validação do formulário
@@ -758,7 +760,7 @@ class Manage extends CI_Controller {
               $this->session->set_flashdata('mensagem_usuario','<div class=" alert alert-warning"> Campo "Sexo" não foi selecionado </div>');
 
           }//if | campo sexo
-        
+
           else{
 
             $nome_imagem = NULL;
@@ -827,10 +829,10 @@ class Manage extends CI_Controller {
                          $this->session->set_flashdata('mensagem_manage','<div class=" alert alert-success" style=" text-align:center;"> Professor atualizado com sucesso </div>');
                          redirect(base_url().'manage/professor');
                 }//if | retorno pessoa
-                  
-                
+
+
                 $this->session->set_flashdata('mensagem_usuario','<div class=" alert alert-danger"> Não foi possível atualizar o professor no banco de dados <br/> CONTATE O ADMINISTRADOR </div> ');
-                  
+
               }//else | Todos os dados validados
 
           }//if | Validação de dados
@@ -840,24 +842,24 @@ class Manage extends CI_Controller {
 
           }// Dados não validados
 
-          
+
             //Buscando dados do professor
             $resultado = $this->professor->getPessoaById(NULL,$id);
 
             //Carregamento da view de alteração
             $this->load->view('administrador/manage/alter/alter_professor',$resultado);
-            
+
             $this->professor->__destruct();
-        
-        
+
+
     }//alterProfessor
-    
+
     /**
      * Altera dados do aluno no banco de dados
      * @param int $id
      */
     private function alterAluno(int $id){
-        
+
         $this->load->model('aluno_model','aluno');
         //Verificando se aluno existe no banco de dados
         $retorno = $this->aluno->isAlunoById($id);
@@ -866,9 +868,9 @@ class Manage extends CI_Controller {
             log_message('info', 'Menage->desativar('.$entidade.','.$id.') -> Entidade não existe no banco de dados');
             redirect(base_url('/manage/aluno'),'reflash');
         }//if | $retorno
-          
+
         //Verificação
-        
+
         $this->load->library(array('form_validation','session'));
 
         //Criando regras para a validação do formulário
@@ -894,7 +896,7 @@ class Manage extends CI_Controller {
               $this->session->set_flashdata('mensagem_usuario','<div class=" alert alert-warning"> Campo "Sexo" não foi selecionado </div>');
 
           }//if | campo sexo
-        
+
           else{
 
             $nome_imagem = NULL;
@@ -963,10 +965,10 @@ class Manage extends CI_Controller {
                          $this->session->set_flashdata('mensagem_manage','<div class=" alert alert-success" style=" text-align:center;"> Aluno atualizado com sucesso </div>');
                          redirect(base_url().'manage/aluno');
                 }//if | retorno pessoa
-                  
-                
+
+
                 $this->session->set_flashdata('mensagem_usuario','<div class=" alert alert-danger"> Não foi possível atualizar o aluno no banco de dados <br/> CONTATE O ADMINISTRADOR </div> ');
-                  
+
               }//else | Todos os dados validados
 
           }//if | Validação de dados
@@ -976,17 +978,17 @@ class Manage extends CI_Controller {
 
           }// Dados não validados
 
-          
+
             //Buscando dados do aluno
             $resultado = $this->aluno->getPessoaById(NULL,$id);
 
             //Carregamento da view de alteração
             $this->load->view('administrador/manage/alter/alter_aluno',$resultado);
-            
+
             $this->aluno->__destruct();
-        
+
     }//alterAluno
-    
+
     /**
      * Verifica se o cadastro existe e o redireciona para o método de cadastro
      * @param type $entidade
@@ -1017,144 +1019,89 @@ class Manage extends CI_Controller {
 
     }//cadastro
 
-    
+
     /**
      * Registra matéria no banco de dados
      */
     private function cadMateria(){
-        
-       /* $this->load->library(array('form_validation','session'));
-        $this->load->model('materia_model','materia');
+
+
+
+      $this->load->library(array('form_validation','session'));
+      $this->load->model('materia_model','materia');
+
+
+        //Declaração de variaveis
+        $dados = NULL;
 
         //Criando regras para a validação do formulário
-        $this->form_validation->set_rules('apresentacao', '"Apresentação"', 'trim');
-        $this->form_validation->set_rules('titulo', '"Titulo"', 'trim');
-        $this->form_validation->set_rules('objetivo', '"Objetivo"', 'trim');
-        $this->form_validation->set_rules('ementa', '"Ementa"', 'trim');
-        $this->form_validation->set_rules('bibliografia', '"Bibliografia"', 'trim');
-        
+        $this->form_validation->set_rules('apresentacao', '"Apresentação"', 'trim|max_length[250]');
+        $this->form_validation->set_rules('titulo', '"Titulo"', 'trim|required|max_length[60]');
+        $this->form_validation->set_rules('objetivo', '"Objetivo"', 'trim|max_length[250]');
+        $this->form_validation->set_rules('ementa', '"Ementa"', 'trim|max_length[250]');
+        $this->form_validation->set_rules('bibliografia', '"Bibliografia"', 'trim|max_length[250]');
+
          //inicio a verificação da regras
         if ($this->form_validation->run()){
 
 
+          $dados = array(
 
-          if(){
+            'TITULO' => $this->input->post('titulo'),
+            'APRESENTACAO' => "".$this->input->post('apresentacao'),
+            'OBJETIVO' => "".$this->input->post('objetivo'),
+            'EMENTA' => "".$this->input->post('ementa'),
+            'BIBLIOGRAFIA' => "".$this->input->post('bibliografia'),
+            'STATUS' => 'A',
+            'MATERIAL' => "",
+            'EXTRACLASSE' => "".$this->input->post('extraclasse')
 
-            $nome_imagem = NULL;
-            $local_imagem = NULL;
+          );
 
-          if($_FILES['imagem']['name'] != NULL){
+          $retorno = $this->materia->insert($dados);
 
-            $nome_imagem = uniqid().'-'.time();
+          if($retorno){
 
-            //Configuração do upload da imagem
-            $config['file_name'] = $nome_imagem;
-            $config['upload_path'] = './user_img/';
-            $config['allowed_types'] = 'jpg|png';
-            $config['max_size'] = 1024;
-            $config['max_width'] = 1024;
-            $config['max_height'] = 768;
+            $this->session->set_flashdata('mensagem_manage', ' <div style = "text-align:center" class=" alert alert-success"> Matéria cadastrada com sucesso </div> ');
+            redirect(base_url('/manage/materia'));
 
-            $this->load->library('upload',$config);
-
-            if(!$this->upload->do_upload('imagem')){
-
-              $retorno = $this->upload->display_errors();
-              $this->session->set_flashdata('mensagem_usuario','<div class=" alert alert-warning">'.$retorno.'</div>');
-
-            }//if | do_upload fail
-            else{
-
-              $dados_img = $this->upload->data();
-              $local_imagem = $dados_img['file_path'].''.$dados_img['file_name'];
-
-
-            }//else | do_upload sucess
-
-          }//if | Imagem inserida
+          }//if
           else{
 
-              $local_imagem = base_url('/user_img/avatar.png');
-
-          }//else | imagem não inserida
-
-                $dados = array(
-
-                    'PRIMEIRONOME' => "" . $this->input->post('primeiroNome') . "",
-                    'SOBRENOME' => "". $this->input->post('sobrenome') . "",
-                    'NASCIMENTO' => "" . $this->input->post('nascimento') . "",
-                    'STATUS' => 'Ativado',
-                    'ESTADO' => "" . $this->input->post('estado') . "",
-                    'RUA' => "" . $this->input->post('rua') . "",
-                    'CEP' => "" . $this->input->post('cep') . "",
-                    'BAIRRO' => "" . $this->input->post('bairro') . "",
-                    'CIDADE' => "" . $this->input->post('cidade') . "",
-                    'NUMRESIDENCIA' => $this->input->post('residencia'),
-                    'SENHA' => "" . $this->input->post('senha') . "",
-                    'SEXO' => "" . $this->input->post('sexo') . "",
-                    'CPF' => "" . $this->input->post('cpf') . "",
-                    'RG' => "" . $this->input->post('rg') . "",
-                    'TELEFONE' => "" . $this->input->post('telefone') . "",
-                    'EMAIL' => "" . $this->input->post('email') . "",
-                    'FOTO' => "" . $local_imagem . ""
-
-                );
 
 
-                $retorno = $this->aluno->insert_pessoa($dados);
-                if(!$retorno){
-
-                      $this->session->set_flashdata('mensagem_usuario','<div class=" alert alert-danger"> Não foi possível cadastrar o aluno no banco de dados <br/> CONTATE O ADMINISTRADOR </div> ');
-
-                }//if | retorno pessoa
-                else{
-
-                  $dados_pessoa = $this->aluno->get_pessoa_only($dados['EMAIL']);
-
-                  $dados = array ( 'FK_PESSOA_ID' =>  $dados_pessoa[0]['ID']);
-                  $retorno = $this->aluno->insert_aluno($dados);
-
-                  if(!$retorno){
-
-                        $this->session->set_flashdata('mensagem_usuario','<div class=" alert alert-danger"> Não foi possível cadastrar o aluno no banco de dados <br/> CONTATE O ADMINISTRADOR </div> ');
-
-                  }//if | retorno aluno
-                  else{
-
-                      $this->session->set_flashdata('mensagem_manage', ' <div style = "text-align:center" class=" alert alert-success"> Aluno cadastrado com sucesso </div> ');
-                      redirect(base_url().'manage/aluno');
-
-                  }//else | cadastro sucess
+          }//else
 
 
-                } //else | retorno pessoa
+       }//validation
+       else{
+
+         if(strcmp(validation_errors(),'') == 0){
+             //Limpo a mensagem de erro
+             $this->session->set_flashdata('mensagem_usuario','');
+         }//if
+         else{
+            $this->session->set_flashdata('mensagem_usuario','<div class=" alert alert-danger">
+            '.validation_errors().'
+            </div> ');
+        }//else
+
+       }//validation
 
 
-              }//else | Todos os dados validados
+       $this->load->view('/administrador/manage/cadastro_materia');
 
-          }//if | Validação de dados
-          else{
-
-            $this->session->set_flashdata('mensagem_usuario','<div style = "text-align:center"  class=" alert alert-info">'.validation_errors().'</div>');
-
-          }// Dados não validados
-
-        
-        $this->load->view('/administrador/manage/cadastro_materia');
-        
-        */
-        
     }//cadMateria
-    
-    
-    
-    
+
+
+
+
     /**
      * Registra um novo aluno no banco de dados
      */
     private function cadAluno(){
-        
-        
+
+
         $this->load->library(array('form_validation','session'));
         $this->load->model('aluno_model','aluno');
 
@@ -1299,15 +1246,15 @@ class Manage extends CI_Controller {
             //Carregamento da view de cadastro
             $this->load->view('administrador/manage/cadastro_aluno');
 
-        
+
     }//cadAluno
-    
-    
+
+
     /**
      * Registra um novo professor no banco de dados
      */
     private function cadProfessor(){
-        
+
         $this->load->library(array('form_validation','session'));
         $this->load->model('professor_model','professor');
 
@@ -1454,10 +1401,10 @@ class Manage extends CI_Controller {
             //Carregamento da view de cadastro
             $this->load->view('administrador/manage/cadastro_professor');
 
-        
+
     }//cadProfessor
-    
-    
+
+
     /**
      * Faz o cadastro do administrador no banco de dados
      */
@@ -1612,26 +1559,26 @@ class Manage extends CI_Controller {
 
     }//cadAdministrador
 
-    /** 
-     * Desativa usuário no banco de dados 
+    /**
+     * Desativa usuário no banco de dados
      * @param type $entidade
      * @param int $id
      */
     public function desativar($entidade = NULL, int $id = NULL){
-        
+
         isSessionStarted();
         if($entidade ==  NULL || $id == NULL){
          show_404();
          log_message('info','Access in function desativar of class Manage with out parameters');
      }//if | NULL parameters
-     
-      
+
+
     switch(strtoupper($entidade)){
 
       case 'ADMINISTRADOR':
-          
+
           $this->load->model('administrador_model','adm');
-          
+
           //Verificando se adminstrador existe no banco de dados
            $retorno = $this->adm->isAdministradorById($id);
            if(!$retorno){
@@ -1639,23 +1586,23 @@ class Manage extends CI_Controller {
                      log_message('info', 'Menage->desativar('.$entidade.','.$id.') -> Entidade não existe no banco de dados');
                      redirect(base_url('/manage/administrador'),'reflash');
            }//if | $retorno
-          
-          
+
+
           $retorno = $this->adm->desativar($id);
           if($retorno)
               $this->session->set_flashdata('mensagem_manage',' <div style = "text-align:center" class=" alert alert-success"> Administrador desativado com sucesso </div> ');
           else
               $this->session->set_flashdata('mensagem_manage','  <div style = "text-align:center" class=" alert alert-danger"> Ocorreu um erro ao desativar o administrador <striong> Contate o admnistrador do sistema </string> </div>  ');
-     
+
           redirect(base_url('/manage/administrador'),'reflash');
-          
+
         break;
-     
+
       case 'PROFESSOR':
-      
-          
+
+
              $this->load->model('professor_model','professor');
-          
+
           //Verificando se professor existe no banco de dados
            $retorno = $this->professor->isProfessorById($id);
            if(!$retorno){
@@ -1663,21 +1610,21 @@ class Manage extends CI_Controller {
                      log_message('info', 'Menage->desativar('.$entidade.','.$id.') -> Entidade não existe no banco de dados');
                      redirect(base_url('/manage/professor'),'reflash');
            }//if | $retorno
-          
-          
+
+
           $retorno = $this->professor->desativar($id);
           if($retorno)
               $this->session->set_flashdata('mensagem_manage',' <div style = "text-align:center" class=" alert alert-success"> Professor desativado com sucesso </div> ');
           else
               $this->session->set_flashdata('mensagem_manage','  <div style = "text-align:center" class=" alert alert-danger"> Ocorreu um erro ao desativar o professor <striong> Contate o admnistrador do sistema </string> </div>  ');
-     
+
           redirect(base_url('/manage/professor'),'reflash');
-          
+
       break;
-  
+
       case 'ALUNO':
            $this->load->model('aluno_model','aluno');
-          
+
           //Verificando se model existe no banco de dados
            $retorno = $this->aluno->isAlunoById($id);
            if(!$retorno){
@@ -1685,24 +1632,21 @@ class Manage extends CI_Controller {
                      log_message('info', 'Menage->desativar('.$entidade.','.$id.') -> Entidade não existe no banco de dados');
                      redirect(base_url('/manage/aluno'),'reflash');
            }//if | $retorno
-          
-          
+
+
           $retorno = $this->aluno->desativar($id);
           if($retorno)
               $this->session->set_flashdata('mensagem_manage',' <div style = "text-align:center" class=" alert alert-success"> Aluno desativado com sucesso </div> ');
           else
               $this->session->set_flashdata('mensagem_manage','  <div style = "text-align:center" class=" alert alert-danger"> Ocorreu um erro ao desativar o aluno <striong> Contate o admnistrador do sistema </string> </div>  ');
-     
+
           redirect(base_url('/manage/aluno'),'reflash');
-      break;    
-      
+      break;
+
       default: show_404();
 
 
     }//switch
-
-
-
 
     }//desativa
 
@@ -1712,21 +1656,21 @@ class Manage extends CI_Controller {
      * @param int $id
      */
     public function ativar($entidade = NULL, int $id = NULL){
-     
-     isSessionStarted(); 
-           
+
+     isSessionStarted();
+
      if($entidade ==  NULL || $id == NULL){
          show_404();
          log_message('info','Access in function desativar of class Manage with out parameters');
      }//if | NULL parameters
-     
-      
+
+
     switch(strtoupper($entidade)){
 
       case 'ADMINISTRADOR':
-          
+
           $this->load->model('administrador_model','adm');
-          
+
           //Verificando se adminstrador existe no banco de dados
            $retorno = $this->adm->isAdministradorById($id);
            if(!$retorno){
@@ -1734,22 +1678,22 @@ class Manage extends CI_Controller {
                      log_message('info', 'Menage->desativar('.$entidade.','.$id.') -> Entidade não existe no banco de dados');
                      redirect(base_url('/manage/administrador'),'reflash');
            }//if | $retorno
-          
-          
+
+
           $retorno = $this->adm->ativar($id);
           if($retorno)
               $this->session->set_flashdata('mensagem_manage',' <div style = "text-align:center" class=" alert alert-success"> Administrador ativado com sucesso </div> ');
           else
               $this->session->set_flashdata('mensagem_manage','  <div style = "text-align:center" class=" alert alert-danger"> Ocorreu um erro ao ativar o administrador <striong> Contate o admnistrador do sistema </string> </div>  ');
-     
+
           redirect(base_url('/manage/administrador'),'reflash');
-          
+
         break;
-     
+
       case 'PROFESSOR':
-      
+
              $this->load->model('professor_model','professor');
-          
+
           //Verificando se professor existe no banco de dados
            $retorno = $this->professor->isProfessorById($id);
            if(!$retorno){
@@ -1757,21 +1701,21 @@ class Manage extends CI_Controller {
                      log_message('info', 'Menage->desativar('.$entidade.','.$id.') -> Entidade não existe no banco de dados');
                      redirect(base_url('/manage/professor'),'reflash');
            }//if | $retorno
-          
-          
+
+
           $retorno = $this->professor->ativar($id);
           if($retorno)
               $this->session->set_flashdata('mensagem_manage',' <div style = "text-align:center" class=" alert alert-success"> Professor ativado com sucesso </div> ');
           else
               $this->session->set_flashdata('mensagem_manage','  <div style = "text-align:center" class=" alert alert-danger"> Ocorreu um erro ao ativar o professor <striong> Contate o admnistrador do sistema </string> </div>  ');
-     
+
           redirect(base_url('/manage/professor'),'reflash');
-          
+
       break;
-  
+
       case 'ALUNO':
             $this->load->model('aluno_model','aluno');
-          
+
             //Verificando se aluno existe no banco de dados
             $retorno = $this->aluno->isAlunoById($id);
             if(!$retorno){
@@ -1779,17 +1723,17 @@ class Manage extends CI_Controller {
                      log_message('info', 'Menage->desativar('.$entidade.','.$id.') -> Entidade não existe no banco de dados');
                      redirect(base_url('/manage/aluno'),'reflash');
             }//if | $retorno
-          
-          
+
+
             $retorno = $this->aluno->ativar($id);
             if($retorno)
               $this->session->set_flashdata('mensagem_manage',' <div style = "text-align:center" class=" alert alert-success"> Aluno ativado com sucesso </div> ');
             else
               $this->session->set_flashdata('mensagem_manage','  <div style = "text-align:center" class=" alert alert-danger"> Ocorreu um erro ao ativar o aluno <striong> Contate o admnistrador do sistema </string> </div>  ');
-     
+
             redirect(base_url('/manage/aluno'),'reflash');
-      break;    
-      
+      break;
+
       default: show_404();
 
 
@@ -1798,79 +1742,79 @@ class Manage extends CI_Controller {
 
 
 
-        
+
     }//ativar
-    
+
     /**
      * Gerencia as configurações do sistema
      */
     public function configuration($option = NULL){
-       
+
         isSessionStarted();
-        
+
         if($option == NULL){
-            
+
             $this->load->view('administrador/configuration');
-            
+
         }//IF
         else{
-            
-            
+
+
             if(strcmp($option,'theme') == 0){
-                
+
                 $theme = $this->input->post('theme');
                 $this->session->set_userdata('main_theme',$theme);
-                
+
             }//if | theme
-            
-            
+
+
             $this->load->view('administrador/configuration');
-            
-                
+
+
         }//ELSE
 
     }//configuration
-    
+
     /**
      * Lista arquivos de log do sistema
      */
     public function log(){
-        
+
         $dropdown = NULL;
         $file = NULL;
-       
+
         $this->load->helper('file');
-        
+
         //Lista de arquivos
         $list_files = get_filenames(APPPATH.'/logs');
-        
+
         //Pulo o arquivo index.html
         for($i = 1;$i < sizeof($list_files); $i++){
-            
+
             $dropdown = $dropdown. ' <option> '.$list_files[$i].' </option>  ';
-            
+
         }//for
-        
-        $dados['dropdown'] = $dropdown; 
-        
+
+        $dados['dropdown'] = $dropdown;
+
         if($this->input->post('log-file') == NULL):
             $file = 'log-'. date('Y').'-'. date('m').'-'. date('d').'.php';
         else:
             $file = $this->input->post('log-file');
         endif;
-        
+
         $dados['title'] = $file;
-        
+
         $string_file = APPPATH.'logs/'.$file;
-        
+
         $string_log = read_file($string_file);
-        
+
         $this->session->set_userdata('log_text',$string_log);
-        
+
         $this->load->view('administrador/manage/log/log_management',$dados);
-        
+
     }//log
-    
-    
+
+
 
 }//class

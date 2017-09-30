@@ -1,8 +1,10 @@
-/* Created by Thiago Henrique Felix */
 /*
-* 24/08/2017
-* VERSION SQL - 0.3
-*
+	*********************************
+	* Author: Thiago Henrique Felix *
+	* Data: 30/09/2017		          *
+	* Hora: 10:53			              *
+	* Version: 3.0			            *
+	*********************************
 */
 
 
@@ -60,77 +62,103 @@ CREATE TABLE Aluno (
 
 CREATE TABLE Curso (
     id integer,
-    titulo varchar(60),
-    status char(1),
+    titulo varchar(60) not null,
+    status varchar(12) not null,
     descricao varchar(250),
 
+    CONSTRAINT CK_Curso check (upper(status) in ('ATIVADO','DESATIVADO')),
     CONSTRAINT PK_Curso PRIMARY KEY (id)
 );
 
 CREATE TABLE Materia (
-    id integer,
-    Titulo varchar(60),
-    Apresentacao varchar(250),
-    Objetivo varchar(250),
-    Ementa varchar(250),
-    status char(1),
-    material varchar(250),
-    bibliografia varchar(250),
-    extraClasse varchar(250),
-    Avaliacoes varchar(250),
+  Titulo varchar(60) not null,
+  Apresentacao varchar(250),
+  Objetivo varchar(250),
+  Ementa varchar(250),
+  status varchar(12),
+  id integer ,
+  material varchar(250),
+  bibliografia varchar(250),
+  extraClasse varchar(250),
 
-    CONSTRAINT PK_Materia PRIMARY KEY (id)
+  CONSTRAINT CK_Curso check (upper(status) in ('ATIVADO','DESATIVADO')),
+  CONSTRAINT PK_Materia PRIMARY KEY (id)
+);
+
+
+CREATE TABLE turma (
+    id integer ,
+    dataInicial date not null,
+    status varchar(12) not null,
+    infoAdd varchar(255),
+    sala varchar(12),
+    turno char(1) not null,
+    horaInicial time not null,
+    tempoAula time not null,
+    titulo varchar(50) not null,
+    diaSemana char(200) not null,
+    quantDia integer not null,
+    quantMaxAluno integer not null,
+    quantMinAluno integer not null,
+    professor integer not null,
+    FK_Materia_id integer,
+
+    CONSTRAINT CK_Curso check (upper(status) in ('ATIVADO','DESATIVADO')),
+    CONSTRAINT PK_Turma PRIMARY KEY (id)
+
+);
+
+CREATE TABLE Atividade (
+    id integer PRIMARY KEY,
+    timeOpen timestamp,
+    titulo varchar(50),
+    text varchar(255),
+    entrega varchar(255),
+    timeKeep numeric(2,2),
+    timeClose timestamp,
+    FK_turma_id integer,
+    status varchar(12)
 );
 
 
 CREATE TABLE Curso_materia (
     FK_Materia_id integer,
-    FK_Curso_id integer,
-    DiaSemana varchar(20),
-    Turno varchar(30),
-    horaInicial time,
-    horaFinal time,
-    DataInicio date,
-    DataFinal date,
-    Nome_da_turma varchar(60),
-    Sala varchar(20),
-    quant_max_aluno integer,
-    Informacoes_adicionais_ varchar(255),
-    status char(1),
-
-
-   CONSTRAINT PK_Curso_materia PRIMARY KEY (FK_Materia_id, FK_Curso_id)
+    FK_Curso_id integer
 );
 
 CREATE TABLE Matricula (
-    FK_Curso_id integer,
-    FK_Aluno_id integer,
-    data_hora timestamp,
-    status char(1),
-    info_add varchar(255),
+  FK_Curso_id integer,
+  FK_Aluno_id integer,
+  FK_Aluno_FK_Pessoa_id integer,
+  status varchar(12),
+  info_add varchar(255),
+  data_hora timestamp,
 
     CONSTRAINT PK_Matricula PRIMARY KEY (FK_Curso_id, FK_Aluno_id)
 );
 
 CREATE TABLE Avaliado (
-    FK_Materia_id integer,
-    FK_Aluno_id integer,
-    Data date,
-    nome varchar(25),
-    Nota numeric(2,1),
-    complemento varchar(255),
+  FK_turma_id integer,
+  FK_Aluno_id integer,
+  FK_Aluno_FK_Pessoa_id integer,
+  dataHora timestamp,
+  Nota numeric(2,1),
+  complemento varchar(255),
+  numProva integer,
+  FK_Materia_id integer,
 
-    CONSTRAINT PK_Avaliado PRIMARY KEY (FK_Aluno_id, FK_Materia_id)
+    CONSTRAINT PK_Avaliado PRIMARY KEY (FK_Aluno_id, FK_turma_id, numProva)
 );
 
 CREATE TABLE Frequenta (
-    FK_Materia_id integer,
-    FK_Aluno_id integer,
-    Data date,
-    Presenca char(1),
-    Hora time,
+  FK_Aluno_id integer,
+  FK_Aluno_FK_Pessoa_id integer,
+  FK_turma_id integer,
+  Presenca char(1),
+  dataHora timestamp,
+  FK_Materia_id integer,
 
-    CONSTRAINT PK_Frequenta PRIMARY KEY (FK_Materia_id, FK_Aluno_id)
+    CONSTRAINT PK_Frequenta PRIMARY KEY (FK_turma_id, FK_Aluno_id)
 );
 
 
@@ -148,48 +176,12 @@ CREATE TABLE sistem_log (
     CONSTRAINT PK_Sistem_log PRIMARY KEY (id)
 );
 
-
-
-CREATE TABLE audit_matricula (
-    id integer,
-    data date,
-    hora time,
-    user_banco varchar(50),
-    operacao varchar(20),
-    fk_curso_id integer,
-    fk_aluno_id integer,
-    datahora timestamp,
-    status char(1),
-    info_add varchar(255),
-
-    CONSTRAINT PK_audit_matricula PRIMARY KEY (id)
+CREATE TABLE aluno_atividade (
+    FK_Aluno_id integer,
+    FK_Aluno_FK_Pessoa_id integer,
+    FK_Atividade_id integer
 );
 
-CREATE TABLE audit_frequencia (
-    id integer,
-    data date,
-    hora time,
-    user_banco varchar(50),
-    fk_materia_id integer,
-    fk_aluno_id integer,
-    presenca char(1),
-    operacao varchar(20),
-
-    CONSTRAINT PK_Audit_fre PRIMARY KEY (id)
-);
-
-CREATE TABLE audit_avaliado (
-    id integer,
-    data date,
-    hora time,
-    user_banco varchar(50),
-    operacao varchar(20),
-    fk_materia_id integer,
-    fk_aluno_id integer,
-    nome varchar(25),
-
-    CONSTRAINT PK_Audit_avali PRIMARY KEY (id)
-);
 
 CREATE TABLE history (
     id integer,

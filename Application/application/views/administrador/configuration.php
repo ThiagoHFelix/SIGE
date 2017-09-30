@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/dist/css/AdminLTE.min.css'); ?>   ">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/dist/css/skins/' . $this->session->userdata('main_theme') . '.min.css'); ?>   ">
+        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/dist/css/skins/_all-skins.min.css'); ?>   ">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -47,15 +47,7 @@
 
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <h1>
-                        Configurações
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-home"></i> Inicio </a></li>
-                    </ol>
-                </section>
+
 
                 <!-- Main content -->
                 <section class="content">
@@ -67,64 +59,141 @@
                         <div  class="col-md-12" >
 
 
-                            <div class="box box-primary " style="height: 200px;" >
-
-                                <!-- HEADER -->
-                                <div class="box-header with-border" >
-                                    <h3 class="box-title"> Gerais </h3>
-                                </div>
-
-                                <div class="box-body " style="height: 200px; ">
-                                    <div class="row">             
-                                        <!-- BODY -->
-                                        <form method="post" action="<?php echo base_url('/manage/configuration/theme'); ?>">
+                                    <div class="row">
 
 
-                                            <!--------------- THEME --------------->
-                                            <div class="form-group has-feedback col-md-5">
-                                                <select  required class="form-control" name="theme" >
-                                                    <option value="">Escolha o tema - Atual(<?php echo $this->session->userdata('main_theme'); ?>)</option>
-                                                    <option value="skin-blue">Blue</option>
-                                                    <option value="skin-black">Black</option>
-                                                    <option value="skin-purple">Purple</option>
-                                                    <option value="skin-green">Green</option>
-                                                    <option value="skin-red">Red</option>
-                                                    <option value="skin-yellow">Yellow</option>
-                                                    <option value="skin-blue-light">Blue-Light</option>
-                                                    <option value="skin-black-light">Black-Light</option>
-                                                    <option value="skin-purple-light">Purple-Light</option>
-                                                    <option value="skin-green-light">Green-Light</option>
-                                                    <option value="skin-red-light">Red-Light</option>
-                                                    <option value="skin-yellow-light">Yellow-Light</option>
-                                                </select>
-                                            </div>
-                                            <!--------------- /. THEME --------------->
-                                            <!-- /. col-md-left  -->
-                                            <div class="col-md-2">
-                                                <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-save"></i> Salvar </button>
-                                            </div>
 
-                                        </form>
                                     </div>
 
                                     <div class="row">
 
 
+                                      <div class="col-md-3">
+
+                                        <div class="box box-solid" >
+                                                 <div class="box-body no-padding">
+                                                   <table id="layout-skins-list" class="table table-striped bring-up nth-2-center">
+                                                     <thead>
+                                                       <tr>
+                                                         <th style="width: 210px;">Skin Class</th>
+                                                         <th>Preview</th>
+                                                       </tr>
+                                                     </thead>
+                                                     <tbody>
+                                                       <tr>
+                                                         <td><code>skin-blue</code></td>
+                                                         <td><a href="#" data-skin="skin-blue" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                       </tr>
+                                                       <tr>
+                                                         <td><code>skin-blue-light</code></td>
+                                                         <td><a href="#" data-skin="skin-blue-light" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                       </tr>
+                                                       <tr>
+                                                         <td><code>skin-yellow</code></td>
+                                                         <td><a href="#" data-skin="skin-yellow" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                       </tr>
+                                                       <tr>
+                                                         <td><code>skin-yellow-light</code></td>
+                                                         <td><a href="#" data-skin="skin-yellow-light" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                       </tr>
+                                                       <tr>
+                                                         <td><code>skin-green</code></td>
+                                                         <td><a href="#" data-skin="skin-green" class="btn btn-success btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                       </tr>
+                                                       <tr>
+                                                         <td><code>skin-green-light</code></td>
+                                                         <td><a href="#" data-skin="skin-green-light" class="btn btn-success btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                       </tr>
+                                                       <tr>
+                                                         <td><code>skin-purple</code></td>
+                                                         <td><a href="#" data-skin="skin-purple" class="btn bg-purple btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                       </tr>
+                                                       <tr>
+                                                         <td><code>skin-purple-light</code></td>
+                                                         <td><a href="#" data-skin="skin-purple-light" class="btn bg-purple btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                       </tr>
+                                                       <tr>
+                                                         <td><code>skin-red</code></td>
+                                                         <td><a href="#" data-skin="skin-red" class="btn btn-danger btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                       </tr>
+                                                       <tr>
+                                                         <td><code>skin-red-light</code></td>
+                                                         <td><a href="#" data-skin="skin-red-light" class="btn btn-danger btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                       </tr>
+                                                       <tr>
+                                                         <td><code>skin-black</code></td>
+                                                         <td><a href="#" data-skin="skin-black" class="btn bg-black btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                       </tr>
+                                                       <tr>
+                                                         <td><code>skin-black-light</code></td>
+                                                         <td><a href="#" data-skin="skin-black-light" class="btn bg-black btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                       </tr>
+                                                     </tbody>
+                                                   </table>
+                                                 </div><!-- /.box-body -->
+                                               </div><!-- /.box -->
+
+                                      </div>
+
+
                                         <div class="col-md-6">
 
-                                            <a href="<?php echo base_url('/manage/log'); ?>">  <button class="btn btn-primary" >
+                                            <a href="<?php echo base_url('/manage/log'); ?>">  <button class="btn btn-default" style="width:100%">
                                                     <span class="fa fa-gear" aria-hidden="true"></span>
                                                     Log
                                                 </button> </a>
+
+
+                                            <div class="box box-solid " style="margin-top:10px; padding:20px 10px ">
+
+                                              <div class="box-header text-center " style="font-size:16pt">
+                                            <small>    Banco de dados </small>
+                                              </div>
+                                              <div class="box-body no-padding">
+
+
+                                                <div class="col-md-6">
+
+                                              <p>  <strong>  Versão: </strong>  <?php echo $this->db->version(); ?> </p>
+                                              <p>  <strong>  Plataforma: </strong>  <?php echo $this->db->platform(); ?> </p>
+                                              <p>  <strong>  Atual Banco: </strong>  <?php  ?> </p>
+                                                </div>
+
+                                                <div class="col-md-6">
+<form method="POST" action="<?php  echo base_url('/manage/configuration');  ?>" >
+                                                  <!--------------- BANCO ------------------>
+                                                  <div class="form-group  has-feedback">
+                                                      <select required class="form-control" >
+                                                          <option value=""> Selecione o banco </option>
+                                                          <option > Ativo </option>
+                                                          <option > Desativo </option>
+                                                      </select>
+                                                  </div>
+                                                  <!--------------- /. BANCO --------------->
+
+
+                                                  <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-save "></i> Salvar </button>
+</form>
+
+                                                </div>
+
+
+
+                                              </div>
+
+
+                                            </div>
+
+
+
+
 
 
                                         </div>
 
 
                                     </div>
-                                </div>
 
-                            </div>
                         </div>
                     </div>
             </div>

@@ -85,15 +85,20 @@
     <body class="hold-transition  ">
 
         <div class="login-box">
+            
             <div class="login-logo" style="padding-top:0px;">
                 <a style="color:white;" href="<?php echo base_url(); ?>"><b>SIGE</b></a>
             </div>
+            
             <!-- /.login-logo -->
             <div id="login-body" class='login-box-body'>
                 <p class="login-box-msg">Identifique-se para utilzar o sistema</p>
 
+                
              
                     <form action="<?php echo base_url('/login/' . $this->uri->segment(2)); ?>" method="post">
+                        
+                        
                         <div class="form-group has-feedback">
                             <input required name="username" type="email" class="form-control" value="<?php echo setValue('username'); ?>" placeholder="Email">
                             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -105,9 +110,9 @@
                         <div class="row">
                             <!-- /.col -->
                             <div class="col-xs-12 text-center">
-                                <div class="" >
-                                    <p class="validation_erros" > <?php echo $this->session->flashdata('aviso_login'); ?> </p>
-                                </div>
+                                
+                                <p class="validation_erros" > <?php echo $this->session->flashdata('aviso_login'); ?> </p>
+                                
                                 <button type="submit" class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="glyphicon glyphicon-log-in"></i><?php echo $this->lang->line('button_login'); ?> </button>
                             </div>
                             <!-- /.col -->
@@ -126,6 +131,8 @@
 
                 </div>
                 <!-- /.social-auth-links -->
+                
+                
 
             </div>
             <!-- /.login-box-body -->

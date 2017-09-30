@@ -5,19 +5,19 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>SIGE | Home</title>
 
-         <!-- Tell the browser to be responsive to screen width -->
+        <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
-        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>  ">
+        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/bower_components/bootstrap/dist/css/bootstrap.min.css?v=1'); ?>  ">
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/bower_components/font-awesome/css/font-awesome.min.css'); ?>  ">
+        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/bower_components/font-awesome/css/font-awesome.min.css?v=1'); ?>  ">
         <!-- Ionicons -->
-        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/bower_components/Ionicons/css/ionicons.min.css'); ?>  ">
+        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/bower_components/Ionicons/css/ionicons.min.css?v=1'); ?>  ">
         <!-- Theme style -->
-        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/dist/css/AdminLTE.min.css'); ?>   ">
+        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/dist/css/AdminLTE.min.css?v=1'); ?>   ">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/dist/css/skins/_all-skins.min.css'); ?>   ">
+        <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/dist/css/skins/_all-skins.min.css?v=1'); ?>   ">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -47,18 +47,70 @@
 
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <h1>
-                        Dashboard
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-home"></i> Inicio </a></li>
-                    </ol>
-                </section>
+
 
                 <!-- Main content -->
                 <section class="content">
+
+
+                    <!-- Primeira Linha --->
+                    <div class="row">
+
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-blue"><i class="fa fa-users"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Alunos Online</span>
+                                    <span class="info-box-number">41</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-blue"><i class="fa fa-users"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Prof Online</span>
+                                    <span class="info-box-number">21</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-green"><i class="fa fa-money"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text"> </span>
+                                    <span class="info-box-number">12</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-yellow"><i class="fa fa-google-plus"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Likes</span>
+                                    <span class="info-box-number">41,410</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+
+
+                    </div>
 
 
                     <div class="row">
@@ -67,17 +119,10 @@
                         <div  class="col-md-12" >
 
 
-                            <div class="box box-primary " style="height: 200px;" >
-
-                                <!-- HEADER -->
-                                <div class="box-header with-border" >
-                                    <h3 class="box-title"> Links Rápidos </h3>
-
-                                </div>
 
                                 <!-- BODY -->
 
-                                <div class="box-body" style="height: 200px; ">
+                                <div class="box-body" >
 
 
                                     <a href="<?php echo base_url('/manage/aluno'); ?>">  <button class="btn btn-app" >
@@ -100,7 +145,7 @@
                                             Cursos
                                         </button> </a>
 
-                                    <a href="#">  <button class="btn btn-app" >
+                                    <a href="<?php echo base_url('/manage/materia'); ?>">  <button class="btn btn-app" >
                                             <span class="fa fa-book" aria-hidden="true"></span>
                                             Matérias
                                         </button> </a>
@@ -138,11 +183,6 @@
 
                                 <!-- /.box-body -->
 
-
-
-                            </div>
-
-
                         </div>
 
                     </div>
@@ -151,10 +191,10 @@
 
                     <div class="row" >
 
-                        <!-- BOX LEFT -->
-                        <div class="col-md-8">
 
-                            <div class="box box-primary" style="height: 235px;">
+                        <div class="col-md-12">
+
+                            <div class="box box-solid text-center " style="height: 250px;  ">
                                 <!------------------ INICIO BOX ------------------->
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Quadro de Avisos</h3>
@@ -168,56 +208,12 @@
                                     <!------------------ FIM BODY------------------->
                                 </div>
 
-                                <div class="box-footer with-border">
 
-
-
-                                </div>
 
                                 <!------------------ FIM BOX ------------------->
                             </div>
 
                         </div>
-
-
-                        <!-- BOX RIGHT -->
-                        <div class="col-md-4" >
-                            <!------------------ MENSAGENS BOX ------------------->
-                            <div class="info-box">
-                                <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Novas Mensagens</span>
-                                    <span class="info-box-number">2</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!------------------ /. MENSAGENS BOX ------------------->
-
-                            <!------------------  ALUNOS MATRICULADOS ------------------->
-                            <div class="small-box bg-yellow">
-                                <div class="inner">
-                                    <h3>25</h3>
-
-                                    <p>Alunos Matriculados</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-person-add"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">
-                                    More info <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                            <!------------------ /. ALUNOS MATRICULADOS ------------------->
-
-
-                        </div>
-
-
-
-
-
-
 
                     </div>
 

@@ -59,10 +59,10 @@
 
 
 
-            }//function 
+            }//function
 
 
-        </script>   
+        </script>
 
 
 
@@ -85,17 +85,7 @@
 
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <h1>
-                        <?php echo $title; ?>
 
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-dashboard"></i> Home </a></li>
-                        <li><a href="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"><i class="fa fa-users"></i><?php echo $title; ?></a></li>
-                    </ol>
-                </section>
 
                 <!-- Main content -->
                 <section class="content" style="height:690px;">
@@ -106,47 +96,109 @@
 
 
                         <?php
-                        //Variavel responsável por avisar usuário sobre o sucesso do cadastro
+                        //Variavel responsável por avisar usuário
                         echo $this->session->flashdata('mensagem_manage');
                         ?>
 
+                      <div class="row" >
 
-                        <div class="box box-primary"  >
-                            <div class="box-header" >
+                          <div class="col-md-2">
+
+                                        <a href="<?php echo base_url('/manage/cadastro/materia'); ?>">  <button class="btn btn-app"  >
+                                                <span class="fa fa-users" aria-hidden="true"></span>
+                                                Cadastrar Matéria
+                                        </button> </a>
+
+                          </div>
 
 
+                          <div class="col-md-6">
 
-                                <div class="btn-group-vertical ">
-                                    <a href="<?php echo base_url('/manage/cadastro/' . $this->uri->segment(2)); ?>">    <button class="btn btn-sm fa fa-user-plus" style="width: 200%;"></button> </a>
-                                </div>
+                            <div class="text-center login-logo">
 
-                                <div class="box-tools">
-                                    <form method="post" action="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"    >
-                                        <div class="input-group input-group-sm" style=" width:340px;">
-                                            <div class="input-group-btn  input-group-sm" >
-                                                <button name="clear_search" class="fa fa-close btn btn-default pull-left btn-sm"> <small>Limpar pesquisa</small></button>
-                                            </div>
+                              <p> <?php echo 'Gerenciamento de '.$title; ?> </p>
 
-                                            <input type="text" name="table_search" value="<?php echo $this->session->userdata('table_search'); ?>" class="form-control pull-right" placeholder="Search">
-                                            <div class="input-group-btn  input-group-sm" style="width:80px;">
 
-                                                <select name="dropdown_search" class="form-control pull-left dropdown dropdown-header" >
-                                                    <?php echo $dropdown_options; ?>
-                                                </select>
-
-                                            </div>
-                                            <div class="input-group-btn">
-                                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                            </div>
-                                        </div>
-
-                                    </form>
-                                </div>
                             </div>
 
 
+
+                          </div>
+
+
+                          <div class="col-md-4 pull-right"  >
+
+                            <div class="box-tools pull-right  ">
+                                <form method="post" action="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"    >
+                                    <div class="input-group input-group-sm" style=" width:340px;">
+                                        <div class="input-group-btn  input-group-sm" >
+                                            <button name="clear_search" class="fa fa-close btn btn-primary pull-left btn-sm"> <small>Limpar pesquisa</small></button>
+                                        </div>
+
+                                        <input type="text" name="table_search" value="<?php echo $this->session->userdata('table_search'); ?>" class="form-control pull-right" placeholder="Search">
+                                        <div class="input-group-btn  input-group-sm" style="width:80px;">
+
+                                            <select name="dropdown_search" class="form-control pull-left dropdown dropdown_options" >
+                                                <?php echo $dropdown_options; ?>
+                                            </select>
+
+                                        </div>
+                                        <div class="input-group-btn input-group-sm">
+                                            <button type="submit" class="btn btn-prmary"><i class="fa fa-search"></i></button>
+                                        </div>
+
+
+
+                                    </div>
+
+                                </form>
+                            </div>
+
+
+
+                            <div class="box-tools pull-right  " style="margin-rigth:15px; margin-top:4px;margin-bottom:4px">
+                                <form method="post" action="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"    >
+                                    <div class="input-group input-group-sm" style=" width:340px;">
+
+                                         <div class="input-group-btn" style="width:80%;">
+
+                                            <select name="dropdown_search" class="form-control pull-left btn  ">
+                                                <option> </option>
+                                                <option> </option>
+                                                <option> </option>
+                                                <option> </option>
+
+                                            </select>
+
+                                        </div>
+                                        <div class="input-group-btn pull-right">
+                                            <button name="save_quant_pag" class="fa fa-save btn btn-primary pull-right"> Salvar </button>
+                                        </div>
+
+
+
+                                    </div>
+
+                                </form>
+                            </div>
+
+
+
+
+
+
+
+                          </div>
+
+
+                      </div>
+
+
+                        <div class="box box-solid"  >
+
+
                             <!-- /.box-header -->
-                            <div class="box-body table-responsive no-padding">
+
                                 <table id="table_info" class="table table-bordered table-hover"  style="text-align: center">
 
                                     <thead>  <tr> <?php echo $table_field; ?> </tr> </thead>
@@ -156,13 +208,10 @@
 
                                             foreach ($table as $row):
                                                 echo '<tr>';
-                                                echo '<td>  ' . $row['FK_PESSOA_ID'] . ' </td>';
-
-                                                echo '<td> ' . $row['PRIMEIRONOME'] . ' ' . $row['SOBRENOME'] . ' </td>';
-                                                echo '<td> ' . $row['EMAIL'] . ' </td>';
+                                                echo '<td>  ' . $row['TITULO'] . ' </td>';
 
 
-                                                if (strcmp(strtoupper($row['STATUS']), 'ATIVADO') == 0):
+                                                if (strcmp(strtoupper($row['STATUS']), 'DESATIVADO') != 0):
                                                     echo '<td><span class="label label-primary"> Ativado </span></td>';
 
                                                 else:
@@ -180,8 +229,8 @@
                                                      <td >
                                                         <div class=\"btn-group\">
                                                              <a href=\" " . $url . "  \">   <button class=\"fa fa-user btn  btn-primary\" ></button> </a>
-                                                                 <a href='" . base_url('/manage/alter/'.$this->uri->segment(2).'/' . $row['FK_PESSOA_ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
-                                                            <a>   <button onclick=\"confirmaDelete(" . $row['FK_PESSOA_ID'] . ")\" class=\"fa fa-lock btn btn-danger\"></button> </a>
+                                                                 <a href='" . base_url('/manage/alter/'.$this->uri->segment(2).'/' . $row['ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
+                                                            <a>   <button onclick=\"confirmaDelete(" . $row['ID'] . ")\" class=\"fa fa-lock btn btn-danger\"></button> </a>
 
                                                         </div>
                                                      </td>
@@ -194,8 +243,8 @@
                                                      <td >
                                                         <div class=\"btn-group\">
                                                              <a href=\" " . $url . "  \">   <button class=\"fa fa-user btn  btn-primary\" ></button> </a>
-                                                                 <a href='" . base_url('/manage/alter/'.$this->uri->segment(2).'/' . $row['FK_PESSOA_ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
-                                                            <a>   <button onclick=\"confirmaActive(" . $row['FK_PESSOA_ID'] . ")\" class=\"fa fa-unlock btn btn-info\"></button> </a>
+                                                                 <a href='" . base_url('/manage/alter/'.$this->uri->segment(2).'/' . $row['ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
+                                                            <a>   <button onclick=\"confirmaActive(" . $row['ID'] . ")\" class=\"fa fa-unlock btn btn-info\"></button> </a>
 
                                                         </div>
                                                      </td>
@@ -215,7 +264,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
+
                             <!-- /.box-body -->
 
 

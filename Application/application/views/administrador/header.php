@@ -25,25 +25,25 @@
                 <li class="dropdown notifications-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
-                        <span class="label label-warning">1000</span>
+                        <span class="label label-warning"></span>
                     </a>
 
 
 
                     <ul class="dropdown-menu">
-                        <li class="header">You have 10 notifications</li>
+                        <li class="header text-center">Você não tem notificações</li>
 
                         <li>
                             <!-- inner menu: contains the actual data -->
                             <ul class="menu">
                                 <li>
                                     <a href="#">
-                                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                        <i class=""></i>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="footer"><a href="#">View all</a></li>
+                        <li class="footer"><a href="#">Ver todos</a></li>
                     </ul>
                 </li>
 
@@ -66,7 +66,7 @@
 
 
 
-                        <span class="hidden-xs"><?php echo $this->session->userdata('user_name'); ?></span>
+                        <span class="hidden-xs"> <?php echo $this->session->userdata('user_name'); ?> </span>
                     </a>
                     <ul class="dropdown-menu">
 
@@ -93,14 +93,9 @@
                         <li class="user-body">
                             <div class="row">
                                 <div class="col-xs-4 text-center">
-                                    <a href="#">Followers</a>
+
                                 </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Sales</a>
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Friends</a>
-                                </div>
+
                             </div>
                             <!-- /.row -->
                         </li>
@@ -109,11 +104,11 @@
 
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            <div class="text-center">
+                                <a href="#" class="btn btn-default btn-flat" style="width:100%; margin-bottom:10px" >Perfil</a>
                             </div>
-                            <div class="pull-right">
-                                <a href="<?php echo base_url('/dashboard/logout'); ?>" class="btn btn-default btn-flat">Sign out</a>
+                            <div class=" text-center">
+                                <a href="<?php echo base_url('/dashboard/logout'); ?>" class="btn btn-default btn-flat " style="width:100%">Sair</a>
                             </div>
                         </li>
                     </ul>

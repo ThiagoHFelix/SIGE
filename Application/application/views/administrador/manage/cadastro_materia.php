@@ -70,7 +70,7 @@
                     <div class="row">
                         <div class="col-md-12" >
 
-                            <div class="box box-primary" style="height: 700px; margin-left: auto; margin-right: auto;">
+                            <div class="box box-solid" style="height: 700px; margin-left: auto; margin-right: auto;">
                                 <div class=" box-header register-logo">
                                     <a> Cadastro de Matéria </a>
                                 </div>
@@ -82,80 +82,87 @@
 
                                     <div class="row" >
                                         <div class="col-md-12" >
-                                           
+
                                             <div style="margin-left: 16px; text-align:center; margin-right: 16px;" class="alert alert-info" > Todos os campos com o caracter (*) são obrigatórios </div>
 
                                         </div>
 
                                     </div>
 
+                                    <div class="col-md-12" >
+
+                                            <!--------------- TITULO --------------->
+                                            <div class="form-group has-feedback">
+                                                <input  required name="titulo" type="text" class="form-control " value="<?php echo setValue('titulo'); ?>" placeholder="Titulo da matéria*">
+                                                <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
+                                            </div>
+                                            <!--------------- /. TITULO --------------->
+
+                                    </div>
 
                                     <div class="col-md-6">
 
 
-                                        <!--------------- TITULO --------------->
-                                        <div class="form-group has-feedback">
-                                            <input  required name="titulo" type="text" class="form-control " value="<?php echo setValue('titulo'); ?>" placeholder="Titulo da matéria*">
-                                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                                        </div>
-                                        <!--------------- /. TITULO --------------->
-                                        
-                                        
+
                                         <!--------------- APRESENTAÇÃO --------------->
                                         <div class="form-group has-feedback">
                                             <textarea class="form-control" rows="5" name="apresentacao" placeholder="Apresentação da matéria"><?php echo setValue('apresentacao'); ?></textarea>
                                             <span class="glyphicon glyphicon-user form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. APRESENTAÇÃO --------------->
-                                        
-                                        
-                                        
+
+
+
                                       <!--------------- OBJETIVO --------------->
                                         <div class="form-group has-feedback">
                                             <textarea class="form-control" rows="5" name="objetivo" placeholder="Objetivo da matéria" ><?php echo setValue('objetivo'); ?></textarea>
-                                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                            <span class="fa fa-dot-circle-o form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. OBJETIVO --------------->
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        <!--------------- AVISO --------------->
-                                        <div class="form-group has-feedback " >
-                                            <?php echo $this->session->flashdata('mensagem_usuario'); ?>
-                                        </div>
-                                        <!--------------- /. AVISO --------------->
+
 
                                     </div>
 
                                     <div class="col-md-6">
-                                        
+
                                           <!--------------- EMENTA --------------->
                                         <div class="form-group has-feedback">
                                             <textarea class="form-control" rows="5" name="ementa" placeholder="Ementa da matéria" ><?php echo setValue('ementa'); ?></textarea>
-                                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                            <span class="glyphicon glyphicon-bookmark form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. EMENTA --------------->
-                                        
+
                                           <!--------------- BIBLIOGRAFIA     --------------->
                                         <div class="form-group has-feedback">
                                             <textarea class="form-control" rows="5" name="bibliografia" placeholder="Bibliografia" ><?php echo setValue('bibliografia'); ?></textarea>
                                             <span class="glyphicon glyphicon-book form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. BIBLIOGRAFIA --------------->
-                                        
-                                        
+
+</div>
+<div class="col-md-12">
                                           <!--------------- EXTRACLASSE --------------->
                                         <div class="form-group has-feedback">
                                             <textarea class="form-control" rows="5" name="extraclasse"  placeholder="Extra Classe" ><?php echo setValue('extraclasse'); ?></textarea>
-                                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                            <span class="glyphicon glyphicon-log-out form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. EXTRACLASSE --------------->
+</div>
 
+<div class="col-md-6 pull-left">
+
+
+  <!--------------- AVISO --------------->
+  <div class="form-group has-feedback text-center" >
+      <?php echo $this->session->flashdata('mensagem_usuario'); ?>
+  </div>
+  <!--------------- /. AVISO --------------->
+</div>
+
+<div class="col-md-6 pull-right">
                                         <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>
+</div>
 
-                                    </div>
                             </div>
                             </form>
                         </div>
