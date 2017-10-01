@@ -81,7 +81,7 @@ CREATE TABLE Materia (
   bibliografia varchar(250),
   extraClasse varchar(250),
 
-  CONSTRAINT CK_Curso check (upper(status) in ('ATIVADO','DESATIVADO')),
+  CONSTRAINT CK_Materia check (upper(status) in ('ATIVADO','DESATIVADO')),
   CONSTRAINT PK_Materia PRIMARY KEY (id)
 );
 
@@ -103,7 +103,7 @@ CREATE TABLE turma (
     professor integer not null,
     FK_Materia_id integer,
 
-    CONSTRAINT CK_Curso check (upper(status) in ('ATIVADO','DESATIVADO')),
+    CONSTRAINT CK_Turma check (upper(status) in ('ATIVADO','DESATIVADO')),
     CONSTRAINT PK_Turma PRIMARY KEY (id)
 
 );
@@ -259,6 +259,8 @@ CREATE GENERATOR GN_FREQUENTA;
 CREATE GENERATOR GN_AUDIT_FREQUEN;
 CREATE GENERATOR GN_AUDIT_MATRI;
 CREATE GENERATOR GN_AUDIT_AVALI;
+CREATE GENERATOR GN_TURMA;
+CREATE GENERATOR GN_ATIVIDADE;
 
 
 /*======================================================================*/
@@ -317,6 +319,115 @@ END^
 
 SET TERM;^
 
+/*======================================================================*/
+/* Turma */
+
+SET TERM^;
+
+CREATE TRIGGER TR_TURMA FOR TURMA
+ACTIVE
+BEFORE INSERT OR UPDATE OR DELETE
+AS
+BEGIN
+
+    IF(INSERTING) THEN BEGIN
+
+         IF(NEW.ID IS NULL) THEN BEGIN
+            NEW.ID = GEN_ID(GN_TURMA,1);
+        END
+
+           INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'INSERT',
+         CURRENT_USER
+        );
+
+    END
+
+    IF(DELETING) THEN BEGIN
+
+           INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'DELETE',
+         CURRENT_USER
+        );
+
+    END
+
+    IF(UPDATING) THEN BEGIN
+
+           INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'UPDATE',
+         CURRENT_USER
+        );
+
+    END
+
+END^
+
+SET TERM;^
+
+/*======================================================================*/
+/* Atividade */
+
+SET TERM^;
+
+CREATE TRIGGER TR_ATIVIDADE FOR ATIVIDADE
+ACTIVE
+BEFORE INSERT OR UPDATE OR DELETE
+AS
+BEGIN
+
+    IF(INSERTING) THEN BEGIN
+
+         IF(NEW.ID IS NULL) THEN BEGIN
+            NEW.ID = GEN_ID(GN_ATIVIDADE,1);
+        END
+
+           INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'INSERT',
+         CURRENT_USER
+        );
+
+    END
+
+    IF(DELETING) THEN BEGIN
+
+           INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'DELETE',
+         CURRENT_USER
+        );
+
+    END
+
+    IF(UPDATING) THEN BEGIN
+
+           INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'UPDATE',
+         CURRENT_USER
+        );
+
+    END
+
+END^
+
+SET TERM;^
 /*======================================================================*/
 /* ADMINISTRADOR */
 

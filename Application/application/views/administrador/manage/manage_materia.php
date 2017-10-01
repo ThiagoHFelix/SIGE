@@ -32,7 +32,7 @@
 
             function confirmaDelete(id) {
 
-                var retorno = confirm('Deseja realmente desativar este usuário ?');
+                var retorno = confirm('Deseja realmente desativar esta Matéria ?');
 
                 if (retorno == true) {
 
@@ -48,7 +48,7 @@
             function confirmaActive(id) {
 
 
-                var retorno = confirm('Deseja realmente ativar este usuário ?');
+                var retorno = confirm('Deseja realmente ativar esta Matéria ?');
 
                 if (retorno == true) {
 
@@ -105,7 +105,7 @@
                           <div class="col-md-2">
 
                                         <a href="<?php echo base_url('/manage/cadastro/materia'); ?>">  <button class="btn btn-app"  >
-                                                <span class="fa fa-users" aria-hidden="true"></span>
+                                                <span class="fa fa-book" aria-hidden="true"></span>
                                                 Cadastrar Matéria
                                         </button> </a>
 
@@ -155,39 +155,6 @@
                             </div>
 
 
-
-                            <div class="box-tools pull-right  " style="margin-rigth:15px; margin-top:4px;margin-bottom:4px">
-                                <form method="post" action="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"    >
-                                    <div class="input-group input-group-sm" style=" width:340px;">
-
-                                         <div class="input-group-btn" style="width:80%;">
-
-                                            <select name="dropdown_search" class="form-control pull-left btn  ">
-                                                <option> </option>
-                                                <option> </option>
-                                                <option> </option>
-                                                <option> </option>
-
-                                            </select>
-
-                                        </div>
-                                        <div class="input-group-btn pull-right">
-                                            <button name="save_quant_pag" class="fa fa-save btn btn-primary pull-right"> Salvar </button>
-                                        </div>
-
-
-
-                                    </div>
-
-                                </form>
-                            </div>
-
-
-
-
-
-
-
                           </div>
 
 
@@ -220,7 +187,7 @@
 
                                                 endif;
 
-                                                $url = base_url('/manage/userprofile/'.$this->uri->segment(2).'/' . $row['ID']);
+                                                $url = base_url('/manage/infomateria/'. $row['ID']);
 
                                                 if (strcmp(strtoupper($row['STATUS']), 'ATIVADO') == 0):
 
@@ -228,7 +195,7 @@
 
                                                      <td >
                                                         <div class=\"btn-group\">
-                                                             <a href=\" " . $url . "  \">   <button class=\"fa fa-user btn  btn-primary\" ></button> </a>
+                                                             <a href=\" " . $url . "  \">   <button class=\"fa fa-info btn  btn-primary\" ></button> </a>
                                                                  <a href='" . base_url('/manage/alter/'.$this->uri->segment(2).'/' . $row['ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
                                                             <a>   <button onclick=\"confirmaDelete(" . $row['ID'] . ")\" class=\"fa fa-lock btn btn-danger\"></button> </a>
 
@@ -242,7 +209,7 @@
 
                                                      <td >
                                                         <div class=\"btn-group\">
-                                                             <a href=\" " . $url . "  \">   <button class=\"fa fa-user btn  btn-primary\" ></button> </a>
+                                                             <a href=\" " . $url . "  \">   <button class=\"fa fa-info btn  btn-primary\" ></button> </a>
                                                                  <a href='" . base_url('/manage/alter/'.$this->uri->segment(2).'/' . $row['ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
                                                             <a>   <button onclick=\"confirmaActive(" . $row['ID'] . ")\" class=\"fa fa-unlock btn btn-info\"></button> </a>
 
@@ -281,6 +248,30 @@
                                       <li><a href="#">3</a></li>
                                   </ul>
                                 -->
+                                <div class="box-tools pull-left" >
+                                    <form method="post" action="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"    >
+                                        <div class="input-group input-group-sm" style=" width:340px;">
+
+                                             <div class="input-group-btn" style="width:80%;">
+
+                                                <select required name="dropdown_perpage" class="form-control pull-left btn  ">
+                                                    <option value="" > Quantidade de exibição (Default 8) </option>
+                                                    <option value="5"> Cinco </option>
+                                                    <option value="10"> Dez </option>
+                                                    <option value="15"> Quinze </option>
+
+                                                </select>
+
+                                            </div>
+
+                                            <div class="input-group-btn pull-right">
+                                                <button name="save_quant_pag" class="fa fa-save btn btn-primary pull-right"> Salvar </button>
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+                                </div>
                             </div>
                             <!-- /.box -->
                         </div>

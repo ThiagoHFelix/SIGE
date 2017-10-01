@@ -11,21 +11,31 @@ class Manage_model extends CI_Model {
     public function __construct() {
 
         parent::__construct();
-        $this->load->database();
-        
+
+        //Conectando a base de dados
+        /***************************************************/
+           $this->load->library('session');
+           $database = $this->session->userdata('database');
+
+           if($database !=  NULL)
+                        $this->load->database($database);
+            else
+                        $this->load->database();
+        /***************************************************/
+
     }//construct
 
     /**
-     * Retorna o ultimo erro ocorrido no banco de dados 
+     * Retorna o ultimo erro ocorrido no banco de dados
      * @return type
      */
     public function returnLastError(){
-        
+
         return $this->db->error();
-        
+
     }//returnLastError
-    
-    
+
+
     /**
      * Retorna um array de array com todos os dados encontrados na atual tabela da variavel $table
      * @param type $sort Campo no qual deve ser seguido a ordem, por padrão é o campo ID
@@ -34,7 +44,7 @@ class Manage_model extends CI_Model {
      */
 
  /**
-  * 
+  *
   * @param type $sort
   * @param type $order
   * @param type $whereField
@@ -46,7 +56,7 @@ class Manage_model extends CI_Model {
   * @return type
   */
   //  public function getDataCI($sort = 'id', $order = 'asc',$whereField = '',$whereData = '',$whereField2 = '',$whereData2 = '',$limit = '', $offset = '') {
-     public function getDataCI($myQuery){   
+     public function getDataCI($myQuery){
        //Verificação do parametro where "Para tabelas como ADMINISTRADORES que os dados devem constrar tambem em PESSOA"
         if($whereField):
             $this->db->where($whereField,$whereData);
@@ -54,31 +64,31 @@ class Manage_model extends CI_Model {
         if($whereField2):
             $this->db->where($whereField2,$whereData2);
         endif;
-        
+
         if($limit):
             $this->db->limit($limit,$offset);
         endif;
-        
+
         $this->db->order_by($sort, $order);
-        
-        
+
+
         $query = $this->db->get('administrador');
-        
+
         if ($query->num_rows > 0):
-            
+
             log_message('error', 'SUCESSO AO BUSCAR NO BANCO DE DADOS');
             return $query->result_array();
-            
+
         else:
-            
+
             log_message('error', 'ERRO AO BUSCAR NO BANCO DE DADOS');
             return NULL;
-            
+
         endif;
-        
+
     }//getDataCI
 
-    
+
      /**
      * Make a verification in the database looking for a datafield
      * @param type $data The table's data that you looking for
@@ -96,9 +106,9 @@ class Manage_model extends CI_Model {
             return FALSE;
         endif;
     }//verificData
-    
-    
-    
+
+
+
     /**
      * Roda a query np banco de dados
      * @param type $myQuery
@@ -107,43 +117,39 @@ class Manage_model extends CI_Model {
     public function getData($myQuery = '') {
 
         $query = $this->db->query($myQuery);
-        
+
         $this->countLastResult =  $query->num_rows();
-        
+
         if ($query->num_rows() > 0):
             return $query->result_array();
         else:
             return NULL;
         endif;
-        
+
     }//getData
 
-    
+
     public function getMax($table,$field){
-        
+
         $this->db->select_max($field);
         $this->db->get($table);
-        
-        
+
+
     }//getMax
-    
-    
-    
+
+
+
     /**
      * Faz um inset na tabela passada
      */
     public function insert($table,$dados){
-        
+
         return $this->db->insert($table,$dados);
-        
-    }//insert 
-    
-    
-    
 
-    
+    }//insert
+
+
+
+
+
 }//class
-
-
-
-

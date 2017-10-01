@@ -156,17 +156,20 @@
 
                                               <p>  <strong>  Versão: </strong>  <?php echo $this->db->version(); ?> </p>
                                               <p>  <strong>  Plataforma: </strong>  <?php echo $this->db->platform(); ?> </p>
-                                              <p>  <strong>  Atual Banco: </strong>  <?php  ?> </p>
+                                              <p>  <strong>  Atual Banco: </strong>  <?php  echo $this->session->userdata('database'); ?> </p>
                                                 </div>
+
+
+
 
                                                 <div class="col-md-6">
 <form method="POST" action="<?php  echo base_url('/manage/configuration');  ?>" >
                                                   <!--------------- BANCO ------------------>
                                                   <div class="form-group  has-feedback">
-                                                      <select required class="form-control" >
+                                                      <select required name="banco" class="form-control" >
                                                           <option value=""> Selecione o banco </option>
-                                                          <option > Ativo </option>
-                                                          <option > Desativo </option>
+                                                          <option value="test"> Desenvolvimento 1 (test) </option>
+                                                          <option value="test2"> Desenvolvimento 2 (test2)</option>
                                                       </select>
                                                   </div>
                                                   <!--------------- /. BANCO --------------->

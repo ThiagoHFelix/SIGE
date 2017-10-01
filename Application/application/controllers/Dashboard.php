@@ -20,9 +20,6 @@ class Dashboard extends CI_Controller {
 
             isSessionStarted();
 
-            //Tema padrão
-            $this->session->set_userdata('main_theme', 'skin-blue');
-
             //Carregando view
             //Administrador
             if (strcmp($this->session->userdata('entidade'), 'Administrador') == 0):
@@ -48,25 +45,25 @@ class Dashboard extends CI_Controller {
      */
     public function logout() {
 
-        
+
      $entidade = $this->session->userdata('entidade');
-     $email = $this->session->userdata('user_email');   
-        
+     $email = $this->session->userdata('user_email');
+
       if(strcasecmp($entidade,'Administrador') == 0 ){
         $this->load->model('Administrador_model','administrador');
         $pessoa = $this->administrador->get_pessoa($email);
       }//Administrador
 
       if(strcasecmp($entidade,'Professor') == 0 ){
-        $this->load->model('Professor_model','professor');  
+        $this->load->model('Professor_model','professor');
         $pessoa = $this->professor->get_pessoa($email);
       }//Professor
 
       if(strcasecmp($entidade,'Aluno') == 0 ){
-        $this->load->model('Aluno_model','aluno');  
+        $this->load->model('Aluno_model','aluno');
         $pessoa = $this->aluno->get_pessoa($email);
       }//Aluno
-        
+
         /* Registro do logout */
        $dados_registro = array(
 
@@ -78,7 +75,7 @@ class Dashboard extends CI_Controller {
        );
 
        $retorno = NULL;
-       
+
        if(strcasecmp($entidade,'Administrador') == 0 )
         $retorno = $this->administrador->registra_login($dados_registro);
 
@@ -90,12 +87,12 @@ class Dashboard extends CI_Controller {
 
        if(!$retorno)
             log_message('error','Error ao registrar logout no banco de dados');
-     
-           
-       
+
+
+
        $this->session->sess_destroy();
         redirect(base_url('/login'));
-       
+
     }//logout
 
 }//class

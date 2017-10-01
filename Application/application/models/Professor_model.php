@@ -10,7 +10,7 @@ $ci =& get_instance();
 require_once APPPATH .'interfaces/Pessoa_interface.php';
 
 class Professor_model extends CI_Model implements Pessoa_interface {
-    
+
 
  /**
   * Construtor padrão
@@ -18,11 +18,21 @@ class Professor_model extends CI_Model implements Pessoa_interface {
  public function __construct(){
 
    parent::__construct();
-   $this->load->database();
+
+   //Conectando a base de dados
+   /***************************************************/
+      $this->load->library('session');
+      $database = $this->session->userdata('database');
+
+      if($database !=  NULL)
+                   $this->load->database($database);
+       else
+                   $this->load->database();
+   /***************************************************/
 
  }//__construct
 
- 
+
  /**
   * Retorna o total de tuplas do professor no banco de dados
   * @param type $dado
@@ -58,7 +68,7 @@ public function get_pessoa_only($email){
  return NULL;
 
 }//getPessoa
-    
+
 /**
  * insere um professor no banco de dados
  * @param type $dados
@@ -80,7 +90,7 @@ public function insert_professor($dados){
   return $this->db->insert('PESSOA',$dados);
 
  }//insert_pessoa
- 
+
 /**
  * Registra o login do usuário
  * @param type $dados
@@ -150,8 +160,8 @@ public function getPessoaById($id = NULL , $idPessoa = NULL){
       return $resultado->result_array()[0];
 
     }//if
-    
-    else 
+
+    else
         return NULL;
 
 }//getPessoaById
@@ -162,16 +172,16 @@ public function getPessoaById($id = NULL , $idPessoa = NULL){
  * @return boolean
  */
 public function isProfessorById(int $id){
-    
+
     $query = "SELECT * FROM PESSOA,PROFESSOR  WHERE PESSOA.ID = PROFESSOR.FK_PESSOA_ID AND PESSOA.ID = ".$id;
-    
+
     $retorno = $this->db->query($query);
-    
+
     if($retorno->num_rows() > 0)
         return TRUE;
     else
         return FALSE;
-    
+
 }//isProfessorById
 
 
@@ -181,40 +191,40 @@ public function isProfessorById(int $id){
   * @return type
   */
  public function updateProfessor($data,$idPessoa){
-     
+
    $retorno =  $this->db->update('PESSOA',$data,array('ID' => $idPessoa));
-   return $retorno; 
-   
+   return $retorno;
+
  }//updateProfessor
 
- 
- 
+
+
  /**
  * Ativa professor no banco de dados
  * @param int $id
  * @return boolean
  */
 public function ativar(int $id){
-    
-       
-    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Ativado\' WHERE PESSOA.ID = '.$id; 
+
+
+    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Ativado\' WHERE PESSOA.ID = '.$id;
     log_message('info','Function ativar - Professor -> '.$query);
     $retorno = $this->db->query($query);
-    
+
     //log_message
     log_message('info','Table afective -> '.$retorno);
-    
+
     $this->db->close();
-    
+
     if($retorno > 0)
         return TRUE;
     else
         return FALSE;
-    
-    
+
+
 }//ativar
- 
- 
+
+
 
  /**
   * desativa professor no banco de dados
@@ -222,23 +232,23 @@ public function ativar(int $id){
   * @return boolean
   */
  public function desativar(int $id){
-   
-     
-    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Desativado\' WHERE PESSOA.ID = '.$id; 
+
+
+    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Desativado\' WHERE PESSOA.ID = '.$id;
     log_message('info','Function desativar - Professor -> '.$query);
     $retorno = $this->db->query($query);
-    
+
     //log_message
     log_message('info','Table afective -> '.$retorno);
-    
+
     $this->db->close();
-    
+
     if($retorno > 0)
         return TRUE;
     else
         return FALSE;
-    
-    
+
+
  }//desativar
 
 //Destroi o objeto

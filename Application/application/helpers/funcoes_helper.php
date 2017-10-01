@@ -5,34 +5,34 @@
  */
 
 
- 
+
 if(!function_exists('showError')){
-    
+
     /**
      * Cria uma mensagem de erro utilizando flashdata
      * @param type $flashName Nome do flash
-     * @param type $message Mensagem 
+     * @param type $message Mensagem
      * @param type $type danger,warring ou succes
      */
      function showError($flashName,$message,$type){
-        
+
          $ci =& get_instance();
-         
+
         //Declaração de variaveis
         $string_error =  NULL;
-                    
+
         //XXX Para não mostrar a div alert-danger sem mensagem
         //Verifico se existe erro
         if(strcmp($message,'') != 0){
-                        
+
             $string_error = "<div class=' alert alert-".$type."'>". $message." </div>";
         }
-                    
+
         $ci->session->set_flashdata($flashName,$string_error);
-        
+
     }//showError
 
-    
+
 }//if showError
 
 
@@ -150,10 +150,10 @@ if(!function_exists('getVersion')):
     function getVersion($paramer){
 
         if(strcmp($paramer, 'n') == 0):
-            return '0.10';
+            return '0.14';
         endif;
 
-        return 'Release 0.10';
+        return 'Release 0.14';
 
     }//getVersion
 

@@ -36,6 +36,10 @@
  * @filesource
  */
 
+ //Banco de dados padrão
+ $_SESSION['database'] = "test1";
+
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT

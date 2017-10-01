@@ -17,10 +17,20 @@ class Administrador_model extends CI_Model implements Pessoa_interface {
  public function __construct(){
 
    parent::__construct();
-   $this->load->database();
+
+   //Conectando a base de dados
+   /***************************************************/
+      $this->load->library('session');
+      $database = $this->session->userdata('database');
+
+      if($database !=  NULL)
+                   $this->load->database($database);
+       else
+                   $this->load->database();
+   /***************************************************/
 
  }//__construct
- 
+
  /**
   * Atualiza dados na tabela administrador
   * @param type $data
@@ -28,56 +38,56 @@ class Administrador_model extends CI_Model implements Pessoa_interface {
   * @return type
   */
  public function updateAdministrador($data,$idPessoa){
-     
+
    $retorno =  $this->db->update('PESSOA',$data,array('ID' => $idPessoa));
-   return $retorno; 
-   
+   return $retorno;
+
  }//updateAdministrador
- 
+
 /**
  * Ativa administrador no banco de dados
  * @param int $id
  * @return boolean
  */
 public function ativar(int $id){
-    
-       
-    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Ativado\' WHERE PESSOA.ID = '.$id; 
+
+
+    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Ativado\' WHERE PESSOA.ID = '.$id;
     log_message('info','Function ativar - Administrador -> '.$query);
     $retorno = $this->db->query($query);
-    
+
     //log_message
     log_message('info','Table afective -> '.$retorno);
-    
+
     $this->db->close();
-    
+
     if($retorno > 0)
         return TRUE;
     else
         return FALSE;
-    
-    
+
+
 }//ativar
- 
+
  //desativa administrador no banco de dados
  public function desativar(int $id){
-   
-     
-    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Desativado\' WHERE PESSOA.ID = '.$id; 
+
+
+    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Desativado\' WHERE PESSOA.ID = '.$id;
     log_message('info','Function desativar - Administrador -> '.$query);
     $retorno = $this->db->query($query);
-    
+
     //log_message
     log_message('info','Table afective -> '.$retorno);
-    
+
     $this->db->close();
-    
+
     if($retorno > 0)
         return TRUE;
     else
         return FALSE;
-    
-    
+
+
  }//desativar
 
 //insere uma pessoa e administrador no banco de dados
@@ -189,24 +199,24 @@ public function getPessoaById($id = NULL , $idPessoa = NULL){
       return $resultado->result_array()[0];
 
     }//if
-    
-    else 
+
+    else
         return NULL;
 
 }//getPessoaById
 
 //verifica se o id de pessoa é um administrador
 public function isAdministradorById(int $id){
-    
+
     $query = "SELECT * FROM PESSOA,ADMINISTRADOR  WHERE PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID AND PESSOA.ID = ".$id;
-    
+
     $retorno = $this->db->query($query);
-    
+
     if($retorno->num_rows() > 0)
         return TRUE;
     else
         return FALSE;
-    
+
 }//isAdministradorById
 
 //Destroi o objeto

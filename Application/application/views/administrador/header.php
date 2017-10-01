@@ -104,8 +104,10 @@
 
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <div class="text-center">
-                                <a href="#" class="btn btn-default btn-flat" style="width:100%; margin-bottom:10px" >Perfil</a>
+                            <div class="">
+                                <a href="<?php echo base_url('/manage/configuration'); ?>" class="btn btn-default btn-gear" style="width:49%; margin-bottom:10px" > Configurações </a>
+                                <a href="<?php echo base_url('/manage/userprofile/administrador/'.$this->session->userdata('user_id')); ?>" class="btn pull-right btn-default btn-gear" style="width:49%; margin-bottom:10px" > Perfil </a>
+
                             </div>
                             <div class=" text-center">
                                 <a href="<?php echo base_url('/dashboard/logout'); ?>" class="btn btn-default btn-flat " style="width:100%">Sair</a>

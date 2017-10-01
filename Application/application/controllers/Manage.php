@@ -21,6 +21,21 @@ class Manage extends CI_Controller {
 
     }//Construtor | Padrão
 
+    //Mostra as informações da matéria
+    public function infoMateria(int $id){
+
+
+      $this->load->model('materia_model','materia');
+      $dados = array( 'ID' => $id );
+      $resultado = $this->materia->getWhere($dados);
+
+      $this->load->view('administrador/manage/info/info_materia',$resultado[0]);
+
+
+    }//infoMateria
+
+
+
 
     /**
      * Lista todas as matérias registradas no banco de dados
@@ -35,11 +50,23 @@ class Manage extends CI_Controller {
 
         isSessionStarted();
 
+
+//Quantidade por pagina
+/******************************************************/
+  if($this->input->post('dropdown_perpage') !=  NULL){
+    $perPage =  $this->input->post('dropdown_perpage');
+  }//null
+  else{
+      $perPage = 8;
+  }//else
+
+/******************************************************/
+
+
         $is_search = FALSE;
         $CountRows = NULL;
         $TableData = NULL;
         $offset = $valor_pagina;
-        $perPage = 20;
         $escolha = NULL;
         $escolha2 = NULL;
         $field_table = '';
@@ -565,6 +592,10 @@ class Manage extends CI_Controller {
                 $this->alterAluno($id);
                 break;
 
+            case 'MATERIA':
+                $this->alterMateria($id);
+                break;
+
             default: show_404();
 
 
@@ -573,6 +604,92 @@ class Manage extends CI_Controller {
 
 
     }//alter
+
+    // Altera informações da matéria
+    private function alterMateria(int $id){
+
+
+
+            $this->load->library(array('form_validation','session'));
+            $this->load->model('materia_model','materia');
+
+
+              //Declaração de variaveis
+              $dados = NULL;
+
+              //Criando regras para a validação do formulário
+              $this->form_validation->set_rules('apresentacao', '"Apresentação"', 'trim|max_length[250]');
+              $this->form_validation->set_rules('titulo', '"Titulo"', 'trim|required|max_length[60]');
+              $this->form_validation->set_rules('objetivo', '"Objetivo"', 'trim|max_length[250]');
+              $this->form_validation->set_rules('ementa', '"Ementa"', 'trim|max_length[250]');
+              $this->form_validation->set_rules('bibliografia', '"Bibliografia"', 'trim|max_length[250]');
+
+               //inicio a verificação da regras
+              if ($this->form_validation->run()){
+
+
+                $dados = array(
+
+                  'TITULO' => $this->input->post('titulo'),
+                  'APRESENTACAO' => "".$this->input->post('apresentacao'),
+                  'OBJETIVO' => "".$this->input->post('objetivo'),
+                  'EMENTA' => "".$this->input->post('ementa'),
+                  'BIBLIOGRAFIA' => "".$this->input->post('bibliografia'),
+                  'STATUS' => 'Ativado',
+                  'MATERIAL' => "",
+                  'EXTRACLASSE' => "".$this->input->post('extraclasse')
+
+                );
+
+
+                $dados_where = array( 'ID' => $id );
+
+                $retorno = $this->materia->updateWhere($dados,$dados_where);
+
+                if($retorno){
+
+                  $this->session->set_flashdata('mensagem_manage', ' <div style = "text-align:center" class=" alert alert-success"> Matéria atualizada com sucesso </div> ');
+                  redirect(base_url('/manage/materia'));
+
+                }//if
+                else{
+
+                  $this->session->set_flashdata('mensagem_usuario', ' <div style = "text-align:center" class=" alert alert-danger"> Falha ao atualizar </div> ');
+
+
+                }//else
+
+
+             }//validation
+             else{
+
+               if(strcmp(validation_errors(),'') == 0){
+                   //Limpo a mensagem de erro
+                   $this->session->set_flashdata('mensagem_usuario','');
+               }//if
+               else{
+                  $this->session->set_flashdata('mensagem_usuario','<div class=" alert alert-danger">
+                  '.validation_errors().'
+                  </div> ');
+              }//else
+
+             }//validation
+
+             $dados = array(
+
+               "ID" => $id
+
+             );
+
+             $retorno = $this->materia->getWhere($dados);
+
+             $this->load->view('/administrador/manage/alter/alter_materia',$retorno[0]);
+
+
+    }//id
+
+
+
 
     /**
      *
@@ -1052,7 +1169,7 @@ class Manage extends CI_Controller {
             'OBJETIVO' => "".$this->input->post('objetivo'),
             'EMENTA' => "".$this->input->post('ementa'),
             'BIBLIOGRAFIA' => "".$this->input->post('bibliografia'),
-            'STATUS' => 'A',
+            'STATUS' => 'Ativado',
             'MATERIAL' => "",
             'EXTRACLASSE' => "".$this->input->post('extraclasse')
 
@@ -1643,6 +1760,40 @@ class Manage extends CI_Controller {
           redirect(base_url('/manage/aluno'),'reflash');
       break;
 
+
+      case 'MATERIA':
+
+
+             $this->load->model('materia_model','materia');
+
+          //Verificando se a materia existe no banco de dados
+          $dados = array(
+
+            'ID' => $id
+
+          );
+           $retorno = $this->materia->getWhere($dados);
+           if($retorno ==  NULL){
+                     $this->session->set_flashdata('mensagem_manage',' <div style = "text-align:center" class=" alert alert-danger"> Matéria não existe na base de dados </div> ');
+                     log_message('info', 'Menage->desativar('.$entidade.','.$id.') -> Entidade não existe no banco de dados');
+                     redirect(base_url('/manage/professor'),'reflash');
+           }//if | $retorno
+
+
+          $retorno = $this->materia->desativar($id);
+          if($retorno)
+              $this->session->set_flashdata('mensagem_manage',' <div style = "text-align:center" class=" alert alert-success"> Materia desativada com sucesso </div> ');
+          else
+              $this->session->set_flashdata('mensagem_manage','  <div style = "text-align:center" class=" alert alert-danger"> Ocorreu um erro ao desativar a Matéria <striong> Contate o administrador do sistema </string> </div>  ');
+
+          redirect(base_url('/manage/materia'),'reflash');
+
+      break;
+
+
+
+
+
       default: show_404();
 
 
@@ -1734,6 +1885,38 @@ class Manage extends CI_Controller {
             redirect(base_url('/manage/aluno'),'reflash');
       break;
 
+      case 'MATERIA':
+
+
+             $this->load->model('materia_model','materia');
+
+          //Verificando se a materia existe no banco de dados
+          $dados = array(
+
+            'ID' => $id
+
+          );
+           $retorno = $this->materia->getWhere($dados);
+           if($retorno ==  NULL){
+                     $this->session->set_flashdata('mensagem_manage',' <div style = "text-align:center" class=" alert alert-danger"> Matéria não existe na base de dados </div> ');
+                     log_message('info', 'Menage->ativar('.$entidade.','.$id.') -> Entidade não existe no banco de dados');
+                     redirect(base_url('/manage/professor'),'reflash');
+           }//if | $retorno
+
+
+          $retorno = $this->materia->ativar($id);
+          if($retorno)
+              $this->session->set_flashdata('mensagem_manage',' <div style = "text-align:center" class=" alert alert-success"> Materia ativada com sucesso </div> ');
+          else
+              $this->session->set_flashdata('mensagem_manage','  <div style = "text-align:center" class=" alert alert-danger"> Ocorreu um erro ao ativar a Matéria <strong> Contate o administrador do sistema </string> </div>  ');
+
+          redirect(base_url('/manage/materia'),'reflash');
+
+      break;
+
+
+
+
       default: show_404();
 
 
@@ -1751,27 +1934,16 @@ class Manage extends CI_Controller {
     public function configuration($option = NULL){
 
         isSessionStarted();
+//Alterando banco de dados
+/***************************************************************/
+        if($this->input->post('banco') !=  NULL){
 
-        if($option == NULL){
+          $selected_database = $this->input->post('banco');
+          $this->session->set_userdata('database',$selected_database);
 
-            $this->load->view('administrador/configuration');
-
-        }//IF
-        else{
-
-
-            if(strcmp($option,'theme') == 0){
-
-                $theme = $this->input->post('theme');
-                $this->session->set_userdata('main_theme',$theme);
-
-            }//if | theme
-
-
-            $this->load->view('administrador/configuration');
-
-
-        }//ELSE
+        }//if
+/***************************************************************/
+        $this->load->view('administrador/configuration');
 
     }//configuration
 

@@ -15,7 +15,17 @@ class Aluno_model extends CI_Model implements Pessoa_interface {
  public function __construct(){
 
    parent::__construct();
-   $this->load->database();
+
+   //Conectando a base de dados
+   /***************************************************/
+      $this->load->library('session');
+      $database = $this->session->userdata('database');
+
+      if($database !=  NULL)
+                   $this->load->database($database);
+       else
+                   $this->load->database();
+   /***************************************************/
 
  }//__construct
 
@@ -60,8 +70,8 @@ public function getPessoaById($id = NULL , $idPessoa = NULL){
       return $resultado->result_array()[0];
 
     }//if
-    
-    else 
+
+    else
         return NULL;
 
 }//getPessoaById
@@ -89,7 +99,7 @@ public function get_pessoa_only($email){
  return NULL;
 
 }//getPessoa
- 
+
 
 /**
  * Retorna o total de tuplas do aluno no banco de dados
@@ -116,16 +126,16 @@ public function get_total_tupla($dado = '',$coluna = ''){
  * @return boolean
  */
 public function isAlunoById(int $id){
-    
+
     $query = "SELECT * FROM PESSOA,ALUNO  WHERE PESSOA.ID = ALUNO.FK_PESSOA_ID AND PESSOA.ID = ".$id;
-    
+
     $retorno = $this->db->query($query);
-    
+
     if($retorno->num_rows() > 0)
         return TRUE;
     else
         return FALSE;
-    
+
 }//isAlunoById
 
 /**
@@ -157,51 +167,51 @@ public function insert_aluno($dados){
  * @return boolean
  */
 public function ativar(int $id){
-    
-       
-    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Ativado\' WHERE PESSOA.ID = '.$id; 
+
+
+    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Ativado\' WHERE PESSOA.ID = '.$id;
     log_message('info','Function ativar - Aluno -> '.$query);
     $retorno = $this->db->query($query);
-    
+
     //log_message
     log_message('info','Table afective -> '.$retorno);
-    
+
     $this->db->close();
-    
+
     if($retorno > 0)
         return TRUE;
     else
         return FALSE;
-    
-    
+
+
 }//ativar
- 
+
  /**
   * desativa aluno no banco de dados
   * @param int $id
   * @return boolean
   */
  public function desativar(int $id){
-   
-     
-    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Desativado\' WHERE PESSOA.ID = '.$id; 
+
+
+    $query = 'UPDATE PESSOA SET PESSOA.STATUS = \'Desativado\' WHERE PESSOA.ID = '.$id;
     log_message('info','Function desativar - Aluno -> '.$query);
     $retorno = $this->db->query($query);
-    
+
     //log_message
     log_message('info','Table afective -> '.$retorno);
-    
+
     $this->db->close();
-    
+
     if($retorno > 0)
         return TRUE;
     else
         return FALSE;
-    
-    
+
+
  }//desativar
 
- 
+
  /**
  * Retorna um array de array com todos os dados de todas as pessoas no banco de dados
  */
@@ -224,6 +234,6 @@ if($resultado->num_rows() > 0){
 
 
 }//get_all_pessoa
- 
- 
+
+
 }//class

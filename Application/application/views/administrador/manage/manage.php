@@ -100,47 +100,74 @@
                         echo $this->session->flashdata('mensagem_manage');
                         ?>
 
+                        <div class="row" >
 
+                            <div class="col-md-2">
 
-                        <div class="box box-solid"  >
-                            <div class="box-header" >
+                                          <a href="<?php echo base_url('/manage/cadastro/administrador'); ?>">  <button class="btn btn-app"  >
+                                                  <span class="fa fa-users" aria-hidden="true"></span>
+                                                  Cadastrar <?php echo ucfirst($this->uri->segment(2)); ?>
+                                          </button> </a>
 
-
-
-                                <div class="pull-left">
-                                    <a href="<?php echo base_url('/manage/cadastro/' . $this->uri->segment(2)); ?>">    <button class="btn btn-primary fa fa-user-plus" style="width: 200%;"></button> </a>
-
-                                </div>
-
-
-
-
-                                <div class="box-tools">
-                                    <form method="post" action="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"    >
-                                        <div class="input-group input-group-sm" style=" width:340px;">
-                                            <div class="input-group-btn  input-group-sm" >
-                                                <button name="clear_search" class="fa fa-close btn btn-default pull-left btn-sm"> <small>Limpar pesquisa</small></button>
-                                            </div>
-
-                                            <input type="text" name="table_search" value="<?php echo $this->session->userdata('table_search'); ?>" class="form-control pull-right" placeholder="Search">
-                                            <div class="input-group-btn  input-group-sm" style="width:80px;">
-
-                                                <select name="dropdown_search" class="form-control pull-left dropdown dropdown-header" >
-                                                    <?php echo $dropdown_options; ?>
-                                                </select>
-
-                                            </div>
-                                            <div class="input-group-btn">
-                                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                            </div>
-                                        </div>
-
-                                    </form>
-                                </div>
                             </div>
 
 
-                            <!-- /.box-header -->
+                            <div class="col-md-6">
+
+                              <div class="text-center login-logo">
+
+                                <p> <?php echo 'Gerenciamento de '.$title; ?> </p>
+
+
+                              </div>
+
+
+
+                            </div>
+
+
+                            <div class="col-md-4 pull-right"  >
+
+                              <div class="box-tools pull-right  ">
+                                  <form method="post" action="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"    >
+                                      <div class="input-group input-group-sm" style=" width:340px;">
+                                          <div class="input-group-btn  input-group-sm" >
+                                              <button name="clear_search" class="fa fa-close btn btn-primary pull-left btn-sm"> <small>Limpar pesquisa</small></button>
+                                          </div>
+
+                                          <input type="text" name="table_search" value="<?php echo $this->session->userdata('table_search'); ?>" class="form-control pull-right" placeholder="Search">
+                                          <div class="input-group-btn  input-group-sm" style="width:80px;">
+
+                                              <select name="dropdown_search" class="form-control pull-left dropdown dropdown_options" >
+                                                  <?php echo $dropdown_options; ?>
+                                              </select>
+
+                                          </div>
+                                          <div class="input-group-btn input-group-sm">
+                                              <button type="submit" class="btn btn-prmary"><i class="fa fa-search"></i></button>
+                                          </div>
+
+
+
+                                      </div>
+
+                                  </form>
+                              </div>
+
+
+
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="box box-solid"  >
+
+
                             <div class="box-body table-responsive no-padding">
                                 <table id="table_info" class="table table-responsive table-hover text-center" >
 
@@ -227,6 +254,31 @@
                                       <li><a href="#">3</a></li>
                                   </ul>
                                 -->
+
+                                <div class="box-tools pull-left" >
+                                    <form method="post" action="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"    >
+                                        <div class="input-group input-group-sm" style=" width:340px;">
+
+                                             <div class="input-group-btn" style="width:80%;">
+
+                                                <select required name="dropdown_perpage" class="form-control pull-left btn  ">
+                                                    <option value="" > Quantidade de exibição (Default 8) </option>
+                                                    <option value="5"> Cinco </option>
+                                                    <option value="10"> Dez </option>
+                                                    <option value="15"> Quinze </option>
+
+                                                </select>
+
+                                            </div>
+
+                                            <div class="input-group-btn pull-right">
+                                                <button name="save_quant_pag" class="fa fa-save btn btn-primary pull-right"> Salvar </button>
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+                                </div>
                             </div>
                             <!-- /.box -->
                         </div>

@@ -13,7 +13,14 @@ class Login extends CI_Controller {
 
         $this->load->helper(array('url', 'funcoes', 'language'));
         $this->load->library(array('form_validation', 'session'));
-    }
+
+
+        //Default database
+        $this->session->set_userdata('database','test');
+
+
+
+    }//construct
 
 //Construct
 
@@ -104,7 +111,7 @@ class Login extends CI_Controller {
 
                             $this->registraDados_session('Administrador');
                             redirect(base_url('/dashboard'), 'reflesh');
-                        }//IF 
+                        }//IF
                         else {
 
                            showError('aviso_login', 'Esta conta está desativada', 'warning');
@@ -136,7 +143,7 @@ class Login extends CI_Controller {
 
                             $this->registraDados_session('Professor');
                             redirect(base_url('/dashboard'), 'reflesh');
-                        }//IF 
+                        }//IF
                         else {
 
                            showError('aviso_login', 'Esta conta está desativada', 'warning');
@@ -168,7 +175,7 @@ class Login extends CI_Controller {
 
                             $this->registraDados_session('Aluno');
                             redirect(base_url('/dashboard'), 'reflesh');
-                        }//IF 
+                        }//IF
                         else {
 
                            showError('aviso_login', 'Esta conta está desativada', 'warning');
@@ -208,11 +215,11 @@ class Login extends CI_Controller {
             $pessoa = $this->aluno->get_pessoa($email);
 
 
-
         $this->session->set_userdata('user_email', $this->input->post()['username']);
         $this->session->set_userdata('user_name', $pessoa[0]["PRIMEIRONOME"] . ' ' . $pessoa[0]["SOBRENOME"]);
         $this->session->set_userdata('user_foto', $pessoa[0]["FOTO"]);
         $this->session->set_userdata('entidade', $entidade);
+        $this->session->set_userdata('user_id', $pessoa[0]['ID_01']);
         $this->session->set_userdata('logged_in', 'true');
 
         //Registrar no banco de dados o login
@@ -236,7 +243,7 @@ class Login extends CI_Controller {
 
 
     /**
-     * Recupera senha 
+     * Recupera senha
      */
     public function recover() {
 
@@ -273,10 +280,10 @@ class Login extends CI_Controller {
             if ($retorno != NULL) {
                 $this->recoverAluno($retorno[0]);
             }//aluno
-            
-            
+
+
              showError('aviso_recuperacao', 'Verifique seu email', 'warning');
-            
+
         }//run rules
         else {
 
@@ -284,7 +291,7 @@ class Login extends CI_Controller {
             showError('aviso_recuperacao', validation_errors(), 'danger');
         }
 
-       
+
 
         $this->load->view('recuperacao_senha');
     }//recover
@@ -302,110 +309,108 @@ class Login extends CI_Controller {
         );
 
         $retorno_update = $this->administrador->updateAdministrador($alter_senha, $dados['ID']);
-        
+
         //Email encontrado
         if ($retorno_update > 0) {
 
             //TODO fazer registro de log
-            
+
             $this->enviaEmailRecover($dados['EMAIL'], $alter_senha['SENHA']);
-            
-            
+
+
         }//if | retorno_update
-        
-        
+
+
 
         $this->administrador->__destruct();
-        
+
     }//recoverAdministrador
-    
-    
+
+
     /**
      * Realiza os passo necessarios para recuperação de senha de um email de professor
      * @param array $dados
      */
     private function recoverProfessor(array $dados){
-        
+
          $alter_senha = array(
             "SENHA" => uniqid()
         );
 
         $retorno_update = $this->professor->updateProfessor($alter_senha, $dados['ID']);
-        
+
         //Email encontrado
         if ($retorno_update > 0) {
 
             //TODO fazer registro de log
-            
+
             $this->enviaEmailRecover($dados['EMAIL'], $alter_senha['SENHA']);
-            
-            
+
+
         }//if | retorno_update
-        
-        
+
+
 
         $this->professor->__destruct();
-        
-        
+
+
     }//recoverProfessor
 
-    
+
     /**
      * Realiza os passo necessarios para recuperação de senha de um email de aluno
      * @param array $dados
      */
     private function recoverAluno(array $dados){
-        
+
          $alter_senha = array(
             "SENHA" => uniqid()
         );
 
         $retorno_update = $this->aluno->updateAluno($alter_senha, $dados['ID']);
-        
+
         //Email encontrado
         if ($retorno_update > 0) {
 
             //TODO fazer registro de log
-            
+
             $this->enviaEmailRecover($dados['EMAIL'], $alter_senha['SENHA']);
-            
-            
+
+
         }//if | retorno_update
-        
-        
+
+
 
         $this->aluno->__destruct();
-        
-        
+
+
     }//recoverAluno
-    
-    
+
+
     private function enviaEmailRecover(string $email_to,string $newSenha){
-        
-        
+
+
         $this->load->library('email');
-        
+
         $config['protocol'] = 'sendmail';
         $config['mailpath'] = '/usr/sbin/sendmail';
         $config['charset'] = 'iso-8859-1';
         $config['wordwrap'] = TRUE;
 
         $this->email->initialize($config);
-        
-        
+
+
         $this->email->from('thiagoacdc12@gmail.com','SIGE - Sistema Integrado de Gerenciamento Escolar');
         $this->email->to($email_to);
         $this->email->subject('Recuperação de senha - SIGE');
         $this->email->message('Email: '.$email_to.' Nova Senha: '.$newSenha);
-        
+
         $this->email->send();
-     
-                
-    
-        
+
+
+
+
     }//enviaEmailRecover
-    
-    
+
+
 }//Controller
-
-

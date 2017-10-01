@@ -6,7 +6,17 @@ class Dashboard_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
-        $this->load->database();
+        
+        //Conectando a base de dados
+        /***************************************************/
+           $this->load->library('session');
+           $database = $this->session->userdata('database');
+
+           if($database !=  NULL)
+                        $this->load->database($database);
+            else
+                        $this->load->database();
+        /***************************************************/
     }//construct
 
 
@@ -19,9 +29,7 @@ class Dashboard_model extends CI_Model {
         else:
             return NULL;
         endif;
-        
+
     }//getData
 
 }//class
-
-
