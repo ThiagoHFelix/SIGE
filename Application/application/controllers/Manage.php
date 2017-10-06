@@ -21,6 +21,145 @@ class Manage extends CI_Controller {
 
     }//Construtor | Padrão
 
+
+    //Gerenciamento de Curso
+    public function curso($valor_pagina = 0){
+
+
+              $this->load->model('Curso_model','curso');
+
+           //   die($this->curso->getAllTupla());
+
+              isSessionStarted();
+
+
+      //Quantidade por pagina
+      /******************************************************/
+        if($this->input->post('dropdown_perpage') !=  NULL){
+          $perPage =  $this->input->post('dropdown_perpage');
+        }//null
+        else{
+            $perPage = 8;
+        }//else
+
+      /******************************************************/
+
+
+              $is_search = FALSE;
+              $CountRows = NULL;
+              $TableData = NULL;
+              $offset = $valor_pagina;
+              $escolha = NULL;
+              $escolha2 = NULL;
+              $field_table = '';
+              $data_table = '';
+              $total_rows = 0;
+
+
+             //inicia a busca
+              if(strcmp($this->input->post('table_search'), '') != 0){
+                $this->session->set_userdata('is_search',TRUE);
+
+              }//IF | IS_SEARCH
+
+              //Limpar busca
+              if ($this->input->post('clear_search') !== NULL):
+                  $this->session->set_userdata('is_search', FALSE);
+              endif;
+
+              //Verificação para saber qual sql se deve executar
+            if ($this->session->userdata('is_search')):
+
+            /*      if ((strcmp($this->input->post('table_search'), '') != 0)):
+                      $this->session->set_userdata('table_search', $this->input->post('table_search'));
+                      $this->session->set_userdata('dropdown_search', $this->input->post('dropdown_search'));
+                  endif;
+
+                  $data_table = $this->session->userdata('table_search');
+                  $field_table = $this->session->userdata('dropdown_search');
+
+                  $CountRows = $this->administrador->get_total_tupla($data_table,$field_table);
+                  $TableData = $this->administrador->get_all_pessoa($offset,$perPage,TRUE,$data_table,$field_table);
+
+                  unset($_POST['table_search']);
+            */
+
+              else:
+                  $this->session->set_userdata('is_search', FALSE);
+                  $CountRows = $this->curso->getAllTupla();
+                  $TableData = $this->curso->getAll($perPage,$offset);
+            endif;
+
+
+
+              $config = array(
+                  'base_url' => base_url('/manage/curso'),
+                  'per_page' => $perPage,
+                  'num_links' => 3,
+                  'uri_segment' => 3,
+                  'total_rows' => $CountRows,
+                  'full_tag_open' => '<ul class="pagination"  style="float:right" >',
+                  'full_tag_close' => '</ul>',
+                  'first_link' => TRUE,
+                  'last_link' => FALSE,
+                  'num_tag_open' => '<li>',
+                  'num_tag_close' => '</li>',
+                  'cur_tag_open' => '<li class="active"><a>',
+                  'cur_tag_close' => '</a></li>',
+                  'first_tag_open' => '<li>',
+                  'first_tag_close' => '</li>',
+                  'prev_tag_open' => '<li>',
+                  'prev_tag_close' => '</li>',
+                  'next_tag_open' => '<li>',
+                  'next_tag_close' => '</li>',
+                  'first_link' => 'Primeiro',
+                  'prev_link' => 'Anterior',
+                  'next_link' => 'Próximo'
+              );
+
+              //Campos da tabela
+              $dados['table_field'] = '
+
+                 <th  style="text-align: center">Titulo</th>
+                 <th  style="text-align: center">Status</th>
+                 <th  style="text-align: center">Ações</th>
+
+                 ';
+
+
+              //Titulo da view
+              $dados['title'] = 'Cursos';
+
+              //Inicializo a classe de paginação
+              $this->pagination->initialize($config);
+
+              //Criação do HTML com os links
+              $dados['pagination'] = $this->pagination->create_links();
+
+              $dados['table'] = $TableData;
+
+              $this->load->view('/administrador/manage/manage_curso', $dados);
+
+
+    }//mange
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //Mostra as informações da matéria
     public function infoMateria(int $id){
 
@@ -33,7 +172,6 @@ class Manage extends CI_Controller {
 
 
     }//infoMateria
-
 
 
 
@@ -1129,12 +1267,94 @@ class Manage extends CI_Controller {
           case 'MATERIA':
               $this->cadMateria();
               break;
+          case 'CURSO':
+              $this->cadCurso();
+              break;
 
           default: show_404();
 
         }//switch
 
     }//cadastro
+
+
+    //Cadastra curso no banco de dados
+    private function cadCurso(){
+
+
+            $this->load->library(array('form_validation','session'));
+            $this->load->model('materia_model','materia');
+            $this->load->model('curso_model','curso');
+
+
+
+
+
+              //Declaração de variaveis
+              $dados = NULL;
+
+              //Criando regras para a validação do formulário
+              $this->form_validation->set_rules('apresentacao', '"Apresentação"', 'trim|max_length[250]');
+              $this->form_validation->set_rules('titulo', '"Titulo"', 'trim|required|max_length[60]');
+              $this->form_validation->set_rules('objetivo', '"Objetivo"', 'trim|max_length[250]');
+              $this->form_validation->set_rules('ementa', '"Ementa"', 'trim|max_length[250]');
+              $this->form_validation->set_rules('bibliografia', '"Bibliografia"', 'trim|max_length[250]');
+
+               //inicio a verificação da regras
+              if ($this->form_validation->run()){
+
+
+                $dados = array(
+
+                  'TITULO' => $this->input->post('titulo'),
+                  'APRESENTACAO' => "".$this->input->post('apresentacao'),
+                  'OBJETIVO' => "".$this->input->post('objetivo'),
+                  'EMENTA' => "".$this->input->post('ementa'),
+                  'BIBLIOGRAFIA' => "".$this->input->post('bibliografia'),
+                  'STATUS' => 'Ativado',
+                  'MATERIAL' => "",
+                  'EXTRACLASSE' => "".$this->input->post('extraclasse')
+
+                );
+
+                $retorno = $this->materia->insert($dados);
+
+                if($retorno){
+
+                  $this->session->set_flashdata('mensagem_manage', ' <div style = "text-align:center" class=" alert alert-success"> Matéria cadastrada com sucesso </div> ');
+                  redirect(base_url('/manage/materia'));
+
+                }//if
+                else{
+
+
+
+                }//else
+
+
+             }//validation
+             else{
+
+               if(strcmp(validation_errors(),'') == 0){
+                   //Limpo a mensagem de erro
+                   $this->session->set_flashdata('mensagem_usuario','');
+               }//if
+               else{
+                  $this->session->set_flashdata('mensagem_usuario','<div class=" alert alert-danger">
+                  '.validation_errors().'
+                  </div> ');
+              }//else
+
+             }//validation
+
+             $dados['Mate'] = $this->materia->getAll();
+             $this->load->view('/administrador/manage/cadastro_curso',$dados);
+
+
+
+    }//cadCurso
+
+
 
 
     /**
