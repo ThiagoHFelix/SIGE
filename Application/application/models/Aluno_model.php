@@ -2,14 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-//Carrregando interface
-$ci =& get_instance();
-//FIXIT não está carregando atravez do loader
-//$ci->load->iface('Pessoa_interface');
-
-require_once APPPATH .'interfaces/Pessoa_interface.php';
-
-class Aluno_model extends CI_Model implements Pessoa_interface {
+class Aluno_model extends CI_Model{
 
  // Construtor padrão
  public function __construct(){
@@ -76,8 +69,6 @@ public function getPessoaById($id = NULL , $idPessoa = NULL){
 
 }//getPessoaById
 
-//Destroi o objeto
-public function __destruct(){}//destruct
 
 /**
  * Busca pessoa no banco de dados, se encontrada retorna um array com seus dados
@@ -234,6 +225,10 @@ if($resultado->num_rows() > 0){
 
 
 }//get_all_pessoa
+
+
+//Destroi o objeto
+public function __destruct(){}//destruct
 
 
 }//class

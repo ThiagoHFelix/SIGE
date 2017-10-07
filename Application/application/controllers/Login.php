@@ -16,7 +16,7 @@ class Login extends CI_Controller {
 
 
         //Default database
-        $this->session->set_userdata('database','test');
+        $this->session->set_userdata('database','test_win');
 
 
 
@@ -64,8 +64,8 @@ class Login extends CI_Controller {
         $data['placeholder_password'] = 'Senha';
 
         //Regras de validação
-        $this->form_validation->set_rules('username', $data['placeholder_user'], 'trim|required|valid_email');
-        $this->form_validation->set_rules('password', $data['placeholder_password'], 'trim|required');
+        $this->form_validation->set_rules('username', $data['placeholder_user'], 'trim|required|valid_email|max_length[40]');
+        $this->form_validation->set_rules('password', $data['placeholder_password'], 'trim|required|max_length[20]');
 
         //Validação dos campos
         if ($this->form_validation->run() == TRUE) {
@@ -73,6 +73,7 @@ class Login extends CI_Controller {
             $email = $this->input->post('username');
             $senha = $this->input->post('password');
             $this->verifica_login($entidade, $email, $senha);
+            
         }//if
         else {
             showError('aviso_login', validation_errors(), 'danger');
@@ -97,7 +98,7 @@ class Login extends CI_Controller {
             case 'administrador' :
 
                 $this->load->model('Administrador_model', 'administrador');
-                $resultado = $this->administrador->get_pessoa($email);
+                $resultado = $this->administrador->getAdministrador($email);
 
                 if ($resultado != NULL) {
 
@@ -109,13 +110,13 @@ class Login extends CI_Controller {
                         //VERIFICANDO SE A CONTA ESTÁ ATIVADA
                         if (strcmp(strtoupper($resultado[0]['STATUS']), 'ATIVADO') == 0) {
 
-                            $this->registraDados_session('Administrador');
+                            $this->registraDadosSession('Administrador');
                             redirect(base_url('/dashboard'), 'reflesh');
                         }//IF
                         else {
-
                            showError('aviso_login', 'Esta conta está desativada', 'warning');
                         }//ELSE | CONTA ESTÁ DESATIVADA
+                        
                     }//else | SENHA CORRETA
                 }//if
                 else {
@@ -141,7 +142,7 @@ class Login extends CI_Controller {
                         //VERIFICANDO SE A CONTA ESTÁ ATIVADA
                         if (strcmp(strtoupper($resultado[0]['STATUS']), 'ATIVADO') == 0) {
 
-                            $this->registraDados_session('Professor');
+                            $this->registraDadosSession('Professor');
                             redirect(base_url('/dashboard'), 'reflesh');
                         }//IF
                         else {
@@ -173,7 +174,7 @@ class Login extends CI_Controller {
                         //VERIFICANDO SE A CONTA ESTÁ ATIVADA
                         if (strcmp(strtoupper($resultado[0]['STATUS']), 'ATIVADO') == 0) {
 
-                            $this->registraDados_session('Aluno');
+                            $this->registraDadosSession('Aluno');
                             redirect(base_url('/dashboard'), 'reflesh');
                         }//IF
                         else {
@@ -199,14 +200,14 @@ class Login extends CI_Controller {
      * Faz o registro dos dados necessarios na sessão e no banco de dados
      * @param type $entidade
      */
-    private function registraDados_session($entidade) {
+    private function registraDadosSession($entidade) {
 
 
         $senha = $this->input->post('password');
         $email = $this->input->post('username');
 
         if (strcasecmp($entidade, 'Administrador') == 0)
-            $pessoa = $this->administrador->get_pessoa($email);
+            $pessoa = $this->administrador->getAdministrador($email);
 
         if (strcasecmp($entidade, 'Professor') == 0)
             $pessoa = $this->professor->get_pessoa($email);

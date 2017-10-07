@@ -51,17 +51,17 @@ class Dashboard extends CI_Controller {
 
       if(strcasecmp($entidade,'Administrador') == 0 ){
         $this->load->model('Administrador_model','administrador');
-        $pessoa = $this->administrador->get_pessoa($email);
+        $pessoa = $this->administrador->getAdministrador($email);
       }//Administrador
 
       if(strcasecmp($entidade,'Professor') == 0 ){
         $this->load->model('Professor_model','professor');
-        $pessoa = $this->professor->get_pessoa($email);
+        $pessoa = $this->professor->getProfessor($email);
       }//Professor
 
       if(strcasecmp($entidade,'Aluno') == 0 ){
         $this->load->model('Aluno_model','aluno');
-        $pessoa = $this->aluno->get_pessoa($email);
+        $pessoa = $this->aluno->getAluno($email);
       }//Aluno
 
         /* Registro do logout */

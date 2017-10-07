@@ -11,7 +11,7 @@
             </div>
             <div class="pull-left info">
                 <p><?php echo $this->session->userdata('user_name'); ?></p>
-                <a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-user-circle text-success"></i> <?php echo $this->session->userdata('entidade'); ?> </a>
+                <a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-user-circle text-success"></i> <?php echo strtoupper($this->session->userdata('entidade')); ?> </a>
             </div>
         </div>
 

@@ -67,7 +67,7 @@
 
 
     </head>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition sidebar-mini">
         <!-- Site wrapper -->
         <div class="wrapper">
 
@@ -178,7 +178,7 @@
 
                                             foreach ($table as $row):
                                                 echo '<tr>';
-                                                echo '<td>  ' . $row['FK_PESSOA_ID'] . ' </td>';
+                                                echo '<td>  ' . $row['ID'] . ' </td>';
 
                                                 echo '<td> ' . $row['PRIMEIRONOME'] . ' ' . $row['SOBRENOME'] . ' </td>';
                                                 echo '<td> ' . $row['EMAIL'] . ' </td>';
@@ -202,8 +202,8 @@
                                                      <td >
                                                         <div class=\"btn-group\">
                                                              <a href=\" " . $url . "  \">   <button class=\"fa fa-user btn  btn-primary\" ></button> </a>
-                                                                 <a href='" . base_url('/manage/alter/' . $this->uri->segment(2) . '/' . $row['FK_PESSOA_ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
-                                                            <a>   <button onclick=\"confirmaDelete(" . $row['FK_PESSOA_ID'] . ")\" class=\"fa fa-lock btn btn-danger\"></button> </a>
+                                                                 <a href='" . base_url('/manage/alter/' . $this->uri->segment(2) . '/' . $row['ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
+                                                            <a>   <button onclick=\"confirmaDelete(" . $row['ID'] . ")\" class=\"fa fa-lock btn btn-danger\"></button> </a>
 
                                                         </div>
                                                      </td>
@@ -216,8 +216,8 @@
                                                      <td >
                                                         <div class=\"btn-group\">
                                                              <a href=\" " . $url . "  \">   <button class=\"fa fa-user btn  btn-primary\" ></button> </a>
-                                                                 <a href='" . base_url('/manage/alter/' . $this->uri->segment(2) . '/' . $row['FK_PESSOA_ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
-                                                            <a>   <button onclick=\"confirmaActive(" . $row['FK_PESSOA_ID'] . ")\" class=\"fa fa-unlock btn btn-info\"></button> </a>
+                                                                 <a href='" . base_url('/manage/alter/' . $this->uri->segment(2) . '/' . $row['ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
+                                                            <a>   <button onclick=\"confirmaActive(" . $row['ID'] . ")\" class=\"fa fa-unlock btn btn-info\"></button> </a>
 
                                                         </div>
                                                      </td>
@@ -262,7 +262,7 @@
                                              <div class="input-group-btn" style="width:80%;">
 
                                                 <select required name="dropdown_perpage" class="form-control pull-left btn  ">
-                                                    <option value="" > Quantidade de exibição (Default 8) </option>
+                                                    <option value="" > Quantidade de exibição (Atual <?php echo $perPage; ?>) </option>
                                                     <option value="5"> Cinco </option>
                                                     <option value="10"> Dez </option>
                                                     <option value="15"> Quinze </option>

@@ -199,7 +199,7 @@
                                         <!--------------- /. RUA --------------->
 
                                         <!--------------- AVISO --------------->
-                                        <div class="form-group has-feedback " >
+                                        <div class="form-group has-feedback text-center " >
                                             <?php echo $this->session->flashdata('mensagem_usuario'); ?>
                                         </div>
                                         <!--------------- /. AVISO --------------->
@@ -243,7 +243,7 @@
                                         <!--------------- TELEFONE --------------->
                                         <div class="form-group has-feedback">
                                             <input  name="telefone" type="tel" class="form-control "  value="<?php echo setValue('telefone'); ?>" placeholder="Telefone"
-                                                    data-inputmask='"mask": "(99) 9999-99999"' data-mask
+                                                    data-inputmask='"mask": "(99)9999-9999"' data-mask
                                                     >
                                             <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
                                         </div>

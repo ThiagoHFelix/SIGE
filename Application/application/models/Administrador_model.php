@@ -2,14 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-//Carrregando interface
-$ci =& get_instance();
-//FIXIT não está carregando atravez do loader
-//$ci->load->iface('Pessoa_interface');
-
-require_once APPPATH .'interfaces/Pessoa_interface.php';
-
-class Administrador_model extends CI_Model implements Pessoa_interface {
+class Administrador_model extends CI_Model  {
 
 
 
@@ -26,7 +19,7 @@ class Administrador_model extends CI_Model implements Pessoa_interface {
       if($database !=  NULL)
                    $this->load->database($database);
        else
-                   $this->load->database();
+                   $this->load->database('test_win');
    /***************************************************/
 
  }//__construct
@@ -90,19 +83,13 @@ public function ativar(int $id){
 
  }//desativar
 
-//insere uma pessoa e administrador no banco de dados
- public function insert_pessoa($dados){
+//Cria um novo adminstrador no banco de dados
+ public function insert($dados){
 
   return $this->db->insert('PESSOA',$dados);
 
  }//insert_pessoa
 
-//insere um administrador no banco de dados
-public function insert_adm($dados){
-
-  return $this->db->insert('ADMINISTRADOR',$dados);
-
-}//insert_adm
 
 //Registra o login do usuário
  public function registra_login($dados){
@@ -112,111 +99,86 @@ public function insert_adm($dados){
  }//registra login
 
 //Busca administrador no banco de dados, se encontrada retorna um array com seus dados
-public function get_pessoa($email){
+public function getAdministrador(string $email){
 
- $query = 'SELECT * FROM PESSOA,ADMINISTRADOR WHERE PESSOA.ID = ADMINISTRADOR.FK_Pessoa_id AND upper(PESSOA.EMAIL) = upper(\''.$email.'\')';
-
- $resultado = $this->db->query($query);
-
- if($resultado->num_rows() > 0){
-
-      return $resultado->result_array();
-
- }//if
-
- return NULL;
-
-}//getPessoa
-
-//Busca pessoa no banco de dados, se encontrada retorna um array com seus dados
-public function get_pessoa_only($email){
-
- $query = 'SELECT * FROM PESSOA WHERE PESSOA.EMAIL =\''.$email.'\'';
-
- $resultado = $this->db->query($query);
-
- if($resultado->num_rows() > 0){
-
-      return $resultado->result_array();
-
- }//if
-
- return NULL;
-
-}//getPessoa
-
-//Retorna um array de array com todos os dados de todas as pessoas no banco de dados
-public function get_all_pessoa($offset =  '', $per_page = '',$is_search = FALSE,$dado = '',$coluna = ''){
-
-    if(!$is_search)
-         $query  = 'SELECT FIRST '.$per_page.' SKIP '.$offset.' * FROM ADMINISTRADOR,PESSOA WHERE PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID ORDER BY ADMINISTRADOR.ID' ;
-    else
-         $query  = 'SELECT FIRST '.$per_page.' SKIP '.$offset.'  * FROM ADMINISTRADOR,PESSOA WHERE PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID AND PESSOA.'.$coluna.' LIKE \'%'.$dado.'%\' ORDER BY ADMINISTRADOR.ID' ;
-
-
-   $resultado = $this->db->query($query);
-
-if($resultado->num_rows() > 0){
-
-    return $resultado->result_array();
-
-}//if
-
-return NULL;
-
-}//get_all_pessoa
-
-//Retorna o total de tuplas do administrador no banco de dados
-public function get_total_tupla($dado = '',$coluna = ''){
-
-    if(strcmp($dado, '') == 0 )
-         $query  = 'SELECT * FROM ADMINISTRADOR,PESSOA WHERE PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID ORDER BY ADMINISTRADOR.ID ASC';
-    else
-         $query  = 'SELECT * FROM ADMINISTRADOR,PESSOA WHERE PESSOA.'.$coluna.' CONTAINING \''.$dado.'\' AND PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID ORDER BY ADMINISTRADOR.ID ASC ';
-
-    $resultado = $this->db->query($query);
-
-    return $resultado->num_rows();
-
-}//get_total_tupla
-
-/**
- * Busca pessoa pelo id no banco de dados e retorna um array
- * @param type $id Identificação do administrador no banco de dados
- * @return type Array com dados do professor ou NULL
- */
-public function getPessoaById($id = NULL , $idPessoa = NULL){
-
-    if($idPessoa != NULL)
-        $query  = 'SELECT * FROM ADMINISTRADOR,PESSOA WHERE PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID AND PESSOA.ID = '.$idPessoa;
-    else if($id != NULL)
-        $query  = 'SELECT * FROM ADMINISTRADOR,PESSOA WHERE PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID AND ADMINISTRADOR.ID = '.$id;
-
-    $resultado = $this->db->query($query);
-
-     if($resultado->num_rows() > 0){
-
-      return $resultado->result_array()[0];
-
-    }//if
-
+    $dados_where = array(
+        
+        'EMAIL' => strtoupper($email),
+        'PESSOA_TIPO' => 'ADMINISTRADOR'
+    );
+   
+    $this->db->where($dados_where);
+    
+    $return = $this->db->get('PESSOA');
+    
+    if($return->num_rows() > 0)
+        return $return->result_array();
     else
         return NULL;
+    
+}//getPessoa
 
-}//getPessoaById
 
-//verifica se o id de pessoa é um administrador
+
+//Retorna um array de array com todos os dados de todas os administrador do banco de dados
+public function getAll($offset =  '', $per_page = ''){
+
+    $this->db->where('PESSOA_TIPO','ADMINISTRADOR');
+    $return = $this->db->get('PESSOA',$per_page,$offset);
+    
+    if($return->num_rows() > 0)
+        return $return->result_array();
+    else
+        return NULL;
+ 
+}//getAll
+
+//Retorna o total de tuplas do administrador no banco de dados
+public function getAllTupla(){
+
+   $this->db->where('PESSOA_TIPO','ADMINISTRADOR');
+   return $this->db->count_all('PESSOA');
+
+}//getAllTupla
+
+/**
+ * Busca administrador no banco de dados com o id inserido
+ * @param integer $id ID do administrador a ser procurado
+ * @return type Retorna NULL se nada for encontrador e uma matriz se for encontrado
+ */
+public function getAdministradorById(int $id){
+
+     $dados_where = array(
+        
+        'ID' => $id,
+        'PESSOA_TIPO' => 'ADMINISTRADOR'
+    );
+   
+    $this->db->where($dados_where);
+    $return = $this->db->get('PESSOA');
+    
+    if($return->num_rows() > 0)
+        return $return->result_array()[0];
+    else
+        return NULL;
+    
+
+}//getAdministradorById
+
+/**
+ * verifica se o id é de um administrador
+ * @param int $id ID a ser procurado
+ * @return boolean TRUE se for um administrador e FALSE se não for 
+ */
 public function isAdministradorById(int $id){
 
-    $query = "SELECT * FROM PESSOA,ADMINISTRADOR  WHERE PESSOA.ID = ADMINISTRADOR.FK_PESSOA_ID AND PESSOA.ID = ".$id;
+    $return = $this->getAdministradorById($id);
 
-    $retorno = $this->db->query($query);
-
-    if($retorno->num_rows() > 0)
-        return TRUE;
-    else
+    if($return == NULL)
         return FALSE;
-
+    else
+        return TRUE;
+    
 }//isAdministradorById
 
 //Destroi o objeto

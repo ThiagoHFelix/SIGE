@@ -1,9 +1,9 @@
 /*
 	*********************************
 	* Author: Thiago Henrique Felix *
-	* Data: 30/09/2017		          *
-	* Hora: 10:53			              *
-	* Version: 3.0			            *
+	* Data: 06/10/2017		*
+	* Hora: 18:41			*
+	* Version: 4.0			*
 	*********************************
 */
 
@@ -13,7 +13,7 @@ CREATE TABLE Pessoa (
     id integer,
     primeiroNome varchar(25) NOT NULL,
     sobrenome varchar(60) NOT NULL,
-    nascimento char(10) NOT NULL,
+    nascimento date NOT NULL,
     status varchar(10) NOT NULL,/* Ativado e Desativado */
     Estado varchar(2),
     Rua varchar(50),
@@ -26,44 +26,22 @@ CREATE TABLE Pessoa (
     cpf varchar(14),
     rg varchar(15),
     telefone varchar(14),
-    email varchar(40) NOT NULL,
+    email varchar(40) NOT NULL UNIQUE,
     foto varchar(255),
+    Pessoa_TIPO varchar(13), /* Administrador, Professor e Aluno */
 
+    CONSTRAINT Check_Tipo check(upper(Pessoa_TIPO) in ('ADMINISTRADOR','PROFESSOR','ALUNO') ),
     CONSTRAINT Check_Status check (upper(status) in ('ATIVADO','DESATIVADO')),
     CONSTRAINT Check_Sexo check (upper(sexo) in ('MASCULINO', 'FEMININO') ),
     CONSTRAINT PK_Pessoa PRIMARY KEY (id)
 
 );
 
-CREATE TABLE Administrador (
-    id integer,
-    FK_Pessoa_id integer,
-
-    CONSTRAINT PK_Administrador PRIMARY KEY (id)
-);
-
-CREATE TABLE Professor (
-    id integer,
-    Area_atuacao varchar(50),
-    Informacoes_adicionais varchar(255),
-    FK_Pessoa_id integer,
-
-    CONSTRAINT PK_Professor PRIMARY KEY (id)
-);
-
-CREATE TABLE Aluno (
-    id integer,
-    Numero_Chamada integer,
-    info_add varchar(255),
-    FK_Pessoa_id integer,
-
-    CONSTRAINT PK_Aluno PRIMARY KEY (id)
-);
 
 CREATE TABLE Curso (
     id integer,
     titulo varchar(60) not null,
-    status varchar(12) not null,
+    status varchar(10) not null,
     descricao varchar(250),
 
     CONSTRAINT CK_Curso check (upper(status) in ('ATIVADO','DESATIVADO')),
@@ -75,7 +53,7 @@ CREATE TABLE Materia (
   Apresentacao varchar(250),
   Objetivo varchar(250),
   Ementa varchar(250),
-  status varchar(12),
+  status varchar(10),
   id integer ,
   material varchar(250),
   bibliografia varchar(250),
@@ -109,56 +87,69 @@ CREATE TABLE turma (
 );
 
 CREATE TABLE Atividade (
-    id integer PRIMARY KEY,
-    timeOpen timestamp,
-    titulo varchar(50),
-    text varchar(255),
+    id integer,
+    timeOpen timestamp not null,
+    titulo varchar(50) not null,
+    text varchar(255) not null,
     entrega varchar(255),
-    timeKeep numeric(2,2),
-    timeClose timestamp,
+    timeKeep time not null,
+    timeClose timestamp not null,
     FK_turma_id integer,
-    status varchar(12)
+    status varchar(10) not null,
+
+    CONSTRAINT CK_Ativi check (upper(status) in ('ATIVADO','DESATIVADO')),
+    CONSTRAINT PK_Ativi PRIMARY KEY (id)
+);
+
+
+CREATE TABLE Aviso (
+    titulo varchar(25) not null,
+    mensagem varchar(255) not null,
+    hora time not null,
+    data date not null,
+    id integer,
+
+    CONSTRAINT PK_Aviso PRIMARY KEY (id)
 );
 
 
 CREATE TABLE Curso_materia (
     FK_Materia_id integer,
-    FK_Curso_id integer
+    FK_Curso_id integer,
+
+    CONSTRAINT PK_CUR_MAT PRIMARY KEY (FK_Materia_id, FK_Curso_id)
 );
 
 CREATE TABLE Matricula (
   FK_Curso_id integer,
-  FK_Aluno_id integer,
-  FK_Aluno_FK_Pessoa_id integer,
-  status varchar(12),
-  info_add varchar(255),
-  data_hora timestamp,
+  FK_Aluno_Pessoa integer,
+  status varchar(12) not null,
+  info_add varchar(255) ,
+  data_hora timestamp not null,
 
-    CONSTRAINT PK_Matricula PRIMARY KEY (FK_Curso_id, FK_Aluno_id)
+    CONSTRAINT PK_Matricula PRIMARY KEY (FK_Curso_id, FK_Aluno_Pessoa)
 );
 
 CREATE TABLE Avaliado (
   FK_turma_id integer,
-  FK_Aluno_id integer,
-  FK_Aluno_FK_Pessoa_id integer,
-  dataHora timestamp,
-  Nota numeric(2,1),
-  complemento varchar(255),
-  numProva integer,
+  FK_Aluno_Pessoa integer,
+  dataHora timestamp not null,
+  Nota numeric(2,1) ,
+  complemento varchar(255) not null,
+  numProva integer ,
   FK_Materia_id integer,
 
-    CONSTRAINT PK_Avaliado PRIMARY KEY (FK_Aluno_id, FK_turma_id, numProva)
+    CONSTRAINT PK_Avaliado PRIMARY KEY (FK_Aluno_Pessoa, FK_turma_id, numProva)
 );
 
 CREATE TABLE Frequenta (
-  FK_Aluno_id integer,
-  FK_Aluno_FK_Pessoa_id integer,
+  FK_Aluno_Pessoa integer,
   FK_turma_id integer,
   Presenca char(1),
   dataHora timestamp,
   FK_Materia_id integer,
 
-    CONSTRAINT PK_Frequenta PRIMARY KEY (FK_turma_id, FK_Aluno_id)
+    CONSTRAINT PK_Frequenta PRIMARY KEY (FK_turma_id, FK_Aluno_Pessoa)
 );
 
 
@@ -177,8 +168,7 @@ CREATE TABLE sistem_log (
 );
 
 CREATE TABLE aluno_atividade (
-    FK_Aluno_id integer,
-    FK_Aluno_FK_Pessoa_id integer,
+    FK_Aluno_Pessoa integer,
     FK_Atividade_id integer
 );
 
@@ -193,19 +183,21 @@ CREATE TABLE history (
     CONSTRAINT PK_History PRIMARY KEY (id)
 );
 
+CREATE TABLE Aviso_Pessoa (
+    FK_Aviso_id integer,
+    FK_Pessoa_id integer,
+
+    CONSTRAINT PK_Aviso_Pe PRIMARY KEY (FK_Aviso_id,FK_Pessoa_id)
+);
 
 
-ALTER TABLE Administrador ADD CONSTRAINT FK_Administrador_1
+ALTER TABLE Aviso_Pessoa ADD CONSTRAINT FK_Aviso_Pe_0
+    FOREIGN KEY (FK_Aviso_id)
+    REFERENCES Aviso (id);
+
+ALTER TABLE Aviso_Pessoa ADD CONSTRAINT FK_Aviso_Pe_1
     FOREIGN KEY (FK_Pessoa_id)
-    REFERENCES Pessoa (id);
-
-ALTER TABLE Professor ADD CONSTRAINT FK_Professor_1
-    FOREIGN KEY (FK_Pessoa_id)
-    REFERENCES Pessoa (id);
-
-ALTER TABLE Aluno ADD CONSTRAINT FK_Aluno_1
-    FOREIGN KEY (FK_Pessoa_id)
-    REFERENCES Pessoa (id);
+    REFERENCES Aviso (id);
 
 ALTER TABLE Curso_materia ADD CONSTRAINT FK_Curso_materia_0
     FOREIGN KEY (FK_Materia_id)
@@ -219,35 +211,26 @@ ALTER TABLE Matricula ADD CONSTRAINT FK_Matricula_0
     FOREIGN KEY (FK_Curso_id)
     REFERENCES Curso (id);
 
-ALTER TABLE Matricula ADD CONSTRAINT FK_Matricula_1
-    FOREIGN KEY (FK_Aluno_id)
-    REFERENCES Aluno (id);
+
 
 ALTER TABLE Avaliado ADD CONSTRAINT FK_Avaliado_0
     FOREIGN KEY (FK_Materia_id)
     REFERENCES Materia (id);
 
-ALTER TABLE Avaliado ADD CONSTRAINT FK_Avaliado_1
-    FOREIGN KEY (FK_Aluno_id)
-    REFERENCES Aluno (id);
+
 
 ALTER TABLE Frequenta ADD CONSTRAINT FK_Frequenta_0
     FOREIGN KEY (FK_Materia_id)
     REFERENCES Materia (id);
 
-ALTER TABLE Frequenta ADD CONSTRAINT FK_Frequenta_1
-    FOREIGN KEY (FK_Aluno_id)
-    REFERENCES Aluno (id);
+
 
 
 /*======================================================================*/
- /* CriaÃ§Ã£o de GENERATOR */
+ /* Criação de GENERATOR */
 
 
 CREATE GENERATOR GN_PESSOA;
-CREATE GENERATOR GN_ADMINISTRADOR;
-CREATE GENERATOR GN_ALUNO;
-CREATE GENERATOR GN_PROFESSOR;
 CREATE GENERATOR GN_CURSO;
 CREATE GENERATOR GN_MATERIA;
 CREATE GENERATOR GN_MATRICULA;
@@ -261,6 +244,63 @@ CREATE GENERATOR GN_AUDIT_MATRI;
 CREATE GENERATOR GN_AUDIT_AVALI;
 CREATE GENERATOR GN_TURMA;
 CREATE GENERATOR GN_ATIVIDADE;
+CREATE GENERATOR GN_AVISO;
+
+/*======================================================================*/
+/* PESSOA */
+
+
+SET TERM^;
+
+CREATE TRIGGER TR_AVISO FOR AVISO
+ACTIVE
+BEFORE INSERT OR UPDATE OR DELETE
+AS
+BEGIN
+
+    IF(INSERTING) THEN BEGIN
+
+        IF(NEW.ID IS NULL) THEN BEGIN
+            NEW.ID = GEN_ID(GN_AVISO,1);
+        END
+
+        INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'INSERT',
+         CURRENT_USER
+        );
+
+    END
+
+    IF(DELETING) THEN BEGIN
+
+         INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'DELETE',
+         CURRENT_USER
+        );
+
+    END
+
+    IF(UPDATING) THEN BEGIN
+
+         INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'UPDATE',
+         CURRENT_USER
+        );
+
+    END
+
+END^
+
+SET TERM;^
 
 
 /*======================================================================*/
@@ -428,169 +468,6 @@ BEGIN
 END^
 
 SET TERM;^
-/*======================================================================*/
-/* ADMINISTRADOR */
-
-SET TERM^;
-
-CREATE TRIGGER TR_ADMINISTRADOR FOR ADMINISTRADOR
-ACTIVE
-BEFORE INSERT OR UPDATE OR DELETE
-AS
-BEGIN
-
-    IF(INSERTING) THEN BEGIN
-
-         IF(NEW.ID IS NULL) THEN BEGIN
-            NEW.ID = GEN_ID(GN_ADMINISTRADOR,1);
-        END
-
-           INSERT INTO HISTORY VALUES(
-         GEN_ID(GN_HISTORY,1),
-         CURRENT_DATE,
-         CURRENT_TIME,
-         'INSERT',
-         CURRENT_USER
-        );
-
-    END
-
-    IF(DELETING) THEN BEGIN
-
-           INSERT INTO HISTORY VALUES(
-         GEN_ID(GN_HISTORY,1),
-         CURRENT_DATE,
-         CURRENT_TIME,
-         'DELETE',
-         CURRENT_USER
-        );
-
-    END
-
-    IF(UPDATING) THEN BEGIN
-
-           INSERT INTO HISTORY VALUES(
-         GEN_ID(GN_HISTORY,1),
-         CURRENT_DATE,
-         CURRENT_TIME,
-         'UPDATE',
-         CURRENT_USER
-        );
-
-    END
-
-END^
-
-SET TERM;^
-
-/*======================================================================*/
-/* PROFESSOR */
-
-SET TERM^;
-
-CREATE TRIGGER TR_PROFESSOR FOR PROFESSOR
-ACTIVE
-BEFORE INSERT OR UPDATE OR DELETE
-AS
-BEGIN
-
-    IF(INSERTING) THEN BEGIN
-         IF(NEW.ID IS NULL) THEN BEGIN
-            NEW.ID = GEN_ID(GN_PROFESSOR,1);
-        END
-
-
-          INSERT INTO HISTORY VALUES(
-         GEN_ID(GN_HISTORY,1),
-         CURRENT_DATE,
-         CURRENT_TIME,
-         'INSERT',
-         CURRENT_USER
-        );
-    END
-
-    IF(DELETING) THEN BEGIN
-
-          INSERT INTO HISTORY VALUES(
-         GEN_ID(GN_HISTORY,1),
-         CURRENT_DATE,
-         CURRENT_TIME,
-         'DELETE',
-         CURRENT_USER
-        );
-
-    END
-
-    IF(UPDATING) THEN BEGIN
-
-          INSERT INTO HISTORY VALUES(
-         GEN_ID(GN_HISTORY,1),
-         CURRENT_DATE,
-         CURRENT_TIME,
-         'UPDATE',
-         CURRENT_USER
-        );
-
-    END
-
-END^
-
-SET TERM;^
-
-/*======================================================================*/
-/* ALUNO */
-
-SET TERM^;
-
-CREATE TRIGGER TR_ALUNO FOR ALUNO
-ACTIVE
-BEFORE INSERT OR UPDATE OR DELETE
-AS
-BEGIN
-
-    IF(INSERTING) THEN BEGIN
-         IF(NEW.ID IS NULL) THEN BEGIN
-            NEW.ID = GEN_ID(GN_ALUNO,1);
-        END
-
-
-          INSERT INTO HISTORY VALUES(
-         GEN_ID(GN_HISTORY,1),
-         CURRENT_DATE,
-         CURRENT_TIME,
-         'INSERT',
-         CURRENT_USER
-        );
-    END
-
-    IF(DELETING) THEN BEGIN
-
-          INSERT INTO HISTORY VALUES(
-         GEN_ID(GN_HISTORY,1),
-         CURRENT_DATE,
-         CURRENT_TIME,
-         'DELETE',
-         CURRENT_USER
-        );
-
-    END
-
-    IF(UPDATING) THEN BEGIN
-
-          INSERT INTO HISTORY VALUES(
-         GEN_ID(GN_HISTORY,1),
-         CURRENT_DATE,
-         CURRENT_TIME,
-         'UPDATE',
-         CURRENT_USER
-        );
-
-    END
-
-END^
-
-SET TERM;^
-
 /*======================================================================*/
 /* MATRICULA */
 
