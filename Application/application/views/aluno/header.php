@@ -2,9 +2,9 @@
     <!-- Logo -->
     <a href="<?php echo base_url('dashboard'); ?>" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b></b>CE</span>
+        <span class="logo-mini"><b>SIGE</b></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Centro Escolar</b></span>
+        <span class="logo-lg"><b>SIGE</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -25,25 +25,25 @@
                 <li class="dropdown notifications-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
-                        <span class="label label-warning">1000</span>
+                        <span class="label label-warning"></span>
                     </a>
 
 
 
                     <ul class="dropdown-menu">
-                        <li class="header">You have 10 notifications</li>
+                        <li class="header text-center">Você não tem notificações</li>
 
                         <li>
                             <!-- inner menu: contains the actual data -->
                             <ul class="menu">
                                 <li>
                                     <a href="#">
-                                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                        <i class=""></i>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="footer"><a href="#">View all</a></li>
+                        <li class="footer"><a href="#">Ver todos</a></li>
                     </ul>
                 </li>
 
@@ -59,14 +59,14 @@
                         if (strcmp($this->session->userdata('user_foto'), "") == 0):
                             echo base_url('data-views/dashboard/dist/img/avatar0.png');
                         else:
-                            //FIXIT padronizar 
+                            //FIXIT padronizar
                             echo $this->session->userdata('user_foto');
                         endif;
                         ?>  " class="user-image" alt="User Image">
 
 
 
-                        <span class="hidden-xs"><?php echo $this->session->userdata('user_name'); ?></span>
+                        <span class="hidden-xs"> <?php echo $this->session->userdata('user_name'); ?> </span>
                     </a>
                     <ul class="dropdown-menu">
 
@@ -79,7 +79,7 @@
                         if (strcmp($this->session->userdata('user_foto'), "") == 0):
                             echo base_url('data-views/dashboard/dist/img/avatar0.png');
                         else:
-                            //FIXIT padronizar 
+                            //FIXIT padronizar
                             echo $this->session->userdata('user_foto');
                         endif;
                         ?>  " class="img-circle" alt="User Image">
@@ -93,14 +93,9 @@
                         <li class="user-body">
                             <div class="row">
                                 <div class="col-xs-4 text-center">
-                                    <a href="#">Followers</a>
+
                                 </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Sales</a>
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Friends</a>
-                                </div>
+
                             </div>
                             <!-- /.row -->
                         </li>
@@ -109,15 +104,17 @@
 
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            <div class="">
+                                <a href="<?php echo base_url('/manage/configuration'); ?>" class="btn btn-default btn-gear" style="width:49%; margin-bottom:10px" > Configurações </a>
+                                <a href="<?php echo base_url('/manage/userprofile/administrador/'.$this->session->userdata('user_id')); ?>" class="btn pull-right btn-default btn-gear" style="width:49%; margin-bottom:10px" > Perfil </a>
+
                             </div>
-                            <div class="pull-right">
-                                <a href="<?php echo base_url('/dashboard/logout'); ?>" class="btn btn-default btn-flat">Sign out</a>
+                            <div class=" text-center">
+                                <a href="<?php echo base_url('/dashboard/logout'); ?>" class="btn btn-default btn-flat " style="width:100%">Sair</a>
                             </div>
                         </li>
                     </ul>
-                </li>   
+                </li>
 
             </ul>
         </div>

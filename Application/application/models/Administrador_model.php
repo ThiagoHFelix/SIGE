@@ -19,7 +19,7 @@ class Administrador_model extends CI_Model  {
       if($database !=  NULL)
                    $this->load->database($database);
        else
-                   $this->load->database('test_win');
+                   $this->load->database('');
    /***************************************************/
 
  }//__construct
@@ -30,9 +30,9 @@ class Administrador_model extends CI_Model  {
   * @param type $idPessoa
   * @return type
   */
- public function updateAdministrador($data,$idPessoa){
+ public function updateAdministrador(array $data,int $id){
 
-   $retorno =  $this->db->update('PESSOA',$data,array('ID' => $idPessoa));
+   $retorno =  $this->db->update('PESSOA',$data,array('ID' => $id));
    return $retorno;
 
  }//updateAdministrador
@@ -119,11 +119,11 @@ public function getAdministrador(string $email){
 }//getPessoa
 
 
-
 //Retorna um array de array com todos os dados de todas os administrador do banco de dados
 public function getAll($offset =  '', $per_page = ''){
 
     $this->db->where('PESSOA_TIPO','ADMINISTRADOR');
+    $this->db->order_by('ID','ASC');
     $return = $this->db->get('PESSOA',$per_page,$offset);
     
     if($return->num_rows() > 0)
@@ -148,13 +148,9 @@ public function getAllTupla(){
  */
 public function getAdministradorById(int $id){
 
-     $dados_where = array(
-        
-        'ID' => $id,
-        'PESSOA_TIPO' => 'ADMINISTRADOR'
-    );
    
-    $this->db->where($dados_where);
+   
+    $this->db->where( array( 'ID' => $id, 'PESSOA_TIPO' => 'ADMINISTRADOR'  ));
     $return = $this->db->get('PESSOA');
     
     if($return->num_rows() > 0)

@@ -26,7 +26,7 @@ class Dashboard extends CI_Controller {
                 $this->load->view('administrador/dashboard');
             endif;
             //Professor
-            if (strcmp($this->session->userdata('entidade'), 'professor') == 0):
+            if (strcmp($this->session->userdata('entidade'), 'Professor') == 0):
                 $this->load->view('professor/dashboard');
             endif;
             //Aluno

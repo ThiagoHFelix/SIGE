@@ -88,7 +88,7 @@
 
 
                 <!-- Main content -->
-                <section class="content" style="height:690px;">
+                <section class="content-header" style="height:690px;">
 
 
                     <div class="col-xs-12">
@@ -104,7 +104,7 @@
 
                             <div class="col-md-2">
 
-                                          <a href="<?php echo base_url('/manage/cadastro/administrador'); ?>">  <button class="btn btn-app"  >
+                                          <a href="<?php echo base_url('/manage/cadastro/'.$entidade); ?>">  <button class="btn btn-app"  >
                                                   <span class="fa fa-users" aria-hidden="true"></span>
                                                   Cadastrar <?php echo ucfirst($this->uri->segment(2)); ?>
                                           </button> </a>
@@ -256,28 +256,6 @@
                                 -->
 
                                 <div class="box-tools pull-left" >
-                                    <form method="post" action="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"    >
-                                        <div class="input-group input-group-sm" style=" width:340px;">
-
-                                             <div class="input-group-btn" style="width:80%;">
-
-                                                <select required name="dropdown_perpage" class="form-control pull-left btn  ">
-                                                    <option value="" > Quantidade de exibição (Atual <?php echo $perPage; ?>) </option>
-                                                    <option value="5"> Cinco </option>
-                                                    <option value="10"> Dez </option>
-                                                    <option value="15"> Quinze </option>
-
-                                                </select>
-
-                                            </div>
-
-                                            <div class="input-group-btn pull-right">
-                                                <button name="save_quant_pag" class="fa fa-save btn btn-primary pull-right"> Salvar </button>
-                                            </div>
-
-                                        </div>
-
-                                    </form>
                                 </div>
                             </div>
                             <!-- /.box -->

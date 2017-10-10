@@ -140,7 +140,7 @@
                                             Administradores
                                         </button> </a>
 
-                                    <a href="#">  <button class="btn btn-app" >
+                                    <a href="<?php echo base_url('/manage/curso'); ?>">  <button class="btn btn-app" >
                                             <span class="fa fa-graduation-cap" aria-hidden="true"></span>
                                             Cursos
                                         </button> </a>

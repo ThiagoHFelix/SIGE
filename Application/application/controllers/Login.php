@@ -16,7 +16,7 @@ class Login extends CI_Controller {
 
 
         //Default database
-        $this->session->set_userdata('database','test_win');
+        $this->session->set_userdata('database','test_linux');
 
 
 
@@ -129,11 +129,11 @@ class Login extends CI_Controller {
             case 'professor':
 
                 $this->load->model('Professor_model', 'professor');
-                $resultado = $this->professor->get_pessoa($email);
+                $resultado = $this->professor->getProfessor($email);
 
                 if ($resultado != NULL) {
 
-                    if (strcmp($resultado[0]['SENHA'], $senha) != 0) {
+                    if (strcmp($resultado['SENHA'], $senha) != 0) {
 
                         showError('aviso_login', 'Dados de Professor inválidos', 'danger');
                     }//IF | SENHA INCORRETA
@@ -161,14 +161,14 @@ class Login extends CI_Controller {
             case 'aluno':
 
                 $this->load->model('Aluno_model', 'aluno');
-                $resultado = $this->aluno->get_pessoa($email);
+                $resultado = $this->aluno->getAluno($email);
 
                 if ($resultado != NULL) {
 
 
                     if (strcmp($resultado[0]['SENHA'], $senha) != 0) {
 
-                       showError('aviso_login', 'Dados de aluno inválidos', 'danger');
+                       showError('aviso_login', 'Dados de Aluno inválidos', 'danger');
                     }//IF | SENHA INCORRETA
                     else {
                         //VERIFICANDO SE A CONTA ESTÁ ATIVADA
@@ -185,7 +185,7 @@ class Login extends CI_Controller {
                 }//if
                 else {
 
-                    showError('aviso_login', 'Dados de aluno inválidos', 'danger');
+                    showError('aviso_login', 'Dados de Aluno inválidos', 'danger');
                 }//else
 
                 break;
@@ -210,10 +210,10 @@ class Login extends CI_Controller {
             $pessoa = $this->administrador->getAdministrador($email);
 
         if (strcasecmp($entidade, 'Professor') == 0)
-            $pessoa = $this->professor->get_pessoa($email);
+            $pessoa = $this->professor->getProfessor($email);
 
         if (strcasecmp($entidade, 'Aluno') == 0)
-            $pessoa = $this->aluno->get_pessoa($email);
+            $pessoa = $this->aluno->getALuno($email);
 
 
         $this->session->set_userdata('user_email', $this->input->post()['username']);
@@ -265,19 +265,19 @@ class Login extends CI_Controller {
 
 
             $this->load->model('Administrador_model', 'administrador');
-            $retorno = $this->administrador->get_pessoa($email);
+            $retorno = $this->administrador->getAdministrador($email);
             if ($retorno != NULL) {
                 $this->recoverAdministrador($retorno[0]);
             }//administrador
 
             $this->load->model('Professor_model', 'professor');
-            $retorno = $this->professor->get_pessoa($email);
+            $retorno = $this->professor->getProfessor($email);
             if ($retorno != NULL) {
                 $this->recoverProfessor($retorno[0]);
             }//professor
 
             $this->load->model('Aluno_model', 'aluno');
-            $retorno = $this->aluno->get_pessoa($email);
+            $retorno = $this->aluno->getAluno($email);
             if ($retorno != NULL) {
                 $this->recoverAluno($retorno[0]);
             }//aluno
@@ -387,7 +387,11 @@ class Login extends CI_Controller {
 
     }//recoverAluno
 
-
+    /**
+     * Envia o email para a conta com os novos dados
+     * @param string $email_to Email a ser recuperado
+     * @param string $newSenha
+     */
     private function enviaEmailRecover(string $email_to,string $newSenha){
 
 

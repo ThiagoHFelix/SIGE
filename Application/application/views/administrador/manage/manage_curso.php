@@ -67,7 +67,7 @@
 
 
     </head>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition sidebar-mini">
         <!-- Site wrapper -->
         <div class="wrapper">
 
@@ -105,7 +105,7 @@
                           <div class="col-md-2">
 
                                         <a href="<?php echo base_url('/manage/cadastro/curso'); ?>">  <button class="btn btn-app"  >
-                                                <span class="fa fa-user" aria-hidden="true"></span>
+                                                <span class="fa fa-book" aria-hidden="true"></span>
                                                 Cadastrar Curso
                                         </button> </a>
 
@@ -187,7 +187,7 @@
 
                                                 endif;
 
-                                                $url = base_url('/manage/infomateria/'. $row['ID']);
+                                                $url = base_url('/manage/infocurso/'. $row['ID']);
 
                                                 if (strcmp(strtoupper($row['STATUS']), 'ATIVADO') == 0):
 
@@ -248,30 +248,7 @@
                                       <li><a href="#">3</a></li>
                                   </ul>
                                 -->
-                                <div class="box-tools pull-left" >
-                                    <form method="post" action="<?php echo base_url('/manage/' . $this->uri->segment(2)); ?>"    >
-                                        <div class="input-group input-group-sm" style=" width:340px;">
-
-                                             <div class="input-group-btn" style="width:80%;">
-
-                                                <select required name="dropdown_perpage" class="form-control pull-left btn  ">
-                                                    <option value="" > Quantidade de exibição (Default 8) </option>
-                                                    <option value="5"> Cinco </option>
-                                                    <option value="10"> Dez </option>
-                                                    <option value="15"> Quinze </option>
-
-                                                </select>
-
-                                            </div>
-
-                                            <div class="input-group-btn pull-right">
-                                                <button name="save_quant_pag" class="fa fa-save btn btn-primary pull-right"> Salvar </button>
-                                            </div>
-
-                                        </div>
-
-                                    </form>
-                                </div>
+                                
                             </div>
                             <!-- /.box -->
                         </div>

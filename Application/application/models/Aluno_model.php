@@ -22,135 +22,122 @@ class Aluno_model extends CI_Model{
 
  }//__construct
 
+ 
+/**
+ * Atualiza dados do Aluno
+ * @param array $data Dados do aluno, ou seja, Colunas e dados
+ * @param int $id ID do Aluno
+ * @return type TRUE or FALSE
+ */
+ public function updateAluno(array $data,int $id){
+
+   $retorno =  $this->db->update('PESSOA',$data,array('ID' => $id));
+   return $retorno;
+
+ }//updateAluno
+ 
+ 
  //Registra o login do usuário
   public function registra_login($dados){
 
     $this->db->insert('SISTEM_LOG',$dados);
 
   }//registra login
-
-//Busca pessoa no banco de dados, se encontrada retorna um array com seus dados
-public function get_pessoa($email){
- $query = 'SELECT * FROM PESSOA,ALUNO WHERE PESSOA.ID = ALUNO.FK_Pessoa_id AND upper(PESSOA.EMAIL) = upper(\''.$email.'\')';
- $resultado = $this->db->query($query);
-
- if($resultado->num_rows() > 0){
-
-      return $resultado->result_array();
-
- }//if
-
- return NULL;
-
-}//getPessoa
-
+  
 /**
- * Busca pessoa pelo id no banco de dados e retorna um array
- * @param type $id Identificação do aluno no banco de dados
- * @return type Array com dados do aluno ou NULL
+ * Busca todos os Alunos no banco de dados
+ * @param type $offset Em qual resultado deve-se começar
+ * @param type $per_page Quantos resultados devem ser retornados
+ * @return type Array se algo for encontrado, NULL caso contrario
  */
-public function getPessoaById($id = NULL , $idPessoa = NULL){
+public function getAll($offset =  '', $per_page = ''){
 
-    if($idPessoa != NULL)
-        $query  = 'SELECT * FROM ALUNO,PESSOA WHERE PESSOA.ID = ALUNO.FK_PESSOA_ID AND PESSOA.ID = '.$idPessoa;
-    else if($id != NULL)
-        $query  = 'SELECT * FROM ALUNO,PESSOA WHERE PESSOA.ID = ALUNO.FK_PESSOA_ID AND ALUNO.ID = '.$id;
-
-    $resultado = $this->db->query($query);
-
-     if($resultado->num_rows() > 0){
-
-      return $resultado->result_array()[0];
-
-    }//if
-
+    $this->db->where('PESSOA_TIPO','ALUNO');
+    $this->db->order_by('ID','ASC');
+    $return = $this->db->get('PESSOA',$per_page,$offset);
+    
+    if($return->num_rows() > 0)
+        return $return->result_array();
     else
         return NULL;
+ 
+}//getAll
+
+/**
+ * Busca aluno no banco de dados com o mesmo email informado
+ * @param string $email Email a ser procurado no banco de dados
+ * @return type Array caso o aluno for encontrado, NULL caso contrario
+ */
+public function getAluno(string $email){
+    
+    $dados_where = array( 'EMAIL' => strtoupper($email) , 'PESSOA_TIPO' => 'ALUNO');
+    $this->db->where($dados_where);
+    $return = $this->db->get('PESSOA');
+    
+    if($return->num_rows() > 0)
+        return $return->result_array();
+    else
+        return NULL;
+    
+
+}//getAluno
+
+/**
+ * Busca Aluno no banco de dados com o mesmo id 
+ * @param int $id ID a ser procurado no banco de dados
+ * @return type Array se for encontrado, NULL caso contrario
+ */
+public function getAlunoById(int $id){
+
+    $this->db->where(array( 'ID' => $id, 'PESSOA_TIPO' => 'ALUNO' ));
+    $return = $this->db->get('PESSOA');
+    
+    if($return->num_rows() > 0)
+        return $return->result_array()[0];
+    else
+        return NULL;
+    
 
 }//getPessoaById
 
 
 /**
- * Busca pessoa no banco de dados, se encontrada retorna um array com seus dados
- * @param type $email
- * @return type
- */
-public function get_pessoa_only($email){
-
- $query = 'SELECT * FROM PESSOA WHERE PESSOA.EMAIL =\''.$email.'\'';
-
- $resultado = $this->db->query($query);
-
- if($resultado->num_rows() > 0){
-
-      return $resultado->result_array();
-
- }//if
-
- return NULL;
-
-}//getPessoa
-
-
-/**
  * Retorna o total de tuplas do aluno no banco de dados
- * @param type $dado
- * @param type $coluna
- * @return type
+ * @return type Quantidade de tuplas no banco de dados
  */
-public function get_total_tupla($dado = '',$coluna = ''){
+public function getAllTupla(){
 
-    if(strcmp($dado, '') == 0 )
-         $query  = 'SELECT * FROM ALUNO,PESSOA WHERE PESSOA.ID = ALUNO.FK_PESSOA_ID ORDER BY ALUNO.ID ASC';
-    else
-         $query  = 'SELECT * FROM ALUNO,PESSOA WHERE PESSOA.'.$coluna.' CONTAINING \''.$dado.'\' AND PESSOA.ID = ALUNO.FK_PESSOA_ID ORDER BY ALUNO.ID ASC ';
+     $this->db->where('PESSOA_TIPO','ALUNO');
+     return $this->db->count_all('PESSOA');
 
-    $resultado = $this->db->query($query);
-
-    return $resultado->num_rows();
-
-}//get_total_tupla
+}//getAllTupla
 
 /**
  * Verifica se o id de pessoa é um ALUNO
- * @param int $id
- * @return boolean
+ * @param int $id ID do Aluno
+ * @return boolean TRUE or FALSE
  */
 public function isAlunoById(int $id){
+    
+    $return = $this->getAlunoById($id);
 
-    $query = "SELECT * FROM PESSOA,ALUNO  WHERE PESSOA.ID = ALUNO.FK_PESSOA_ID AND PESSOA.ID = ".$id;
-
-    $retorno = $this->db->query($query);
-
-    if($retorno->num_rows() > 0)
-        return TRUE;
-    else
+    if($return == NULL)
         return FALSE;
-
+    else
+        return TRUE;
+    
 }//isAlunoById
 
 /**
- * insere uma pessoa e aluno no banco de dados
- * @param type $dados
- * @return type
+ * Insere aluno no banco de dados
+ * @param type $dados Dados do aluno ou seja, valores das colunas da tabela
+ * @return type TRUE or False
  */
- public function insert_pessoa($dados){
+ public function insert($dados){
 
   return $this->db->insert('PESSOA',$dados);
 
- }//insert_pessoa
-
-/**
- * Insere um aluno no banco de dados
- * @param type $dados
- * @return type
- */
-public function insert_aluno($dados){
-
-  return $this->db->insert('ALUNO',$dados);
-
-}//insert_adm
-
+ }//insert
 
 /**
  * Ativa aluno no banco de dados
@@ -202,29 +189,6 @@ public function ativar(int $id){
 
  }//desativar
 
-
- /**
- * Retorna um array de array com todos os dados de todas as pessoas no banco de dados
- */
-public function get_all_pessoa($offset =  '', $per_page = '',$is_search = FALSE,$dado = '',$coluna = ''){
-
-    if(!$is_search)
-         $query  = 'SELECT FIRST '.$per_page.' SKIP '.$offset.' * FROM ALUNO,PESSOA WHERE PESSOA.ID = ALUNO.FK_PESSOA_ID ORDER BY ALUNO.ID' ;
-    else
-         $query  = 'SELECT FIRST '.$per_page.' SKIP '.$offset.'  * FROM ALUNO,PESSOA WHERE PESSOA.ID = ALUNO.FK_PESSOA_ID AND PESSOA.'.$coluna.' LIKE \'%'.$dado.'%\' ORDER BY ALUNO.ID' ;
-
-
-   $resultado = $this->db->query($query);
-
-if($resultado->num_rows() > 0){
-
-    return $resultado->result_array();
-
-}//if
-
-
-
-}//get_all_pessoa
 
 
 //Destroi o objeto

@@ -27,6 +27,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   public function insert(array $dados){
     return  $this->db->insert('CURSO',$dados);
   }//insert
+  
+  /**
+   * Inseri dados na tabela de relaçao entre Curso e Materia
+   * @param array $dados Dados da relaçao
+   */
+  public function insertRelacao(array $dados)
+  {
+  
+      return $this->db->insert('CURSO_MATERIA',$dados);
+      
+  }//insertRelacao
+  
 
  //Retorna a quantidade de tupla existe na tabela
  public function getAllTupla(){
@@ -60,6 +72,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
  }//getWhere
 
+ /**
+  *  Busca todas as Materias do curso
+  * @param int $idCurso ID do Curso que sera buscado
+  * @return type Array se for encontada alguma materia, NULL caso contrario
+  */
+ public function getMaterias(int $idCurso)
+ {
+     
+     $this->db->where(array('FK_CURSO_ID' => $idCurso));
+     $return = $this->db->get('CURSO_MATERIA');
+     
+     if($return->num_rows() > 0)
+         return $return->result_array();
+     else
+         return NULL;
+     
+ }//getMaterias
+ 
+ 
+ 
 //Ativa status de curso no banco de dados
 //Retorna TRUE se ativar com sucesso e FALSE se falhar
  public function ativar(integer $id){

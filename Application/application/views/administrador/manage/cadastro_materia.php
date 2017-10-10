@@ -57,11 +57,48 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
 
-                    <a href="<?php echo base_url('/manage/materia'); ?>"> <button class="fa fa-arrow-circle-left btn btn-primary btn-sm"> <small>Voltar</small></button> </a>
+                     <div class="col-xs-12">
+                        <!--------------------------- / HEADER / ------------------------------------------------------------------------------------------------------------------------------>
+                        <div class="row"  style="margin-bottom:-20px">
 
-                    <ol class="breadcrumb">
-                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-home"></i> Inicio </a></li>
-                    </ol>
+                            <div class="col-md-2">
+
+                                <a href="<?php echo base_url('/manage/materia'); ?>">  <button class="btn btn-app "  >
+                                        <span class="fa fa-book" aria-hidden="true"></span>
+                                        Gerenciar <?php echo ucfirst($this->uri->segment(3)); ?>
+                                    </button> </a>
+
+                            </div>
+
+
+                            <div class="col-md-8">
+
+                                <div class="text-center login-logo">
+
+                                    <div class=" box-header register-logo">
+                                        <a> Cadastro de Materia</a>
+                                    </div>
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+                            <div class="col-md-2 pull-right"  >
+                                
+                               
+
+                            </div>
+
+
+                        </div>
+                        <!--------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+                    
+                    
                 </section>
 
                 <!-- Main content -->
@@ -70,23 +107,16 @@
                     <div class="row">
                         <div class="col-md-12" >
 
-                            <div class="box box-solid" style="height: 700px; margin-left: auto; margin-right: auto;">
-                                <div class=" box-header register-logo">
-                                    <a> Cadastro de Matéria </a>
-                                </div>
+                            <div class="box box-solid" style="height: 550px; margin-left: auto; margin-right: auto;">
+                                
 
 
                               <?php echo form_open('manage/cadastro/materia');  ?>
 
 
 
-                                    <div class="row" >
-                                        <div class="col-md-12" >
-
-                                            <div style="margin-left: 16px; text-align:center; margin-right: 16px;" class="alert alert-info" > Todos os campos com o caracter (*) são obrigatórios </div>
-
-                                        </div>
-
+                                    <div class="box-header text-center" >
+                                      Todos os campos com o caracter (*) são obrigatórios
                                     </div>
 
                                     <div class="col-md-12" >

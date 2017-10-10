@@ -148,9 +148,53 @@ class Manage extends CI_Controller {
         $resultado = $this->materia->getWhere($dados);
 
         $this->load->view('administrador/manage/info/info_materia', $resultado[0]);
-    }
+    }//infoMateria
+    //
+    //
+    /**
+     * /Mostra as informações do Curso
+     * @param int $id
+     */
+    public function infoCurso(int $id) {
 
-//infoMateria
+
+        $this->load->model('curso_model', 'curso');
+        $this->load->model('materia_model', 'materia');
+        $resultado = $this->curso->getWhere(array('ID' => $id));
+        $resultado[0]['materias'] = '';
+        
+        
+        
+        if($resultado)
+        {
+            //Buscar todas as materias do curso
+            $return = $this->curso->getMaterias($id);
+            
+            if($return)
+            {
+                foreach($return as $materia)
+                {
+                    $return = $this->materia->getWhere(array('ID' => $materia['FK_MATERIA_ID']));
+                    $resultado[0]['materias'] =  $resultado[0]['materias'].'<br/>'.$return[0]['TITULO'];
+
+                }//foreach
+                
+            }//if
+
+                        
+            $this->load->view('administrador/manage/info/info_curso', $resultado[0]);
+            
+        }//if
+        
+        else
+        {
+            show_404();
+        }//else
+        
+        
+    }//infoCurso
+
+
 
     /**
      * Lista todas as matérias registradas no banco de dados
@@ -170,14 +214,13 @@ class Manage extends CI_Controller {
         /*         * *************************************************** */
         if ($this->input->post('dropdown_perpage') != NULL) {
             $this->session->set_userdata('perPage', $this->input->post('dropdown_perpage'));
-            $perPage =  $this->session->userdata('perPage');
+            $perPage = $this->session->userdata('perPage');
         }//null
         else {
-            if($this->session->userdata('perPage') == NULL )
+            if ($this->session->userdata('perPage') == NULL)
                 $perPage = 8;
-            
         }//else
-         $dados['perPage'] = $perPage;
+        $dados['perPage'] = $perPage;
         /*         * *************************************************** */
 
 
@@ -296,20 +339,7 @@ class Manage extends CI_Controller {
         $data_table = '';
         $total_rows = 0;
 
-        
-        //Quantidade por pagina
-        /*         * *************************************************** */
-        if ($this->input->post('dropdown_perpage') != NULL) {
-            $this->session->set_userdata('perPage', $this->input->post('dropdown_perpage'));
-            $perPage =  $this->session->userdata('perPage');
-        }//null
-        else {
-            if($this->session->userdata('perPage') === NULL )
-                $perPage = 8;
-            
-        }//else
-         $dados['perPage'] = $perPage;
-        /*         * *************************************************** */
+
 
         //inicia a busca
         if (strcmp($this->input->post('table_search'), '') != 0) {
@@ -322,19 +352,19 @@ class Manage extends CI_Controller {
 
         //Verificação para saber qual sql se deve executar
         if ($this->session->userdata('is_search')):
+        /*
+          if ((strcmp($this->input->post('table_search'), '') != 0)):
+          $this->session->set_userdata('table_search', $this->input->post('table_search'));
+          $this->session->set_userdata('dropdown_search', $this->input->post('dropdown_search'));
+          endif;
 
-            if ((strcmp($this->input->post('table_search'), '') != 0)):
-                $this->session->set_userdata('table_search', $this->input->post('table_search'));
-                $this->session->set_userdata('dropdown_search', $this->input->post('dropdown_search'));
-            endif;
+          $data_table = $this->session->userdata('table_search');
+          $field_table = $this->session->userdata('dropdown_search');
 
-            $data_table = $this->session->userdata('table_search');
-            $field_table = $this->session->userdata('dropdown_search');
+          $CountRows = $this->administrador->get_total_tupla($data_table, $field_table);
+          $TableData = $this->administrador->get_all_pessoa($offset, $perPage, TRUE, $data_table, $field_table);
 
-            $CountRows = $this->administrador->get_total_tupla($data_table, $field_table);
-            $TableData = $this->administrador->get_all_pessoa($offset, $perPage, TRUE, $data_table, $field_table);
-
-            unset($_POST['table_search']);
+          unset($_POST['table_search']); */
 
         else:
             $this->session->set_userdata('is_search', FALSE);
@@ -400,6 +430,7 @@ class Manage extends CI_Controller {
 
 
         $dados['table'] = $TableData;
+        $dados['entidade'] = 'Administrador';
 
         $this->load->view('/administrador/manage/manage', $dados);
     }
@@ -437,23 +468,23 @@ class Manage extends CI_Controller {
         //Verificação para saber qual sql se deve executar
         if ($this->session->userdata('is_search')):
 
-            if ((strcmp($this->input->post('table_search'), '') != 0)):
-                $this->session->set_userdata('table_search', $this->input->post('table_search'));
-                $this->session->set_userdata('dropdown_search', $this->input->post('dropdown_search'));
-            endif;
+        /*  if ((strcmp($this->input->post('table_search'), '') != 0)):
+          $this->session->set_userdata('table_search', $this->input->post('table_search'));
+          $this->session->set_userdata('dropdown_search', $this->input->post('dropdown_search'));
+          endif;
 
-            $data_table = $this->session->userdata('table_search');
-            $field_table = $this->session->userdata('dropdown_search');
+          $data_table = $this->session->userdata('table_search');
+          $field_table = $this->session->userdata('dropdown_search');
 
-            $CountRows = $this->professor->get_total_tupla($data_table, $field_table);
-            $TableData = $this->professor->get_all_pessoa($offset, $perPage, TRUE, $data_table, $field_table);
+          $CountRows = $this->professor->get_total_tupla($data_table, $field_table);
+          $TableData = $this->professor->get_all_pessoa($offset, $perPage, TRUE, $data_table, $field_table);
 
-            unset($_POST['table_search']);
+          unset($_POST['table_search']); */
 
         else:
             $this->session->set_userdata('is_search', FALSE);
-            $CountRows = $this->professor->get_total_tupla();
-            $TableData = $this->professor->get_all_pessoa($offset, $perPage);
+            $CountRows = $this->professor->getAllTupla();
+            $TableData = $this->professor->getAll($offset, $perPage);
         endif;
 
 
@@ -515,6 +546,7 @@ class Manage extends CI_Controller {
 
 
         $dados['table'] = $TableData;
+        $dados['entidade'] = 'Professor';
 
         $this->load->view('/administrador/manage/manage', $dados);
     }
@@ -553,24 +585,24 @@ class Manage extends CI_Controller {
 
         //Verificação para saber qual sql se deve executar
         if ($this->session->userdata('is_search')):
+        /*
+          if ((strcmp($this->input->post('table_search'), '') != 0)):
+          $this->session->set_userdata('table_search', $this->input->post('table_search'));
+          $this->session->set_userdata('dropdown_search', $this->input->post('dropdown_search'));
+          endif;
 
-            if ((strcmp($this->input->post('table_search'), '') != 0)):
-                $this->session->set_userdata('table_search', $this->input->post('table_search'));
-                $this->session->set_userdata('dropdown_search', $this->input->post('dropdown_search'));
-            endif;
+          $data_table = $this->session->userdata('table_search');
+          $field_table = $this->session->userdata('dropdown_search');
 
-            $data_table = $this->session->userdata('table_search');
-            $field_table = $this->session->userdata('dropdown_search');
+          $CountRows = $this->aluno->get_total_tupla($data_table, $field_table);
+          $TableData = $this->aluno->get_all_pessoa($offset, $perPage, TRUE, $data_table, $field_table);
 
-            $CountRows = $this->aluno->get_total_tupla($data_table, $field_table);
-            $TableData = $this->aluno->get_all_pessoa($offset, $perPage, TRUE, $data_table, $field_table);
-
-            unset($_POST['table_search']);
+          unset($_POST['table_search']); */
 
         else:
             $this->session->set_userdata('is_search', FALSE);
-            $CountRows = $this->aluno->get_total_tupla();
-            $TableData = $this->aluno->get_all_pessoa($offset, $perPage);
+            $CountRows = $this->aluno->getAllTupla();
+            $TableData = $this->aluno->getAll();
         endif;
 
 
@@ -630,6 +662,7 @@ class Manage extends CI_Controller {
         $dados['pagination'] = $this->pagination->create_links();
 
         $dados['table'] = $TableData;
+        $dados['entidade'] = 'Aluno';
 
         $this->load->view('/administrador/manage/manage', $dados);
     }
@@ -655,12 +688,12 @@ class Manage extends CI_Controller {
 
             case 'PROFESSOR':
                 $this->load->model('Professor_model', 'professor');
-                $resultado = $this->professor->getPessoaById($userid);
+                $resultado = $this->professor->getProfessorById($userid);
                 break;
 
             case 'ALUNO':
                 $this->load->model('Aluno_model', 'aluno');
-                $resultado = $this->aluno->getPessoaById($userid);
+                $resultado = $this->aluno->getAlunoById($userid);
                 break;
 
             default:show_404();
@@ -676,15 +709,9 @@ class Manage extends CI_Controller {
     /**
      * Redireciona entidade para o método de modificação
      */
-    public function alter($entidade = NULL, int $id = NULL) {
+    public function alter(string $entidade, int $id) {
 
         isSessionStarted();
-
-        if ($entidade == NULL || $id == NULL) {
-            show_404();
-            log_message('info', 'Access in function desativar of class Manage with out parameters');
-        }//if | NULL parameters
-
 
 
         switch (strtoupper($entidade)) {
@@ -1020,7 +1047,7 @@ class Manage extends CI_Controller {
             $this->session->set_flashdata('mensagem_usuario', '<div style = "text-align:center"  class=" alert alert-info">' . validation_errors() . '</div>');
         }// Dados não validados
         //Buscando dados do professor
-        $resultado = $this->professor->getPessoaById(NULL, $id);
+        $resultado = $this->professor->getProfessorById($id);
 
         //Carregamento da view de alteração
         $this->load->view('administrador/manage/alter/alter_professor', $resultado);
@@ -1039,7 +1066,9 @@ class Manage extends CI_Controller {
         $this->load->model('aluno_model', 'aluno');
         //Verificando se aluno existe no banco de dados
         $retorno = $this->aluno->isAlunoById($id);
+
         if (!$retorno) {
+
             $this->session->set_flashdata('mensagem_manage', ' <div style = "text-align:center" class=" alert alert-danger"> Aluno não existe na base de dados </div> ');
             log_message('info', 'Menage->desativar(' . $entidade . ',' . $id . ') -> Entidade não existe no banco de dados');
             redirect(base_url('/manage/aluno'), 'reflash');
@@ -1141,7 +1170,7 @@ class Manage extends CI_Controller {
             $this->session->set_flashdata('mensagem_usuario', '<div style = "text-align:center"  class=" alert alert-info">' . validation_errors() . '</div>');
         }// Dados não validados
         //Buscando dados do aluno
-        $resultado = $this->aluno->getPessoaById(NULL, $id);
+        $resultado = $this->aluno->getAlunoById($id);
 
         //Carregamento da view de alteração
         $this->load->view('administrador/manage/alter/alter_aluno', $resultado);
@@ -1183,7 +1212,10 @@ class Manage extends CI_Controller {
     }
 
 //cadastro
-    //Cadastra curso no banco de dados
+
+    /**
+     * Controle responsavel pelo cadastro de curso
+     */
     private function cadCurso() {
 
 
@@ -1192,44 +1224,111 @@ class Manage extends CI_Controller {
         $this->load->model('curso_model', 'curso');
 
 
-
-
-
         //Declaração de variaveis
         $dados = NULL;
 
         //Criando regras para a validação do formulário
-        $this->form_validation->set_rules('apresentacao', '"Apresentação"', 'trim|max_length[250]');
-        $this->form_validation->set_rules('titulo', '"Titulo"', 'trim|required|max_length[60]');
-        $this->form_validation->set_rules('objetivo', '"Objetivo"', 'trim|max_length[250]');
-        $this->form_validation->set_rules('ementa', '"Ementa"', 'trim|max_length[250]');
-        $this->form_validation->set_rules('bibliografia', '"Bibliografia"', 'trim|max_length[250]');
+        $this->form_validation->set_rules('titulo', '"Titulo"', 'trim|required|max_length[45]');
+        $this->form_validation->set_rules('descricao', '"Descriçao do Curso"', 'trim|max_length[62]');
+        $this->form_validation->set_rules('duracao', '"Duraçao do curso"', 'trim|max_length[62]');
+        $this->form_validation->set_rules('vagas', '"Vagas"', 'trim|max_length[62]');
+        $this->form_validation->set_rules('carga_horaria', '"Carga Horaria"', 'trim|max_length[62]');
+
+
 
         //inicio a verificação da regras
-        if ($this->form_validation->run()) {
+        if ($this->form_validation->run())
+        {
+            //Verificando se o titulo existe no banco de dados
+            $titulo_post = $this->input->post('titulo');
 
+            echo 'Carregando...';
 
-            $dados = array(
-                'TITULO' => $this->input->post('titulo'),
-                'APRESENTACAO' => "" . $this->input->post('apresentacao'),
-                'OBJETIVO' => "" . $this->input->post('objetivo'),
-                'EMENTA' => "" . $this->input->post('ementa'),
-                'BIBLIOGRAFIA' => "" . $this->input->post('bibliografia'),
-                'STATUS' => 'Ativado',
-                'MATERIAL' => "",
-                'EXTRACLASSE' => "" . $this->input->post('extraclasse')
-            );
+            $return = $this->curso->getAll();
+            //Corresponde a existencia do titulo no banco de dados
+            $existe = FALSE;
+            
+            foreach ($return as $curso) {
 
-            $retorno = $this->materia->insert($dados);
+                if (strcmp(strtoupper($curso['TITULO']), strtoupper($titulo_post)) == 0) {
 
-            if ($retorno) {
+                    $existe = TRUE;
 
-                $this->session->set_flashdata('mensagem_manage', ' <div style = "text-align:center" class=" alert alert-success"> Matéria cadastrada com sucesso </div> ');
-                redirect(base_url('/manage/materia'));
-            }//if
-            else {
+                    $this->session->set_flashdata('mensagem_usuario', '<div class=" alert alert-warning">
+                        Este titulo já existe, por favor tente outro !
+                        </div> ');
+
+                    break;
+                }//if
+               
                 
-            }//else
+            }//foreach
+
+            //Titulo nao existe no banco de dados
+            if (!$existe) {
+                
+                
+                
+                $dados = array(
+                    
+                 'TITULO' => $this->input->post('titulo'),
+                 'STATUS' => 'Ativado',
+                 'DESCRICAO' => "DESCRIÇAO DO CURSO <br/>".$this->input->post('descricao')."<br/> DURAÇAO DO CURSO <br/>".$this->input->post('duracao').
+                 "<br/> VAGAS <br/>".$this->input->post('vagas')."<br/> CARGA HORARIA <br/>".$this->input->post('carga_horaria') 
+                    
+                    
+                    
+                );
+                
+                //Inserindo curso
+                $return = $this->curso->insert($dados);
+                if($return)
+                {
+                    
+                    //Buscando o id da Materia inserida
+                    $tituloCurso = $this->input->post('titulo');
+                    $return = $this->curso->getWhere(array('TITULO' => $tituloCurso));
+                    $idCurso = $return[0]['ID'];
+                    
+                    
+                    
+                    $materias =  $this->input->post('materia');
+                    
+            
+                    foreach($materias as $materia)
+                    {
+                        
+                        $return = $this->curso->insertRelacao(array(  'FK_MATERIA_ID' =>  $materia, 'FK_CURSO_ID' => $idCurso ));
+                        //Erro ao inserir
+                        if(!$return)
+                        {
+                           
+                            $this->session->set_flashdata('mensagem_usuario', '<div class=" alert alert-danger">
+                            Ocorreu um erro na tentativa de cadastro de relaçao do Curso <strong> Contate o administrador </strong>
+                             </div> ');
+                            
+                            //Registrar log
+                            
+                        }//if
+                        
+                    }//foreach
+                    
+                    
+                    $this->session->set_flashdata('mensagem_manage', ' <div style = "text-align:center" class=" alert alert-success"> Curso cadastrado com sucesso </div> ');
+                    redirect(base_url('/manage/curso'));
+                    
+                }//if
+                else
+                {
+                    
+                    $this->session->set_flashdata('mensagem_usuario', '<div class=" alert alert-danger">
+                    Ocorreu um erro na tentativa de cadastro de curso <strong> Contate o administrador </strong>
+                  </div> ');
+                    
+                }//else
+                
+                
+            }//if
         }//validation
         else {
 
@@ -1246,9 +1345,9 @@ class Manage extends CI_Controller {
 
         $dados['Mate'] = $this->materia->getAll();
         $this->load->view('/administrador/manage/cadastro_curso', $dados);
-    }
+    }//cadCurso
 
-//cadCurso
+
 
     /**
      * Registra matéria no banco de dados
@@ -1689,7 +1788,6 @@ class Manage extends CI_Controller {
 
                         $this->session->set_flashdata('mensagem_manage', ' <div style = "text-align:center" class=" alert alert-success"> Administrador cadastrado com sucesso </div> ');
                         redirect(base_url() . 'manage/administrador');
-                        
                     }//if 
                     else {
 
