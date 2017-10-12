@@ -21,17 +21,45 @@ class Aluno_model extends CI_Model{
    /***************************************************/
 
  }//__construct
-
+ /**
+  * Retorna o ultimo ID da tabela pessoa do banco de dados
+  * @return type
+  */
+ public function lastID(){
+    
+     return $this->db->query('SELECT GEN_ID(GN_PESSOA,0) FROM RDB$DATABASE');
+     
+ }//lastID
  
+
+/**
+ * Faz a verificaçao no banco de dados se o CPF informado ja existe
+ * @param string $cpf CPF a ser buscado no banco de dados
+ * @return boolean TRUE se existe, caso contrario FALSE
+ */
+public function verificaCPF(string $cpf)
+{
+    
+    $this->db->where(array('CPF' => $cpf, 'PESSOA_TIPO' => 'ALUNO' ));
+    $return = $this->db->get('PESSOA');
+    
+    if($return->num_rows() > 0):
+        return TRUE;
+    else:
+        return FALSE;
+    endif;
+    
+}//verificaCPF
+
 /**
  * Atualiza dados do Aluno
  * @param array $data Dados do aluno, ou seja, Colunas e dados
  * @param int $id ID do Aluno
  * @return type TRUE or FALSE
  */
- public function updateAluno(array $data,int $id){
+ public function update(array $data,string $cpf){
 
-   $retorno =  $this->db->update('PESSOA',$data,array('ID' => $id));
+   $retorno =  $this->db->update('PESSOA',$data,array('CPF' => $cpf,'PESSOA_TIPO' => 'ALUNO'));
    return $retorno;
 
  }//updateAluno
@@ -65,17 +93,16 @@ public function getAll($offset =  '', $per_page = ''){
 
 /**
  * Busca aluno no banco de dados com o mesmo email informado
- * @param string $email Email a ser procurado no banco de dados
+ * @param string $cpf CPF a ser procurado no banco de dados
  * @return type Array caso o aluno for encontrado, NULL caso contrario
  */
-public function getAluno(string $email){
+public function getAluno(string $cpf){
     
-    $dados_where = array( 'EMAIL' => strtoupper($email) , 'PESSOA_TIPO' => 'ALUNO');
-    $this->db->where($dados_where);
+    $this->db->where(array( 'CPF' => $cpf , 'PESSOA_TIPO' => 'ALUNO'));
     $return = $this->db->get('PESSOA');
     
     if($return->num_rows() > 0)
-        return $return->result_array();
+        return $return->result_array()[0];
     else
         return NULL;
     
@@ -108,7 +135,7 @@ public function getAlunoById(int $id){
 public function getAllTupla(){
 
      $this->db->where('PESSOA_TIPO','ALUNO');
-     return $this->db->count_all('PESSOA');
+     return $this->db->get('PESSOA')->num_rows();
 
 }//getAllTupla
 

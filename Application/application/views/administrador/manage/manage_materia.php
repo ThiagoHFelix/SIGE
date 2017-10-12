@@ -104,7 +104,7 @@
 
                           <div class="col-md-2">
 
-                                        <a href="<?php echo base_url('/manage/cadastro/materia'); ?>">  <button class="btn btn-app"  >
+                                        <a href="<?php echo base_url('cadastro/materia'); ?>">  <button class="btn btn-app"  >
                                                 <span class="fa fa-book" aria-hidden="true"></span>
                                                 Cadastrar Matéria
                                         </button> </a>

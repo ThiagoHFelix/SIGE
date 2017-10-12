@@ -48,26 +48,69 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
+                    <div class="col-xs-12">
+                        <?php
+                        //Variavel responsável por avisar usuário sobre o sucesso do cadastro
+                        echo $this->session->flashdata('mensagem_userprofile');
+                        ?>
+                        <!--------------------------- / HEADER / ------------------------------------------------------------------------------------------------------------------------------>
+                        <div class="row"  style="margin-bottom:-20px">
 
-                    <a href="<?php echo base_url('/manage/'.$this->uri->segment(3)); ?>"> <button class="fa fa-arrow-circle-left btn btn-primary btn-sm"> <small>Voltar</small></button> </a>
+                            <div class="col-md-2">
 
-                    <ol class="breadcrumb">
-                        <li><a href="<?php echo base_url('/dashboard'); ?>"><i class="fa fa-dashboard"></i> Home </a></li>
-                        <li><a href="<?php echo base_url('/manage/'.$this->uri->segment(3)); ?>"><i class="fa fa-users"></i> Gerenciamento <?php echo $this->uri->segment(3); ?> </a></li>
-                        <li><a href="<?php echo base_url('/manage/userprofile/'.$this->uri->segment(3).'/'.$this->uri->segment(4)); ?>"><i class="fa fa-users"></i> Perfil de usuário </a></li>
-                    </ol>
+                                <a href="<?php echo base_url('/manage/'.ucfirst($this->uri->segment(2))); ?>">  <button class="btn btn-app "  >
+                                        <span class="fa fa-users" aria-hidden="true"></span>
+                                        Gerenciar <?php echo ucfirst($this->uri->segment(2)); ?>
+                                    </button> </a>
+
+                            </div>
+
+
+                            <div class="col-md-8">
+
+                                <div class="text-center login-logo">
+
+                                    <div class=" box-header register-logo">
+                                        <a> Perfil do Usuario</a>
+                                    </div>
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+                            <div class="col-md-2 pull-right"  >
+                                
+                               
+
+                            </div>
+
+
+                        </div>
+                        <!--------------------------------------------------------------------------------------------------------------------------------------------------------->
+                        
                 </section>
+                
+                 
 
                 <!-- Main content -->
                 <section class="content">
 
 
-
+                        
+                    
+                    
                     <div class="row">
+                        
+                       
+                        
                         <div class="col-md-3">
 
                             <!-- Profile Image -->
-                            <div class="box box-primary">
+                            <div class="box box-solid">
                                 <div class="box-body box-profile">
                                     <img class="profile-user-img img-responsive img-circle" src="<?php  echo $FOTO; ?>" alt="User profile picture">
 
@@ -77,10 +120,10 @@
 
                                     <ul class="list-group list-group-unbordered">
                                         <li class="list-group-item">
-                                            <b>E-mail</b> <a class="pull-right"><?php  echo $EMAIL; ?></a>
+                                            <b>CPF</b> <a class="pull-right"><?php  echo $CPF; ?></a>
                                         </li>
                                         <li class="list-group-item">
-                                            <b>Telefone</b> <a class="pull-right"><?php  echo $TELEFONE; ?></a>
+                                            <b>RG</b> <a class="pull-right"><?php  echo $RG; ?></a>
                                         </li>
                                         <li class="list-group-item">
                                             <b>Sexo</b> <a class="pull-right"><?php
@@ -101,7 +144,7 @@
 
 
                             <!-- About Me Box -->
-                            <div class="box box-primary">
+                            <div class="box box-solid">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Sobre</h3>
                                 </div>
@@ -147,7 +190,7 @@
                         <div class="col-md-9 ">
 
 
-                            <div class=" box box-primary " style=" height: 790px;">
+                            <div class=" box box-solid " style=" height: 790px;">
 
 
 
@@ -180,7 +223,6 @@
                                       <p> <?php echo '- BAIRRO: '.$BAIRRO; ?> </p>
                                       <p> <?php echo '- CEP: '.$CEP; ?> </p>
                                       <p> <?php echo '- RUA: '.$RUA; ?> </p>
-                                      <p> <?php echo '- NUMERO DE RESIDENCIA: '.$NUMRESIDENCIA; ?> </p>
 
 
                                     </div>
@@ -201,7 +243,7 @@
 
                                       <p> <?php echo '- CEF: '.$CPF; ?> </p>
                                       <p> <?php echo '- RG: '.$RG; ?> </p>
-                                      <p> <?php echo '- TELEFONE: '.$TELEFONE; ?> </p>
+                                      <p> <?php echo '- TELEFONE: '; ?> </p>
                                       <p> <?php echo '- REGISTRO: '.$ID; ?> </p>
 
                                     </div>

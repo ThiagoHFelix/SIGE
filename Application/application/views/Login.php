@@ -90,6 +90,7 @@
                 <a style="color:white;" href="<?php echo base_url(); ?>"><b>SIGE</b></a>
             </div>
             
+            
             <!-- /.login-logo -->
             <div id="login-body" class='login-box-body'>
                 <p class="login-box-msg">Identifique-se para utilzar o sistema</p>
@@ -100,11 +101,15 @@
                         
                         
                         <div class="form-group has-feedback">
-                            <input required name="username" type="email" class="form-control" value="<?php echo setValue('username'); ?>" placeholder="Email">
-                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                            <input required name="username" type="text" class="form-control" minlength="14" maxlength="14" value="<?php echo setValue('username'); ?>" placeholder="CPF"
+                                    data-inputmask='"mask": "999.999.999-99"' data-mask
+                                   >
+                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
                         </div>
                         <div class="form-group has-feedback">
-                            <input required name="password" type="password" class="form-control" value="<?php echo setValue('password'); ?>" placeholder="<?php echo $this->lang->line('placeholder_password'); ?>">
+                            <input required name="password" type="password" class="form-control" value="<?php echo setValue('password'); ?>" placeholder="<?php echo $this->lang->line('placeholder_password'); ?>"
+                                   
+                                   >
                             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                         </div>
                         <div class="row">
@@ -127,7 +132,7 @@
                     <a href="<?php echo base_url('/login/professor'); ?>" class="btn btn-block btn-social btn-info btn-flat"><i class="fa fa-user"></i> <?php echo $texto_button['professor']; ?> </a>
                     <a href="<?php echo base_url('/login/aluno'); ?>" class="btn btn-block btn-social btn-success btn-flat"><i class="fa fa-user"></i> <?php echo $texto_button['aluno']; ?> </a>
                     <br/>
-                    <a href="<?php echo base_url('login/recover'); ?>" id="recuperacao_senha" class="link-muted" style="text-align: center"><?php echo $this->lang->line('recovery_pass'); ?></a>
+                    <a href="<?php echo base_url('login/recover'); ?>" id="recuperacao_senha" class="link-muted" style="text-align: center"><?php echo 'Recuperar dados'; ?></a>
 
                 </div>
                 <!-- /.social-auth-links -->
@@ -140,20 +145,32 @@
         <!-- /.login-box -->
 
         <!-- jQuery 3 -->
-        <script src="<?php echo base_url('data-views/dashboard/bower_components/jquery/dist/jquery.min.js'); ?>"></script>
+        <script src="<?php echo base_url('data-views/dashboard/bower_components/jquery/dist/jquery.js'); ?>"></script>
         <!-- Bootstrap 3.3.7 -->
         <script src="<?php echo base_url('data-views/dashboard/bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
         <!-- iCheck -->
         <script src="<?php echo base_url('data-views/dashboard/plugins/iCheck/icheck.min.js'); ?>"></script>
+        
+           <!-- Select2 -->
+        <script src="<?php echo base_url('data-views/dashboard/bower_components/select2/dist/js/select2.full.min.js'); ?>"></script>
+        
+     <!-- InputMask -->
+        <script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.js'); ?> "></script>
+        <script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.date.extensions.js'); ?>"></script>
+        <script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.extensions.js'); ?>"></script>
+
         <script>
             $(function () {
-                $('input').iCheck({
-                    checkboxClass: 'icheckbox_square-blue',
-                    radioClass: 'iradio_square-blue',
-                    increaseArea: '20%' // optional
-                });
-            });
+                //Initialize Select2 Elements
+                $('.select2').select2()
 
+                //Money Euro
+                $('[data-mask]').inputmask()
+
+
+            })
         </script>
+        
+    
     </body>
 </html>

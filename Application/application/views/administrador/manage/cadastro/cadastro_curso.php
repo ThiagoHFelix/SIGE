@@ -65,7 +65,7 @@
 
                                 <a href="<?php echo base_url('/manage/curso'); ?>">  <button class="btn btn-app "  >
                                         <span class="fa fa-book" aria-hidden="true"></span>
-                                        Gerenciar <?php echo ucfirst($this->uri->segment(3)); ?>
+                                        Gerenciar Curso
                                     </button> </a>
 
                             </div>
@@ -105,7 +105,19 @@
                 <section class="content">
 
                     <div class="row">
+                         <div class="col-md-12">
+
+                                      <!--------------- AVISO --------------->
+                                    <div class="form-group has-feedback text-center" >
+                                        <?php echo $this->session->flashdata('mensagem_usuario'); ?>
+                                    </div>
+                                    <!--------------- /. AVISO --------------->
+                                  
+                                </div>
                         <div class="col-md-12" >
+                            
+                            
+                               
 
                             <div class="box box-solid" style="height: 720px; margin-left: auto; margin-right: auto;">
 
@@ -113,7 +125,7 @@
 
 
 
-                                <?php echo form_open('manage/cadastro/curso'); ?>
+                                <?php echo form_open('cadastro/curso'); ?>
 
 
 
@@ -223,15 +235,6 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 pull-left">
-
-
-                                    <!--------------- AVISO --------------->
-                                    <div class="form-group has-feedback text-center" >
-                                        <?php echo $this->session->flashdata('mensagem_usuario'); ?>
-                                    </div>
-                                    <!--------------- /. AVISO --------------->
-                                </div>
 
                                 <div class="col-md-6 pull-right">
                                     <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>

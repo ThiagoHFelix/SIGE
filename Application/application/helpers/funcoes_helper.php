@@ -12,7 +12,7 @@ if(!function_exists('showError')){
      * Cria uma mensagem de erro utilizando flashdata
      * @param type $flashName Nome do flash
      * @param type $message Mensagem
-     * @param type $type danger,warring ou succes
+     * @param type $type danger,warring ou success
      */
      function showError($flashName,$message,$type){
 
@@ -25,7 +25,8 @@ if(!function_exists('showError')){
         //Verifico se existe erro
         if(strcmp($message,'') != 0){
 
-            $string_error = "<div class=' alert alert-".$type."'>". $message." </div>";
+            $string_error = "<div class=' alert text-center alert-".$type."'>". $message." </div>";
+          //  $string_error = "<p class=\"login-box-msg \" style=\"color:red\">".$message."</p>";
         }
 
         $ci->session->set_flashdata($flashName,$string_error);
@@ -62,10 +63,22 @@ if (!function_exists('isSessionStarted')):
     /**
      * Verifico se a sessão já foi iniciada
      */
-    function isSessionStarted() {
+    function isSessionStarted(string $entidade = NULL) {
         $CI = & get_instance();
         //Verifico se uma sessão já existe, se a url for inserida diretamente
         //Sessão não iniciada
+        
+        if(strcmp(strtoupper($entidade),'ADMINISTRADOR')):
+            
+            if (($CI->session->userdata('logged_in') == FALSE) && (strcmp(strtoupper($CI->session->userdata('entidade')),'ADMINISTRADOR') != 0) ):
+                
+                redirect(base_url(), 'reflesh');
+                
+            endif;
+            
+        endif;
+        
+        
         if ($CI->session->userdata('logged_in') == NULL):
             redirect(base_url(), 'reflesh');
         endif;

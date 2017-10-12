@@ -47,30 +47,29 @@ class Dashboard extends CI_Controller {
 
 
      $entidade = $this->session->userdata('entidade');
-     $email = $this->session->userdata('user_email');
+     $cpf = $this->session->userdata('user_cpf');
 
       if(strcasecmp($entidade,'Administrador') == 0 ){
         $this->load->model('Administrador_model','administrador');
-        $pessoa = $this->administrador->getAdministrador($email);
+        $pessoa = $this->administrador->getAdministrador($cpf);
       }//Administrador
 
       if(strcasecmp($entidade,'Professor') == 0 ){
         $this->load->model('Professor_model','professor');
-        $pessoa = $this->professor->getProfessor($email);
+        $pessoa = $this->professor->getProfessor($cpf);
       }//Professor
 
       if(strcasecmp($entidade,'Aluno') == 0 ){
         $this->load->model('Aluno_model','aluno');
-        $pessoa = $this->aluno->getAluno($email);
+        $pessoa = $this->aluno->getAluno($cpf);
       }//Aluno
 
         /* Registro do logout */
        $dados_registro = array(
 
       'MENSAGEM' => 'Saindo no Sistema | '.$entidade,
-      'ID_PESSOA' => $pessoa[0]['ID'],
-      'ID_ENTIDADE' => $pessoa[0]['ID_01'],
-      'USER_EMAIL' => $pessoa[0]['EMAIL']
+      'ID_PESSOA' => $pessoa['ID'],
+      'USER_EMAIL' => $pessoa['CPF']
 
        );
 

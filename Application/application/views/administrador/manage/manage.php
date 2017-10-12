@@ -104,7 +104,7 @@
 
                             <div class="col-md-2">
 
-                                          <a href="<?php echo base_url('/manage/cadastro/'.$entidade); ?>">  <button class="btn btn-app"  >
+                                          <a href="<?php echo base_url('/cadastro/'.$entidade); ?>">  <button class="btn btn-app"  >
                                                   <span class="fa fa-users" aria-hidden="true"></span>
                                                   Cadastrar <?php echo ucfirst($this->uri->segment(2)); ?>
                                           </button> </a>
@@ -181,7 +181,7 @@
                                                 echo '<td>  ' . $row['ID'] . ' </td>';
 
                                                 echo '<td> ' . $row['PRIMEIRONOME'] . ' ' . $row['SOBRENOME'] . ' </td>';
-                                                echo '<td> ' . $row['EMAIL'] . ' </td>';
+                                                echo '<td> ' . $row['CPF'] . ' </td>';
 
 
                                                 if (strcmp(strtoupper($row['STATUS']), 'ATIVADO') == 0):
@@ -193,7 +193,7 @@
 
                                                 endif;
 
-                                                $url = base_url('/manage/userprofile/' . $this->uri->segment(2) . '/' . $row['ID']);
+                                                $url = base_url('visualizar/' . $this->uri->segment(2) . '/' . $row['CPF']);
 
                                                 if (strcmp(strtoupper($row['STATUS']), 'ATIVADO') == 0):
 
@@ -202,7 +202,7 @@
                                                      <td >
                                                         <div class=\"btn-group\">
                                                              <a href=\" " . $url . "  \">   <button class=\"fa fa-user btn  btn-primary\" ></button> </a>
-                                                                 <a href='" . base_url('/manage/alter/' . $this->uri->segment(2) . '/' . $row['ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
+                                                                 <a href='" . base_url('update/' . $this->uri->segment(2) . '/' . $row['CPF']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
                                                             <a>   <button onclick=\"confirmaDelete(" . $row['ID'] . ")\" class=\"fa fa-lock btn btn-danger\"></button> </a>
 
                                                         </div>
@@ -216,7 +216,7 @@
                                                      <td >
                                                         <div class=\"btn-group\">
                                                              <a href=\" " . $url . "  \">   <button class=\"fa fa-user btn  btn-primary\" ></button> </a>
-                                                                 <a href='" . base_url('/manage/alter/' . $this->uri->segment(2) . '/' . $row['ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
+                                                                 <a href='" . base_url('update/' . $this->uri->segment(2) . '/' . $row['CPF']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
                                                             <a>   <button onclick=\"confirmaActive(" . $row['ID'] . ")\" class=\"fa fa-unlock btn btn-info\"></button> </a>
 
                                                         </div>

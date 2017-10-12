@@ -58,21 +58,21 @@ class Login extends CI_Controller {
 
         //Dados da view
         $data['title'] = 'SIGE | Login';
-        $data['recovery_pass'] = 'Esqueceu a senha ou email ?';
+        $data['recovery_pass'] = 'Esqueceu a senha ?';
         $data['button_login'] = 'Logar';
-        $data['placeholder_user'] = 'Email';
+        $data['placeholder_user'] = 'CPF';
         $data['placeholder_password'] = 'Senha';
 
         //Regras de validação
-        $this->form_validation->set_rules('username', $data['placeholder_user'], 'trim|required|valid_email|max_length[40]');
+        $this->form_validation->set_rules('username', $data['placeholder_user'], 'trim|required|max_length[14]|min_length[14]');
         $this->form_validation->set_rules('password', $data['placeholder_password'], 'trim|required|max_length[20]');
 
         //Validação dos campos
         if ($this->form_validation->run() == TRUE) {
 
-            $email = $this->input->post('username');
+            $cpf = $this->input->post('username');
             $senha = $this->input->post('password');
-            $this->verifica_login($entidade, $email, $senha);
+            $this->verifica_login($entidade, $cpf, $senha);
             
         }//if
         else {
@@ -88,27 +88,27 @@ class Login extends CI_Controller {
     /**
      * Faz a verificação dos dados de login se corretos retorna true caso constrario false
      * @param type $entidade
-     * @param type $email
+     * @param type $cpf
      * @param type $senha
      */
-    private function verifica_login($entidade, $email, $senha) {
+    private function verifica_login(string $entidade,string $cpf,string $senha) {
 
         switch ($entidade) {
 
             case 'administrador' :
 
                 $this->load->model('Administrador_model', 'administrador');
-                $resultado = $this->administrador->getAdministrador($email);
+                $resultado = $this->administrador->getAdministrador($cpf);
 
                 if ($resultado != NULL) {
 
-                    if (strcmp($resultado[0]['SENHA'], $senha) != 0) {
+                    if (strcmp($resultado['SENHA'], $senha) != 0) {
                          showError('aviso_login', 'Dados de Administrador inválidos', 'danger');
                     }//IF | SENHA INCORRETA
                     else {
 
                         //VERIFICANDO SE A CONTA ESTÁ ATIVADA
-                        if (strcmp(strtoupper($resultado[0]['STATUS']), 'ATIVADO') == 0) {
+                        if (strcmp(strtoupper($resultado['STATUS']), 'ATIVADO') == 0) {
 
                             $this->registraDadosSession('Administrador');
                             redirect(base_url('/dashboard'), 'reflesh');
@@ -129,7 +129,7 @@ class Login extends CI_Controller {
             case 'professor':
 
                 $this->load->model('Professor_model', 'professor');
-                $resultado = $this->professor->getProfessor($email);
+                $resultado = $this->professor->getProfessor($cpf);
 
                 if ($resultado != NULL) {
 
@@ -140,7 +140,7 @@ class Login extends CI_Controller {
                     else {
 
                         //VERIFICANDO SE A CONTA ESTÁ ATIVADA
-                        if (strcmp(strtoupper($resultado[0]['STATUS']), 'ATIVADO') == 0) {
+                        if (strcmp(strtoupper($resultado['STATUS']), 'ATIVADO') == 0) {
 
                             $this->registraDadosSession('Professor');
                             redirect(base_url('/dashboard'), 'reflesh');
@@ -161,18 +161,18 @@ class Login extends CI_Controller {
             case 'aluno':
 
                 $this->load->model('Aluno_model', 'aluno');
-                $resultado = $this->aluno->getAluno($email);
+                $resultado = $this->aluno->getAluno($cpf);
 
                 if ($resultado != NULL) {
 
 
-                    if (strcmp($resultado[0]['SENHA'], $senha) != 0) {
+                    if (strcmp($resultado['SENHA'], $senha) != 0) {
 
                        showError('aviso_login', 'Dados de Aluno inválidos', 'danger');
                     }//IF | SENHA INCORRETA
                     else {
                         //VERIFICANDO SE A CONTA ESTÁ ATIVADA
-                        if (strcmp(strtoupper($resultado[0]['STATUS']), 'ATIVADO') == 0) {
+                        if (strcmp(strtoupper($resultado['STATUS']), 'ATIVADO') == 0) {
 
                             $this->registraDadosSession('Aluno');
                             redirect(base_url('/dashboard'), 'reflesh');
@@ -204,31 +204,30 @@ class Login extends CI_Controller {
 
 
         $senha = $this->input->post('password');
-        $email = $this->input->post('username');
+        $cpf = $this->input->post('username');
 
         if (strcasecmp($entidade, 'Administrador') == 0)
-            $pessoa = $this->administrador->getAdministrador($email);
+            $pessoa = $this->administrador->getAdministrador($cpf);
 
         if (strcasecmp($entidade, 'Professor') == 0)
-            $pessoa = $this->professor->getProfessor($email);
+            $pessoa = $this->professor->getProfessor($cpf);
 
         if (strcasecmp($entidade, 'Aluno') == 0)
-            $pessoa = $this->aluno->getALuno($email);
+            $pessoa = $this->aluno->getALuno($cpf);
 
 
-        $this->session->set_userdata('user_email', $this->input->post()['username']);
-        $this->session->set_userdata('user_name', $pessoa[0]["PRIMEIRONOME"] . ' ' . $pessoa[0]["SOBRENOME"]);
-        $this->session->set_userdata('user_foto', $pessoa[0]["FOTO"]);
+        $this->session->set_userdata('user_cpf', $this->input->post()['username']);
+        $this->session->set_userdata('user_name', $pessoa["PRIMEIRONOME"] . ' ' . $pessoa["SOBRENOME"]);
+        $this->session->set_userdata('user_foto', $pessoa["FOTO"]);
         $this->session->set_userdata('entidade', $entidade);
-        $this->session->set_userdata('user_id', $pessoa[0]['ID_01']);
+        $this->session->set_userdata('user_id', $pessoa['ID']);
         $this->session->set_userdata('logged_in', 'true');
 
         //Registrar no banco de dados o login
         $dados_registro = array(
             'MENSAGEM' => 'Entrando no Sistema | ' . $entidade,
-            'ID_PESSOA' => $pessoa[0]['ID'],
-            'ID_ENTIDADE' => $pessoa[0]['ID_01'],
-            'USER_EMAIL' => $pessoa[0]['EMAIL']
+            'ID_PESSOA' => $pessoa['ID'],
+            'USER_EMAIL' => $pessoa['CPF']
         );
 
         if (strcasecmp($entidade, 'Administrador') == 0)
@@ -287,8 +286,7 @@ class Login extends CI_Controller {
 
         }//run rules
         else {
-
-
+            
             showError('aviso_recuperacao', validation_errors(), 'danger');
         }
 

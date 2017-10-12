@@ -27,16 +27,44 @@ class Professor_model extends CI_Model  {
 
  }//__construct
 
+  /**
+  * Retorna o ultimo ID da tabela pessoa do banco de dados
+  * @return type
+  */
+ public function lastID(){
+    
+     return $this->db->query('SELECT GEN_ID(GN_PESSOA,0) FROM RDB$DATABASE');
+     
+ }//lastID
+
+/**
+ * Faz a verificaçao no banco de dados se o CPF informado ja existe
+ * @param string $cpf CPF a ser buscado no banco de dados
+ * @return boolean TRUE se existe, caso contrario FALSE
+ */
+public function verificaCPF(string $cpf)
+{
+    
+    $this->db->where(array('CPF' => $cpf, 'PESSOA_TIPO' => 'PROFESSOR' ));
+    $return = $this->db->get('PESSOA');
+    
+    if($return->num_rows() > 0):
+        return TRUE;
+    else:
+        return FALSE;
+    endif;
+    
+}//verificaCPF
+ 
  /**
   * Atualiza dados do Professor
   * @param type $dados Dados do Professor, ou seja, Colunas e dados
-  * @param type $id Id do Professor 
+  * @param string $cpf CPF do Professor 
   * @return type TRUE or FALSE
   */
- public function updateProfessor(int $dados,int $id){
+ public function update(array $dados,string $cpf){
 
-   $retorno =  $this->db->update('PESSOA',$dados,array('ID' => $id));
-   return $retorno;
+   return $this->db->update('PESSOA',$dados,array('CPF' => $cpf,'PESSOA_TIPO' => 'PROFESSOR'));
 
  }//updateProfessor
  
@@ -104,12 +132,12 @@ public function ativar(int $id){
 
 /**
  * Busca Professor no banco de dados com o mesmo email
- * @param string $email Email a ser buscado
+ * @param string $cpf CPF a ser buscado
  * @return type Array se o Professor for encontrado
  */
-public function getProfessor(string $email){
+public function getProfessor(string $cpf){
 
-    $this->db->where(array( 'EMAIL' => strtoupper($email), 'PESSOA_TIPO' => 'PROFESSOR' ));
+    $this->db->where(array( 'CPF' => $cpf, 'PESSOA_TIPO' => 'PROFESSOR' ));
     
     $return = $this->db->get('PESSOA');
     
@@ -146,7 +174,7 @@ public function getAll($offset =  '', $per_page = ''){
 public function getAllTupla(){
 
    $this->db->where('PESSOA_TIPO','PROFESSOR');
-   return $this->db->count_all('PESSOA');
+   return $this->db->get('PESSOA')->num_rows();
 
 }//getAllTupla
 

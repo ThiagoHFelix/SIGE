@@ -105,13 +105,23 @@
                 <section class="content">
 
                     <div class="row">
+                        <div class="col-md-12">
+
+
+  <!--------------- AVISO --------------->
+  <div class="form-group has-feedback text-center" >
+      <?php echo $this->session->flashdata('mensagem_usuario'); ?>
+  </div>
+  <!--------------- /. AVISO --------------->
+</div>
+                        
                         <div class="col-md-12" >
 
                             <div class="box box-solid" style="height: 550px; margin-left: auto; margin-right: auto;">
                                 
 
 
-                              <?php echo form_open('manage/cadastro/materia');  ?>
+                              <?php echo form_open('cadastro/materia');  ?>
 
 
 
@@ -179,15 +189,7 @@
                                         <!--------------- /. EXTRACLASSE --------------->
 </div>
 
-<div class="col-md-6 pull-left">
 
-
-  <!--------------- AVISO --------------->
-  <div class="form-group has-feedback text-center" >
-      <?php echo $this->session->flashdata('mensagem_usuario'); ?>
-  </div>
-  <!--------------- /. AVISO --------------->
-</div>
 
 <div class="col-md-6 pull-right">
                                         <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>

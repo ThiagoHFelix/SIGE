@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <title>SIGE | Cadastro Aluno</title>
+        <title>SIGE | Cadastro Professor</title>
 
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -62,9 +62,9 @@
 
                             <div class="col-md-2">
 
-                                <a href="<?php echo base_url('/manage/aluno'); ?>">  <button class="btn btn-app "  >
+                                <a href="<?php echo base_url('/manage/professor'); ?>">  <button class="btn btn-app "  >
                                         <span class="fa fa-users" aria-hidden="true"></span>
-                                        Gerenciar <?php echo ucfirst($this->uri->segment(3)); ?>
+                                        Gerenciar Professor
                                     </button> </a>
 
                             </div>
@@ -75,7 +75,7 @@
                                 <div class="text-center login-logo">
 
                                     <div class=" box-header register-logo">
-                                        <a> Cadastro de Aluno</a>
+                                        <a> Cadastro de Professor</a>
                                     </div>
 
 
@@ -101,15 +101,32 @@
                 <!-- Main content -->
                 <section class="content">
 
-
+                        <div class="col-md-12">
+                            
+                             <!--------------- AVISO --------------->
+                                <div class="form-group has-feedback text-center " >
+                                    <?php echo $this->session->flashdata('mensagem_usuario'); ?>
+                                </div>
+                                <!--------------- /. AVISO --------------->
+                        </div>
                     <div class="col-md-12" >
-
+                        
                         <div class="box box-solid" style="height: 500px; ">
-                            <div class="box-header text-center"> Todos os campos com o caracter (*) são obrigatórios</div>
+                            <div class="box-header text-center"> Todos os campos com o caracter (*) são obrigatórios </div>
+                            
 
+                            <?php echo form_open_multipart('cadastro/professor'); ?>
+                            
+                            <div class="col-md-12"> 
+                            
+                                      <div class="form-group has-feedback" >
 
-                            <?php echo form_open_multipart('manage/cadastro/aluno'); ?>
+                                            <input type="file" class="form-control" id="imagem" name="imagem"  size="20">
 
+                                        </div>
+
+                            
+                            </div>
 
                             <div class="col-md-6">
 
@@ -214,11 +231,7 @@
                                 </div>
                                 <!--------------- /. RUA --------------->
 
-                                <!--------------- AVISO --------------->
-                                <div class="form-group has-feedback text-center " >
-                                    <?php echo $this->session->flashdata('mensagem_usuario'); ?>
-                                </div>
-                                <!--------------- /. AVISO --------------->
+                             
 
                             </div>
 
@@ -231,16 +244,10 @@
                                 </div>
                                 <!--------------- /. EMAIL --------------->
 
-                                <!--------------- NUMERO DA RESIDENCIA --------------->
-                                <div class="form-group has-feedback">
-                                    <input  name="residencia" type="number" class="form-control "  value="<?php echo setValue('residencia'); ?>" placeholder="Número de residencia">
-                                    <span class="fa fa-home form-control-feedback"></span>
-                                </div>
-                                <!--------------- /. NUMERO DA RESIDENCIA --------------->
 
                                 <!--------------- CPF --------------->
                                 <div class="form-group has-feedback">
-                                    <input  name="cpf" type="text" class="form-control "  value="<?php echo setValue('cpf'); ?>" placeholder="CPF"
+                                    <input required name="cpf" type="text" class="form-control "  value="<?php echo setValue('cpf'); ?>" placeholder="CPF*"
                                             data-inputmask='"mask": "999.999.999-99"' data-mask
                                             >
                                     <span class="fa fa-user-circle-o form-control-feedback"></span>
@@ -290,10 +297,16 @@
                                 </div>
                                 <!--------------- /. CONFIRMAÇÃO DA SENHA --------------->
 
+                                  
+                                
+                                
                                 <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>
 
                             </div>
                         </div>
+                        
+                       
+                        
                         </form>
 
 

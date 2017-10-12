@@ -30,9 +30,9 @@ class Administrador_model extends CI_Model  {
   * @param type $idPessoa
   * @return type
   */
- public function updateAdministrador(array $data,int $id){
+ public function update(array $data,string $cpf){
 
-   $retorno =  $this->db->update('PESSOA',$data,array('ID' => $id));
+   $retorno =  $this->db->update('PESSOA',$data,array('CPF' => $cpf,'PESSOA_TIPO' => 'ADMINISTRADOR'));
    return $retorno;
 
  }//updateAdministrador
@@ -90,6 +90,28 @@ public function ativar(int $id){
 
  }//insert_pessoa
 
+ 
+ public function insertEmail(array $dados){
+     
+     return $this->db->insert('EMAIL',$dados);
+
+ }//insertEmail
+ 
+ public function insertTelefone($dados){
+     
+     return $this->db->insert('TELEFONE',$dados);
+     
+ }//insertTelefone
+ 
+ /**
+  * Retorna o ultimo ID da tabela pessoa do banco de dados
+  * @return type
+  */
+ public function lastID(){
+    
+     return $this->db->query('SELECT GEN_ID(GN_PESSOA,0) FROM RDB$DATABASE')->result_array()[0]['GEN_ID'];
+     
+ }//lastID
 
 //Registra o login do usuário
  public function registra_login($dados){
@@ -97,13 +119,17 @@ public function ativar(int $id){
    $this->db->insert('SISTEM_LOG',$dados);
 
  }//registra login
+ 
+ 
+ 
+ 
 
 //Busca administrador no banco de dados, se encontrada retorna um array com seus dados
-public function getAdministrador(string $email){
+public function getAdministrador(string $cpf){
 
     $dados_where = array(
         
-        'EMAIL' => strtoupper($email),
+        'CPF' => $cpf,
         'PESSOA_TIPO' => 'ADMINISTRADOR'
     );
    
@@ -112,7 +138,7 @@ public function getAdministrador(string $email){
     $return = $this->db->get('PESSOA');
     
     if($return->num_rows() > 0)
-        return $return->result_array();
+        return $return->result_array()[0];
     else
         return NULL;
     
@@ -137,7 +163,7 @@ public function getAll($offset =  '', $per_page = ''){
 public function getAllTupla(){
 
    $this->db->where('PESSOA_TIPO','ADMINISTRADOR');
-   return $this->db->count_all('PESSOA');
+   return $this->db->get('PESSOA')->num_rows();
 
 }//getAllTupla
 
@@ -176,6 +202,36 @@ public function isAdministradorById(int $id){
         return TRUE;
     
 }//isAdministradorById
+
+
+
+/**
+ * Faz a verificaçao no banco de dados se o CPF informado ja existe
+ * @param string $cpf CPF a ser buscado no banco de dados
+ * @return boolean TRUE se existe, caso contrario FALSE
+ */
+public function verificaCPF(string $cpf)
+{
+    
+    $this->db->where(array('CPF' => $cpf, 'PESSOA_TIPO' => 'ADMINISTRADOR' ));
+    $return = $this->db->get('PESSOA');
+    
+    if($return->num_rows() > 0):
+        return TRUE;
+    else:
+        return FALSE;
+    endif;
+    
+}//verificaCPF
+/**
+ * Retorna o ultimo codigo SQL executado
+ * @return type Codigo SQL
+ */
+public function last_query()
+{
+   return $this->db->last_query();
+}//last_query
+
 
 //Destroi o objeto
 public function __destruct(){}//destruct

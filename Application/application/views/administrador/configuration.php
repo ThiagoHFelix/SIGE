@@ -157,6 +157,7 @@
                                               <p>  <strong>  Versão: </strong>  <?php echo $this->db->version(); ?> </p>
                                               <p>  <strong>  Plataforma: </strong>  <?php echo $this->db->platform(); ?> </p>
                                               <p>  <strong>  Atual Banco: </strong>  <?php  echo $this->session->userdata('database'); ?> </p>
+                                              <p>  <strong>  Last Query: </strong>  <?php  echo $last_query ; ?> </p>
                                                 </div>
 
 
