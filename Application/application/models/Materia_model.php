@@ -47,9 +47,13 @@ class  Materia_model extends CI_Model{
     //retorna todas as tuplas da tabela matéria
     public function getAll($limit = NULL, $offset = NULL){
 
-      $retorno = $this->db->get('MATERIA',$limit,$offset);
-      return $retorno->result_array();
+      $retorno = $this->db->get('MATERIA', $limit, $offset);
 
+        if ($retorno->num_rows() > 0):
+            return $retorno->result_array();
+        else:
+            return NULL;
+        endif;
     }//getAll
 
     // Busca no banco de dados com WHERE, se nada for encontrado retorno NULL

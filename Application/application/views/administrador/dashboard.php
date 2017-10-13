@@ -120,68 +120,73 @@
 
 
 
-                                <!-- BODY -->
+                            <!-- BODY -->
 
-                                <div class="box-body" >
+                            <div class="box-body" >
 
 
-                                    <a href="<?php echo base_url('/manage/aluno'); ?>">  <button class="btn btn-app" >
-                                            <span class="fa fa-users" aria-hidden="true"></span>
-                                            Alunos
-                                        </button> </a>
+                                <a href="<?php echo base_url('/manage/aluno'); ?>">  <button class="btn btn-app" >
+                                        <span class="fa fa-users" aria-hidden="true"></span>
+                                        Alunos
+                                    </button> </a>
 
-                                    <a href="<?php echo base_url('/manage/professor'); ?>">  <button class="btn btn-app" >
-                                            <span class="fa fa-users" aria-hidden="true"></span>
-                                            Professores
-                                        </button> </a>
+                                <a href="<?php echo base_url('/manage/professor'); ?>">  <button class="btn btn-app" >
+                                        <span class="fa fa-users" aria-hidden="true"></span>
+                                        Professores
+                                    </button> </a>
 
-                                    <a href="<?php echo base_url('/manage/administrador'); ?>">  <button class="btn btn-app" >
-                                            <span class="fa fa-users" aria-hidden="true"></span>
-                                            Administradores
-                                        </button> </a>
+                                <a href="<?php echo base_url('/manage/administrador'); ?>">  <button class="btn btn-app" >
+                                        <span class="fa fa-users" aria-hidden="true"></span>
+                                        Administradores
+                                    </button> </a>
 
-                                    <a href="<?php echo base_url('/manage/curso'); ?>">  <button class="btn btn-app" >
-                                            <span class="fa fa-graduation-cap" aria-hidden="true"></span>
-                                            Cursos
-                                        </button> </a>
+                                <a href="<?php echo base_url('/manage/curso'); ?>">  <button class="btn btn-app" >
+                                        <span class="fa fa-graduation-cap" aria-hidden="true"></span>
+                                        Cursos
+                                    </button> </a>
 
-                                    <a href="<?php echo base_url('/manage/materia'); ?>">  <button class="btn btn-app" >
-                                            <span class="fa fa-book" aria-hidden="true"></span>
-                                            Matérias
-                                        </button> </a>
+                                <a href="<?php echo base_url('/manage/materia'); ?>">  <button class="btn btn-app" >
+                                        <span class="fa fa-book" aria-hidden="true"></span>
+                                        Matérias
+                                    </button> </a>
 
-                                    <a href="#">  <button class="btn btn-app" >
-                                            <span class="fa fa-users" aria-hidden="true"></span>
-                                            Turmas
-                                        </button> </a>
+                                <a href="<?php echo base_url('/manage/turma'); ?>">  <button class="btn btn-app" >
+                                        <span class="fa fa-users" aria-hidden="true"></span>
+                                        Turmas
+                                    </button> </a>
 
-                                    <a href="#">  <button class="btn btn-app" >
-                                            <span class="fa fa-pencil" aria-hidden="true"></span>
-                                            Registrar Nota
-                                        </button> </a>
+                                <a href="<?php echo base_url('/manage/aviso'); ?>">  <button class="btn btn-app" >
+                                        <span class="fa fa-calendar-check-o" aria-hidden="true"></span>
+                                        Avisos
+                                    </button> </a>
 
-                                    <a href="#">  <button class="btn btn-app" >
-                                            <span class="fa fa-comments" aria-hidden="true"></span>
-                                            Chat
-                                        </button> </a>
+                                <a href="#">  <button class="btn btn-app" >
+                                        <span class="fa fa-pencil" aria-hidden="true"></span>
+                                        Registrar Nota
+                                    </button> </a>
 
-                                    <a href="#">  <button class="btn btn-app" >
-                                            <span class="fa fa-area-chart" aria-hidden="true"></span>
-                                            Relatórios
-                                        </button> </a>
+                                <a href="#">  <button class="btn btn-app" >
+                                        <span class="fa fa-comments" aria-hidden="true"></span>
+                                        Chat
+                                    </button> </a>
 
-                                    <a href="<?php echo base_url('manage/configuration'); ?>">  <button class="btn btn-app" >
-                                            <span class="fa fa-gears" aria-hidden="true"></span>
-                                            Configurações
-                                        </button> </a>
-                                    <a href="<?php echo base_url('manage/log'); ?>">  <button class="btn btn-app" >
-                                            <span class="fa fa-gears" aria-hidden="true"></span>
-                                            Logs
-                                        </button> </a>
+                                <a href="#">  <button class="btn btn-app" >
+                                        <span class="fa fa-area-chart" aria-hidden="true"></span>
+                                        Relatórios
+                                    </button> </a>
 
-                                </div>
+                                <a href="<?php echo base_url('manage/configuration'); ?>">  <button class="btn btn-app" >
+                                        <span class="fa fa-gears" aria-hidden="true"></span>
+                                        Configurações
+                                    </button> </a>
+                                <a href="<?php echo base_url('manage/log'); ?>">  <button class="btn btn-app" >
+                                        <span class="fa fa-gears" aria-hidden="true"></span>
+                                        Logs
+                                    </button> </a>
 
-                                <!-- /.box-body -->
+                            </div>
+
+                            <!-- /.box-body -->
 
                         </div>
 
@@ -193,25 +198,38 @@
 
 
                         <div class="col-md-12">
+                            <!------------------ INICIO BOX ------------------->
+                            <div class="box box-solid text-center " >
 
-                            <div class="box box-solid text-center " style="height: 250px;  ">
-                                <!------------------ INICIO BOX ------------------->
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Quadro de Avisos</h3>
                                 </div>
 
-                                <div class="box-body ">
+                                <div class="box-body scrollbar scrollbar-primary force-overflow "style="height:250px; overflow-y: auto;" >
+
                                     <!------------------ INICIO BODY---------------->
 
+                                    <?php if (isset($avisos)): ?>
+                                        <?php foreach ($avisos as $dado): ?>
+                                            <div style="background-color:lightyellow; border-bottom: 1px solid lightgray;">
+                                                <h3 class="box-title"><?php echo $dado['TITULO']; ?> - <small> <?php echo $dado['DATA']; ?> </small>  </h3>
+                                                <br/>
+                                                <?php echo $dado['MENSAGEM']; ?>
+                                            </div>
 
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
 
                                     <!------------------ FIM BODY------------------->
+
+
                                 </div>
 
 
 
-                                <!------------------ FIM BOX ------------------->
+
                             </div>
+                            <!------------------ FIM BOX ------------------->
 
                         </div>
 

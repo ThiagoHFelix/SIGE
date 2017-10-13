@@ -1,9 +1,9 @@
 /*
 	*********************************
 	* Author: Thiago Henrique Felix *
-	* Data: 10/10/2017		*
-	* Hora: 19:53			*
-	* Version: 5.0			*
+	* Data: 11/10/2017		*
+	* Hora: 11:38			*
+	* Version: 5.2			*
 	*********************************
 */
 
@@ -68,7 +68,6 @@ CREATE TABLE turma (
     status varchar(10),
     infoAdd varchar(255),
     sala varchar(12),
-    horaInicial time,
     tempoAula time,
     titulo varchar(50),
     quantDia integer,
@@ -83,8 +82,6 @@ CREATE TABLE turma (
 
 );
 
-
-
 CREATE TABLE Aviso (
     titulo varchar(25) not null,
     mensagem varchar(255) not null,
@@ -97,6 +94,8 @@ CREATE TABLE Aviso (
 
 CREATE TABLE Dia_semana (
     titulo varchar(25),
+    horaInicial time,
+    quantAula int,
     id integer PRIMARY KEY
 );
 
@@ -316,9 +315,70 @@ CREATE GENERATOR GN_AUDIT_AVALI;
 CREATE GENERATOR GN_TURMA;
 CREATE GENERATOR GN_ATIVIDADE;
 CREATE GENERATOR GN_AVISO;
+CREATE GENERATOR GN_DIA_SEMANA;
+
 
 /*======================================================================*/
-/* PESSOA */
+/* DIA_SEMANA */
+
+
+SET TERM^;
+
+CREATE TRIGGER TR_DIA_SEMANA FOR DIA_SEMANA
+ACTIVE
+BEFORE INSERT OR UPDATE OR DELETE
+AS
+BEGIN
+
+    IF(INSERTING) THEN BEGIN
+
+        IF(NEW.ID IS NULL) THEN BEGIN
+            NEW.ID = GEN_ID(GN_DIA_SEMANA,1);
+        END
+        
+
+        INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'INSERT',
+         CURRENT_USER
+        );
+
+    END
+
+    IF(DELETING) THEN BEGIN
+
+         INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'DELETE',
+         CURRENT_USER
+        );
+
+    END
+
+    IF(UPDATING) THEN BEGIN
+
+         INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'UPDATE',
+         CURRENT_USER
+        );
+
+    END
+
+END^
+
+SET TERM;^
+
+
+
+/*======================================================================*/
+/* AVISO */
 
 
 SET TERM^;
@@ -333,6 +393,14 @@ BEGIN
 
         IF(NEW.ID IS NULL) THEN BEGIN
             NEW.ID = GEN_ID(GN_AVISO,1);
+        END
+        
+        IF(NEW.HORA IS NULL) THEN BEGIN
+            NEW.HORA = CURRENT_TIME;
+        END
+
+        IF(NEW.DATA IS NULL) THEN BEGIN
+            NEW.DATA = CURRENT_DATE;
         END
 
         INSERT INTO HISTORY VALUES(

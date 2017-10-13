@@ -165,24 +165,39 @@
 
                         <div class="col-md-12">
 
-                            <div class="box box-solid text-center " style="height: 250px;  ">
-                                <!------------------ INICIO BOX ------------------->
+                            <div class="box box-solid text-center ">
+                               <!------------------ INICIO BOX ------------------->
+                            <div class="box box-solid text-center " >
+
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Quadro de Avisos</h3>
                                 </div>
 
-                                <div class="box-body ">
+                                <div class="box-body "style="height:250px; overflow-y: auto;" >
+
                                     <!------------------ INICIO BODY---------------->
 
+                                    <?php if (isset($avisos)): ?>
+                                        <?php foreach ($avisos as $dado): ?>
+                                            <div style="background-color:lightyellow; border-bottom: 1px solid lightgray;">
+                                                <h3 class="box-title"><?php echo $dado['TITULO']; ?> - <small> <?php echo $dado['DATA']; ?> </small>  </h3> 
+                                                <br/>
+                                                <?php echo $dado['MENSAGEM']; ?>
+                                            </div>
 
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
 
                                     <!------------------ FIM BODY------------------->
+
+
                                 </div>
 
 
 
-                                <!------------------ FIM BOX ------------------->
+
                             </div>
+                            <!------------------ FIM BOX ------------------->
 
                         </div>
 

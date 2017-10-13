@@ -64,7 +64,7 @@
                             <div class="col-md-2">
 
                                 <a href="<?php echo base_url('/manage/curso'); ?>">  <button class="btn btn-app "  >
-                                        <span class="fa fa-book" aria-hidden="true"></span>
+                                        <span class="fa fa-graduation-cap" aria-hidden="true"></span>
                                         Gerenciar Curso
                                     </button> </a>
 
@@ -105,21 +105,21 @@
                 <section class="content">
 
                     <div class="row">
-                         <div class="col-md-12">
+                        <div class="col-md-12">
 
-                                      <!--------------- AVISO --------------->
-                                    <div class="form-group has-feedback text-center" >
-                                        <?php echo $this->session->flashdata('mensagem_usuario'); ?>
-                                    </div>
-                                    <!--------------- /. AVISO --------------->
-                                  
-                                </div>
+                            <!--------------- AVISO --------------->
+                            <div class="form-group has-feedback text-center" >
+                                <?php echo $this->session->flashdata('mensagem_usuario'); ?>
+                            </div>
+                            <!--------------- /. AVISO --------------->
+
+                        </div>
                         <div class="col-md-12" >
-                            
-                            
-                               
 
-                            <div class="box box-solid" style="height: 720px; margin-left: auto; margin-right: auto;">
+
+
+
+                            <div class="box box-solid" >
 
 
 
@@ -135,119 +135,128 @@
                                     </div>
 
                                 </div>
+                                <div class="box-body" >
+                                    <div class="col-md-12" >
 
-                                <div class="col-md-12" >
+                                        <!--------------- TITULO --------------->
+                                        <div class="form-group has-feedback">
+                                            <input  required name="titulo" type="text" class="form-control  " value="<?php echo setValue('titulo'); ?>" placeholder="Titulo da matéria*">
+                                            <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
+                                        </div>
+                                        <!--------------- /. TITULO --------------->
 
-                                    <!--------------- TITULO --------------->
-                                    <div class="form-group has-feedback">
-                                        <input  required name="titulo" type="text" class="form-control  " value="<?php echo setValue('titulo'); ?>" placeholder="Titulo da matéria*">
-                                        <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
                                     </div>
-                                    <!--------------- /. TITULO --------------->
 
-                                </div>
-
-                                <div class="col-md-6">
+                                    <div class="col-md-6">
 
 
 
-                                    <!--------------- Descrição Geral --------------->
-                                    <div class="form-group has-feedback">
-                                        <textarea class="form-control" rows="5" name="descricao" placeholder="Descrição Geral"><?php echo setValue('descricao'); ?></textarea>
-                                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                        <!--------------- Descrição Geral --------------->
+                                        Descrição Geral:
+                                        <div class="form-group has-feedback">
+                                            <textarea class="form-control" maxlength="62" rows="5" name="descricao" placeholder=""><?php echo setValue('descricao'); ?></textarea>
+                                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                        </div>
+                                        <!--------------- /. Descrição Geral --------------->
+
+
+
+                                        <!--------------- Descrição de Duração --------------->
+                                        Descreva sobre duração do curso:
+                                        <div class="form-group has-feedback">
+                                            <textarea class="form-control" rows="5" maxlength="62" name="duracao" placeholder="Descreva a duração do curso" ><?php echo setValue('duracao'); ?></textarea>
+                                            <span class="fa fa-dot-circle-o form-control-feedback"></span>
+                                        </div>
+                                        <!--------------- /. Descrição de Duração --------------->
+
+
                                     </div>
-                                    <!--------------- /. Descrição Geral --------------->
 
+                                    <div class="col-md-6">
 
+                                        <!--------------- Descrição de Vagas --------------->
+                                       Descrição sobre as Vagas:
+                                        <div class="form-group has-feedback">
+                                           
+                                            
+                                            <textarea class="form-control" rows="5" maxlength="62" name="vagas" placeholder="Descrição sobre as Vagas" ><?php echo setValue('vagas'); ?></textarea>
+                                            <span class="glyphicon glyphicon-bookmark form-control-feedback"></span>
+                                            
+                                        </div>
+                                             
+                                            
+                                        <!--------------- /. Descrição de Vagas --------------->
 
-                                    <!--------------- Descrição de Duração --------------->
-                                    <div class="form-group has-feedback">
-                                        <textarea class="form-control" rows="5" name="duracao" placeholder="Descreva a duração do curso" ><?php echo setValue('duracao'); ?></textarea>
-                                        <span class="fa fa-dot-circle-o form-control-feedback"></span>
+                                        <!--------------- Carga Horaria     --------------->
+                                        Carga Horaria:
+                                        <div class="form-group has-feedback">
+                                            <textarea class="form-control" rows="5" maxlength="62" name="carga_horaria" placeholder="Carga Horaria" ><?php echo setValue('carga_horaria'); ?></textarea>
+                                            <span class="glyphicon glyphicon-book form-control-feedback"></span>
+                                        </div>
+                                        <!--------------- /. Carga Horaria  --------------->
+
                                     </div>
-                                    <!--------------- /. Descrição de Duração --------------->
+                                    <div class="col-md-12">
+                                        <table id="list_materia" class="table " >
 
+                                            <thead >
+                                                <tr>
+                                                    <td>
+                                                        Nome da Matéria
+                                                    </td>
 
-                                </div>
+                                                    <td>
+                                                        Ações
+                                                    </td>
 
-                                <div class="col-md-6">
-
-                                    <!--------------- Descrição de Vagas --------------->
-                                    <div class="form-group has-feedback">
-                                        <textarea class="form-control" rows="5" name="vagas" placeholder="Descrição sobre as Vagas" ><?php echo setValue('vagas'); ?></textarea>
-                                        <span class="glyphicon glyphicon-bookmark form-control-feedback"></span>
-                                    </div>
-                                    <!--------------- /. Descrição de Vagas --------------->
-
-                                    <!--------------- Carga Horaria     --------------->
-                                    <div class="form-group has-feedback">
-                                        <textarea class="form-control" rows="5" name="carga_horaria" placeholder="Carga Horaria" ><?php echo setValue('carga_horaria'); ?></textarea>
-                                        <span class="glyphicon glyphicon-book form-control-feedback"></span>
-                                    </div>
-                                    <!--------------- /. Carga Horaria  --------------->
-
-                                </div>
-                                <div class="col-md-12">
-                                    <table id="list_materia" class="table " >
-
-                                        <thead >
-                                            <tr>
-                                                <td>
-                                                    Nome da Matéria
-                                                </td>
-
-                                                <td>
-                                                    Ações
-                                                </td>
-
-                                            </tr>
-                                        </thead>
-                                       
-                                    </table>
-                                    <div  class="col-md-12" style="height: 200px;overflow-x: auto; margin-bottom:40px">
-                                        <table id="list_materia" class="table table-bordered "style="background-color:lightyellow"  >
-
-
-                                            <tbody>
-                                                <?php foreach ($Mate as $materia): ?>
-
-                                                    <tr>
-                                                        <td>
-                                                            <?php echo $materia['TITULO']; ?>
-                                                        </td>
-                                                        <td>
-                                                            <div class="form-check" >
-                                                                <label class="form-check-label">
-                                                                    <input type="checkbox" name="materia[]" class="form-check-input" value="<?php echo $materia['ID']; ?>"  >
-                                                                    Adicionar
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                <?php endforeach; ?>
-
-                                            </tbody>
-
-
+                                                </tr>
+                                            </thead>
 
                                         </table>
+                                        <div  class="col-md-12" style="height: 200px;overflow-x: auto; margin-bottom:40px">
+                                            <table id="list_materia" class="table table-bordered "style="background-color:lightyellow"  >
+
+
+                                                <tbody>
+                                                    <?php foreach ($Mate as $materia): ?>
+
+                                                        <tr>
+                                                            <td>
+                                                                <?php echo $materia['TITULO']; ?>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check" >
+                                                                    <label class="form-check-label">
+                                                                        <input type="checkbox" name="materia[]" class="form-check-input" value="<?php echo $materia['ID']; ?>"  >
+                                                                        Adicionar
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                    <?php endforeach; ?>
+
+                                                </tbody>
+
+
+
+                                            </table>
+                                        </div>
                                     </div>
+
+
+                                    <div class="col-md-6 pull-right">
+                                        <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>
+                                    </div>
+
                                 </div>
+                                </form>
 
-
-                                <div class="col-md-6 pull-right">
-                                    <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>
-                                </div>
-
-                            </div>
-                            </form>
-
-
+                            </div>  
                         </div>
 
                     </div>
-            </div>
+            </div> 
 
         </section>
         <!-- /.content -->
@@ -282,6 +291,9 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url('data-views/dashboard/dist/js/demo.js'); ?>  "></script>
 
+<!-- CK EDITOR-->
+<script src="<?php echo base_url('data-views/biblioteca/ckeditor-basic/ckeditor.js'); ?>  "></script>
+
 <!-- Select2 -->
 <script src="<?php echo base_url('data-views/dashboard/bower_components/select2/dist/js/select2.full.min.js'); ?>"></script>
 
@@ -291,16 +303,24 @@
 <script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.extensions.js'); ?>"></script>
 
 <script>
-    $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2()
+                $(function () {
+                    //Initialize Select2 Elements
+                    $('.select2').select2()
 
-        //Money Euro
-        $('[data-mask]').inputmask()
+                    //Money Euro
+                    $('[data-mask]').inputmask()
 
 
-    })
+                })
 </script>
+
+<script>
+    CKEDITOR.replace('descricao');
+    CKEDITOR.replace('duracao');
+    CKEDITOR.replace('vagas');
+    CKEDITOR.replace('carga_horaria');
+</script>
+
 
 </body>
 </html>

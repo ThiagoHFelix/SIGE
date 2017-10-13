@@ -213,7 +213,7 @@ class Login extends CI_Controller {
             $pessoa = $this->professor->getProfessor($cpf);
 
         if (strcasecmp($entidade, 'Aluno') == 0)
-            $pessoa = $this->aluno->getALuno($cpf);
+            $pessoa = $this->aluno->getAluno($cpf);
 
 
         $this->session->set_userdata('user_cpf', $this->input->post()['username']);

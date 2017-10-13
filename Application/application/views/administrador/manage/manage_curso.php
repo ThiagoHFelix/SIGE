@@ -105,7 +105,7 @@
                           <div class="col-md-2">
 
                                         <a href="<?php echo base_url('/cadastro/curso'); ?>">  <button class="btn btn-app"  >
-                                                <span class="fa fa-book" aria-hidden="true"></span>
+                                                <span class="fa fa-graduation-cap" aria-hidden="true"></span>
                                                 Cadastrar Curso
                                         </button> </a>
 

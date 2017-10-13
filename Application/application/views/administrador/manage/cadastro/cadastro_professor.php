@@ -173,40 +173,94 @@
 
 
                                 <!--------------- ESTADO --------------->
-                                <div class="form-group ">
-                                    <select class="form-control " name="estado">
-                                        <option value="">Selecione seu estado</option>
-                                        <option value="AC">Acre</option>
-                                        <option value="AL">Alagoas</option>
-                                        <option value="AP">Amapá</option>
-                                        <option value="AM">Amazonas</option>
-                                        <option value="BA">Bahia</option>
-                                        <option value="CE">Ceará</option>
-                                        <option value="DF">Distrito Federal</option>
-                                        <option value="ES">Espírito Santo</option>
-                                        <option value="GO">Goiás</option>
-                                        <option value="MA">Maranhão</option>
-                                        <option value="MT">Mato Grosso</option>
-                                        <option value="MS">Mato Grosso do Sul</option>
-                                        <option value="MG">Minas Gerais</option>
-                                        <option value="PA">Pará</option>
-                                        <option value="PB">Paraíba</option>
-                                        <option value="PR">Paraná</option>
-                                        <option value="PE">Pernambuco</option>
-                                        <option value="PI">Piauí</option>
-                                        <option value="RJ">Rio de Janeiro</option>
-                                        <option value="RN">Rio Grande do Norte</option>
-                                        <option value="RS">Rio Grande do Sul</option>
-                                        <option value="RO">Rondônia</option>
-                                        <option value="RR">Roraima</option>
-                                        <option value="SC">Santa Catarina</option>
-                                        <option value="SP">São Paulo</option>
-                                        <option value="SE">Sergipe</option>
-                                        <option value="TO">Tocantins</option>
-                                    </select>
-                                    <span class="form-control-feedback"></span>
-                                </div>
-                                <!--------------- /. ESTADO --------------->
+                                    <div class="form-group ">
+                                        <select class="form-control " name="estado">
+                                            <option value="">Selecione seu estado</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'AC') === 0): echo 'selected';
+                                endif;
+                                ?>  value="AC">Acre</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'AL') === 0): echo 'selected';
+                                                endif;
+                                ?>  value="AL">Alagoas</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'AP') === 0): echo 'selected';
+                                                endif;
+                                ?> value="AP">Amapá</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'AM') === 0): echo 'selected';
+                                                endif;
+                                ?> value="AM">Amazonas</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'BA') === 0): echo 'selected';
+                                                endif;
+                                ?> value="BA">Bahia</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'CE') === 0): echo 'selected';
+                                                endif;
+                                ?> value="CE">Ceará</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'DF') === 0): echo 'selected';
+                                                endif;
+                                ?> value="DF">Distrito Federal</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'ES') === 0): echo 'selected';
+                                                endif;
+                                ?> value="ES">Espírito Santo</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'GO') === 0): echo 'selected';
+                                                endif;
+                                ?> value="GO">Goiás</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'MA') === 0): echo 'selected';
+                                                endif;
+                                ?> value="MA">Maranhão</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'MT') === 0): echo 'selected';
+                                                endif;
+                                ?> value="MT">Mato Grosso</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'MS') === 0): echo 'selected';
+                                                endif;
+                                ?> value="MS">Mato Grosso do Sul</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'MG') === 0): echo 'selected';
+                                                endif;
+                                ?> value="MG">Minas Gerais</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'PA') === 0): echo 'selected';
+                                                endif;
+                                ?> value="PA">Pará</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'PB') === 0): echo 'selected';
+                                                endif;
+                                ?> value="PB">Paraíba</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'PR') === 0): echo 'selected';
+                                                endif;
+                                ?> value="PR">Paraná</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'PE') === 0): echo 'selected';
+                                                endif;
+                                ?> value="PE">Pernambuco</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'PI') === 0): echo 'selected';
+                                                endif;
+                                ?> value="PI">Piauí</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'RJ') === 0): echo 'selected';
+                                                endif;
+                                ?> value="RJ">Rio de Janeiro</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'RN') === 0): echo 'selected';
+                                                endif;
+                                ?> value="RN">Rio Grande do Norte</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'RS') === 0): echo 'selected';
+                                                endif;
+                                ?> value="RS">Rio Grande do Sul</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'RO') === 0): echo 'selected';
+                                                endif;
+                                ?> value="RO">Rondônia</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'RR') === 0): echo 'selected';
+                                                endif;
+                                ?> value="RR">Roraima</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'SC') === 0): echo 'selected';
+                                                endif;
+                                ?> value="SC">Santa Catarina</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'SP') === 0): echo 'selected';
+                                                endif;
+                                ?> value="SP">São Paulo</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'SE') === 0): echo 'selected';
+                                                endif;
+                                ?> value="SE">Sergipe</option>
+                                            <option <?php if (strcmp($this->input->post('estado'), 'TO') === 0): echo 'selected';
+                                                endif;
+                                ?> value="TO">Tocantins</option>
+                                        </select>
+                                        <span class="form-control-feedback"></span>
+                                    </div>
+                                    <!--------------- /. ESTADO --------------->
 
 
                                 <!--------------- CIDADE --------------->
@@ -272,15 +326,19 @@
                                 </div>
                                 <!--------------- /. TELEFONE --------------->
 
-                                <!--------------- SEXO --------------->
-                                <div class="form-group has-feedback">
-                                    <select  required class="form-control" name="sexo" >
-                                        <option value="">Sexo*</option>
-                                        <option value="Masculino">Masculino</option>
-                                        <option value="Feminino">Feminino</option>
-                                    </select>
-                                </div>
-                                <!--------------- /. SEXO --------------->
+                               <!--------------- SEXO --------------->
+                                    <div class="form-group has-feedback">
+                                        <select  required class="form-control" name="sexo" >
+                                            <option value="">Sexo*</option>
+                                            <option <?php if (strcmp($this->input->post('sexo'), 'Masculino') === 0): echo 'selected';
+                                                endif;
+                                ?> value="Masculino">Masculino</option>
+                                            <option <?php if (strcmp($this->input->post('sexo'), 'Feminino') === 0): echo 'selected';
+                                                endif;
+                                ?> value="Feminino">Feminino</option>
+                                        </select>
+                                    </div>
+                                    <!--------------- /. SEXO --------------->
 
                                 <!--------------- SENHA --------------->
                                 <div class="form-group has-feedback">

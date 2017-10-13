@@ -16,7 +16,7 @@ class Cadastro extends CI_Controller{
         
         $this->load->helper(array('url', 'funcoes'));
         $this->load->library(array('session', 'pagination'));
-        $this->load->helper('funcoes');
+        $this->load->helper(array('funcoes','form'));
         $this->load->model('administrador_model', 'administrador');
         $this->load->model('professor_model', 'professor');
         $this->load->model('aluno_model', 'aluno');
@@ -27,6 +27,562 @@ class Cadastro extends CI_Controller{
     
     
     
+    public function turma(){
+        
+        //Busco todas as Materias
+        $dados['materias'] = $this->getMaterias();
+        
+        if ($dados['materias'] !== NULL):
+
+            //Busco todas os Professores
+            $dados['professores'] = $this->getProfessores();
+
+            if ($dados['professores'] !== NULL):
+               
+                //Busco todos os turnos
+                $dados['turnos'] = $this->getTurnos();
+                if($dados['turnos'] !==  NULL):
+                    
+                   // die('asdasd'.$this->input->post('titulo'));
+                    
+                    if($this->validationTurma() === TRUE):
+                        
+                        
+                        if($this->validationDiaSemana() === TRUE):
+                         
+                            //inserir no banco de dados
+                            if($this->insertTurma()):
+                                
+                              showError('mensagem_manageTurma', 'Turma cadastrada com sucesso', 'alert alert-success');
+                              redirect(base_url('/manage/turma'));
+                                
+                            else:
+                                showError('mensagem_usuarioTurma','Ocorreu um erro ao cadastrar a TURMA <strong>Se o problema persistir contate o ADMINISTRADOR </strong>','alert alert-danger');
+                            endif;
+                            
+                        endif;
+                        
+                    endif;
+                    
+                endif;
+                
+            endif;
+
+        endif;
+
+
+        $this->load->view('/administrador/manage/cadastro/cadastro_turma',$dados);
+        
+    }//turma
+    
+    
+    private function insertTurma(){
+        
+        $dados = array(
+            
+            'DATAINICIAL' => $this->input->post('datainicio'),
+            'STATUS' => 'ATIVADO',
+            'INFOADD' => $this->input->post('infoadd'),
+            'SALA' => $this->input->post('sala'),
+            'TEMPOAULA' => $this->input->post('tempoaula'),
+            'TITULO' => $this->input->post('titulo'),
+            'QUANTDIA' => $this->input->post('quantaula'),
+            'QUANTMAXALUNO' => $this->input->post('maxalunos'),
+            'QUANTMINALUNO' => $this->input->post('minalunos'),
+            'FK_MATERIA_ID' => $this->input->post('materias'),
+            'FK_PESSOA_ID' => $this->input->post('professores'),
+            'FK_TURNO_ID' => $this->input->post('turno'),
+            
+        );
+        
+        $return = $this->turma->insert($dados);
+        
+        if ($return):
+            $this->insertDiaSemana();
+            //$this->turma->remove($this->turma->lastID());
+            return TRUE;
+        else:
+           
+            return FALSE;
+        endif;
+        
+        
+        
+    }//insertTurma
+    
+    
+    public function insertDiaSemana(){
+        
+         foreach ($this->input->post('diasemana') as $dia):
+
+
+            if (strcmp(strtoupper($dia), strtoupper('Segunda-Feira')) == 0):
+                
+                $dados = array(
+                    
+                    'TITULO' => $dia,
+                    'HORAINICIAL' => $this->input->post('horasegunda'),
+                    'QUANTAULA' => $this->input->post('quantaula_segunda')
+                    
+                );
+            
+                $this->turma->insertDiaSemana($dados);
+                
+                $this->turma->insertRelacao(array(' FK_TURMA_ID' => $this->turma->lastID(), 'FK_DIA_SEMANA_ID' => $this->turma->lastIdDiaSemana() ));
+                
+            endif;
+
+            if (strcmp(strtoupper($dia), strtoupper('Terca-Feira')) == 0):
+                
+                  $dados = array(
+                    
+                    'TITULO' => $dia,
+                    'HORAINICIAL' => $this->input->post('horaterca'),
+                    'QUANTAULA' => $this->input->post('quantaula_terca')
+                    
+                );
+            
+                $this->turma->insertDiaSemana($dados);
+                $this->turma->insertRelacao(array(' FK_TURMA_ID' => $this->turma->lastID(), 'FK_DIA_SEMANA_ID' => $this->turma->lastIdDiaSemana() ));
+                
+            endif;
+
+            if (strcmp(strtoupper($dia), strtoupper('Quarta-Feira')) == 0):
+
+                  $dados = array(
+                    
+                    'TITULO' => $dia,
+                    'HORAINICIAL' => $this->input->post('horaquarta'),
+                    'QUANTAULA' => $this->input->post('quantaula_quarta')
+                    
+                );
+            
+                $this->turma->insertDiaSemana($dados);
+               $this->turma->insertRelacao(array(' FK_TURMA_ID' => $this->turma->lastID(), 'FK_DIA_SEMANA_ID' => $this->turma->lastIdDiaSemana() ));
+                
+            endif;
+
+            if (strcmp(strtoupper($dia), strtoupper('Quinta-Feira')) == 0):
+
+                 $dados = array(
+                    
+                    'TITULO' => $dia,
+                    'HORAINICIAL' => $this->input->post('horaquinta'),
+                    'QUANTAULA' => $this->input->post('quantaula_quinta')
+                    
+                );
+            
+                $this->turma->insertDiaSemana($dados);
+                
+               $this->turma->insertRelacao(array(' FK_TURMA_ID' => $this->turma->lastID(), 'FK_DIA_SEMANA_ID' => $this->turma->lastIdDiaSemana() ));
+                
+            endif;
+
+            if (strcmp(strtoupper($dia), strtoupper('Sexta-Feira')) == 0):
+
+                
+                   $dados = array(
+                    
+                    'TITULO' => $dia,
+                    'HORAINICIAL' => $this->input->post('horasexta'),
+                    'QUANTAULA' => $this->input->post('quantaula_sexta')
+                    
+                );
+            
+                $this->turma->insertDiaSemana($dados);
+                $this->turma->insertRelacao(array(' FK_TURMA_ID' => $this->turma->lastID(), 'FK_DIA_SEMANA_ID' => $this->turma->lastIdDiaSemana() ));
+                
+                
+            endif;
+
+            if (strcmp(strtoupper($dia), strtoupper('Sabado')) == 0):
+
+                   $dados = array(
+                    
+                    'TITULO' => $dia,
+                    'HORAINICIAL' => $this->input->post('horasabado'),
+                    'QUANTAULA' => $this->input->post('quantaula_sabado')
+                    
+                );
+            
+                $this->turma->insertDiaSemana($dados);
+                $this->turma->insertRelacao(array(' FK_TURMA_ID' => $this->turma->lastID(), 'FK_DIA_SEMANA_ID' => $this->turma->lastIdDiaSemana() ));
+                
+               
+            endif;
+
+            if (strcmp(strtoupper($dia), strtoupper('Domingo')) == 0):
+
+                 $dados = array(
+                    
+                    'TITULO' => $dia,
+                    'HORAINICIAL' => $this->input->post('horadomingo'),
+                    'QUANTAULA' => $this->input->post('quantaula_domingo')
+                    
+                );
+            
+                $this->turma->insertDiaSemana($dados);
+                $this->turma->insertRelacao(array(' FK_TURMA_ID' => $this->turma->lastID(), 'FK_DIA_SEMANA_ID' => $this->turma->lastIdDiaSemana() ));
+                
+                
+            endif;
+
+
+        endforeach;
+    }//insertDiaSemana
+    
+    /**
+     *  Busca todas as materias para o cadastro de TURMA
+     * @return type Array se encontrar, NULL se nao encontrar
+     */
+    private function getMaterias(){
+        
+        $this->load->model('Materia_model','materia');
+        $materias = $this->materia->getAll();
+         if($materias !== NULL):
+             return $materias;
+         else:
+             showError('mensagem_usuarioTurma','Não há Materias cadastradas, por favor cadastre antes de criar uma Turma','alert alert-warning');
+             return NULL;
+         endif;
+        
+        
+    }//getMaterias
+    
+    /**
+     *  Busca todas os professores para o cadastro de TURMA
+     * @return type Array se encontrar, NULL se nao encontrar
+     */
+    private function getProfessores(){
+        
+        $this->load->model('Professor_model','materia');
+        $professores = $this->professor->getAll();
+         if($professores !== NULL):
+             return $professores;
+         else:
+             showError('mensagem_usuarioTurma','Não há Professores(as) cadastrados, por favor cadastre antes de criar uma Turma','alert alert-warning');
+             return NULL;
+         endif;
+        
+        
+    }//getProfessores
+    
+    /**
+     *  Busca todas os turnos para o cadastro de TURMA
+     * @return type Array se encontrar, NULL se nao encontrar
+     */
+    private function getTurnos(){
+        
+         
+        $this->load->model('Turma_model', 'turma');
+        $turnos = $this->turma->getAllTurno();
+         if($turnos !== NULL):
+             return $turnos;
+         else:
+             showError('mensagem_usuarioTurma','Não há Turno cadastrado, por favor cadastre antes de criar uma Turma','alert alert-warning');
+             return NULL;
+         endif;
+        
+    }//getTurnos
+    
+    
+    private function validationDiaSemana(){
+        
+        if($this->input->post('diasemana') !== NULL):
+            
+            foreach($this->input->post('diasemana') as $dia):
+            
+              $this->makeValidationDia($dia);
+            
+            endforeach;
+            
+          if($this->form_validation->run()):
+              return TRUE;
+          endif;
+          
+          showError('mensagem_usuarioTurma',validation_errors(),'alert alert-warning');
+          return FALSE;
+            
+        else:
+           showError('mensagem_usuarioTurma','Nenhum dia da semana foi inserido, insira no minimo um para continuar','alert alert-warning');
+           return FALSE;
+        endif;
+        
+        
+    }//validationDiaSemana
+    
+    /**
+     * Cria rules para os dias da semana selecionados 
+     * @param type $dia Dia atual
+     */
+    private function makeValidationDia($dia){
+        
+        
+          if (strcmp(strtoupper($dia), strtoupper('Segunda-Feira')) == 0):
+
+            $this->form_validation->set_rules('horasegunda', 'Horaria de Inicio na Segunda-Feira', 'trim|max_length[8]|min_length[8]|required');
+            $this->form_validation->set_rules('quantaula_segunda', 'Quantidade de Aulas na Segunda-Feira', 'trim|max_length[3]|required|alpha_numeric');
+
+        endif;
+
+        if (strcmp(strtoupper($dia), strtoupper('Terca-Feira')) == 0):
+
+            $this->form_validation->set_rules('horaterca', 'Horaria de Inicio na Terça-Feira', 'trim|max_length[8]|min_length[8]|required');
+            $this->form_validation->set_rules('quantaula_terca', 'Quantidade de Aulas na Terça-Feira', 'trim|max_length[3]|required|alpha_numeric');
+
+        endif;
+     
+        if (strcmp(strtoupper($dia), strtoupper('Quarta-Feira')) == 0):
+
+            $this->form_validation->set_rules('horaquarta', 'Horaria de Inicio na Quarta-Feira', 'trim|max_length[8]|min_length[8]|required');
+            $this->form_validation->set_rules('quantaula_quarta', 'Quantidade de Aulas na Quarta-Feira', 'trim|max_length[3]|required|alpha_numeric');
+
+        endif;
+     
+        if (strcmp(strtoupper($dia), strtoupper('Quinta-Feira')) == 0):
+
+            $this->form_validation->set_rules('horaquinta', 'Horaria de Inicio na Quinta-Feira', 'trim|max_length[8]|min_length[8]|required');
+            $this->form_validation->set_rules('quantaula_quinta', 'Quantidade de Aulas na Quinta-Feira', 'trim|max_length[3]|required|alpha_numeric');
+
+        endif;
+     
+        if (strcmp(strtoupper($dia), strtoupper('Sexta-Feira')) == 0):
+
+            $this->form_validation->set_rules('horasexta', 'Horaria de Inicio na Sexta-Feira', 'trim|max_length[8]|min_length[8]|required');
+            $this->form_validation->set_rules('quantaula_sexta', 'Quantidade de Aulas na Sexta-Feira', 'trim|max_length[3]|required|alpha_numeric');
+
+        endif;
+     
+        if (strcmp(strtoupper($dia), strtoupper('Sabado')) == 0):
+
+            $this->form_validation->set_rules('horasabado', 'Horaria de Inicio na Sabado', 'trim|max_length[8]|min_length[8]|required');
+            $this->form_validation->set_rules('quantaula_sabado', 'Quantidade de Aulas na Sabado', 'trim|max_length[3]|required|alpha_numeric');
+
+        endif;
+     
+        if (strcmp(strtoupper($dia), strtoupper('Domingo')) == 0):
+
+            $this->form_validation->set_rules('horadomingo', 'Horaria de Inicio na Domingo', 'trim|max_length[8]|min_length[8]|required');
+            $this->form_validation->set_rules('quantaula_domingo', 'Quantidade de Aulas na Domingo', 'trim|max_length[3]|required|alpha_numeric');
+
+        endif;
+        
+        
+        
+    }//makeValidationDIa
+    
+    private function validationTurma(){
+        
+        
+        $this->load->library('form_validation');
+        
+        //Criando regras de validaçao
+        $this->form_validation->set_rules('titulo','Titulo','trim|max_length[50]|required');
+        $this->form_validation->set_rules('materias','Materia','trim|required|alpha_numeric');
+        $this->form_validation->set_rules('professores','Professor','trim|required|alpha_numeric');
+        $this->form_validation->set_rules('maxalunos','Maximo de Alunos','trim|required|alpha_numeric');
+        $this->form_validation->set_rules('minalunos','Minimo de Alunos','trim|required|alpha_numeric');
+        $this->form_validation->set_rules('tempoaula','Tempo da Aula','trim|required');
+        $this->form_validation->set_rules('turno','Turno','trim|required');
+        $this->form_validation->set_rules('sala','Sala','trim|max_length[12]');
+        $this->form_validation->set_rules('quantaula','Quantidade de Aulas','trim|required|alpha_numeric');
+        $this->form_validation->set_rules('tempoaula','Tempo da Aula','trim|required');
+        $this->form_validation->set_rules('infoadd','Informaçoes Adicionais','trim|max_length[255]');
+        $this->form_validation->set_rules('datainicio','Data de Inicio da Turma','required|trim|max_length[10]');
+        
+        if($this->form_validation->run()):
+            return TRUE;
+        else:
+            showError('mensagem_usuarioTurma',validation_errors(),'alert alert-warning');
+            return FALSE;
+        endif;
+        
+    }//turma
+    
+    
+    
+    
+    
+    public function aviso(){
+        
+        $this->load->helper(array('form','url'));
+        if($this->validaAviso()){
+            
+            if($this->insertAviso()):
+                showError('mensagem_manageAviso','Aviso criado com sucesso','success');
+                redirect(base_url('/manage/aviso'));
+            endif;
+            
+        }//if
+        
+        $this->load->view('/administrador/manage/cadastro/cadastro_aviso');
+        
+    }//aviso
+    
+    
+    /**
+     * Insere aviso no banco de dados
+     * @return boolean TRUE or FALSE
+     */
+    private function insertAviso(){
+        
+        
+        $this->load->model('Aviso_model','aviso');
+        
+        $titulo = $this->input->post('titulo');
+        $mensagem = $this->input->post('mensagem');
+        
+        $return = $this->aviso->insert(array('TITULO' => $titulo, 'MENSAGEM' => $mensagem ));
+        if($return):
+            
+            $avisoPara = $this->input->post('avisopara');   
+        
+            for($i = 0;$i < count($avisoPara);$i++ ):
+
+
+                if (strcmp($avisoPara[$i], 'ADM') === 0):
+                    $return = $this->insertAvisoAdministrador();
+                    if (!$return):
+                        showError('error', 'Um erro ocorreu enquanto era cadastrado o aviso com os ADMINISTRADORES <strong> ENTRE EM CONTATO COM O ADMINISTRADOR DO SISTEMA SE O PROBLEMA PERSISTIR </strong>','danger');
+                        return FALSE;
+                    endif;
+
+                endif;
+                if (strcmp($avisoPara[$i], 'PRO') === 0):
+                    $return = $this->insertAvisoProfessor();
+                    if (!$return):
+                        showError('error', 'Um erro ocorreu enquanto era cadastrado o aviso com os PROFESSORES <strong> ENTRE EM CONTATO COM O ADMINISTRADOR DO SISTEMA SE O PROBLEMA PERSISTIR </strong>','danger');
+                        return FALSE;
+                    endif;
+
+                endif;
+                if (strcmp($avisoPara[$i], 'ALU') === 0):
+                    $return = $this->insertAvisoAluno();
+                    if (!$return):
+                        showError('error', 'Um erro ocorreu enquanto era cadastrado o aviso com os ALUNOS <strong> ENTRE EM CONTATO COM O ADMINISTRADOR DO SISTEMA SE O PROBLEMA PERSISTIR </strong>','danger');
+                        return FALSE;
+                    endif;
+
+                endif;
+
+            endfor;
+
+            return TRUE;
+        else:
+            return FALSE;
+        endif;
+        
+        
+        
+    }//insertAviso
+    
+    
+    /**
+     * Cadastra a relaçao de aviso com todos os professores
+     * @return boolean TRUE or FALSE
+     */
+    private function insertAvisoProfessor(){
+        
+        $professores = $this->professor->getAll();
+         if($professores === NULL):
+            return TRUE;
+        endif;
+        $lastID = $this->aviso->lastID();
+        foreach($professores as $professor):
+            
+            $return = $this->aviso->insertRelation(array('FK_AVISO_ID' => $lastID, 'FK_PESSOA_ID' => $professor['ID'] ) );
+            if(!$return):
+                return FALSE;
+            endif;
+            
+        endforeach;
+        
+        return TRUE;
+        
+    }//insertAvisoProfessor
+    
+    /**
+     * Cadastra a relacao de aviso com todos so alunos
+     * @return boolean TRUE or FALSE
+     */
+    private function insertAvisoAluno(){
+        
+        $alunos = $this->aluno->getAll();
+        if($alunos === NULL):
+            return TRUE;
+        endif;
+        
+        $lastID = $this->aviso->lastID();
+        foreach($alunos as $aluno):
+            
+            $return = $this->aviso->insertRelation(array('FK_AVISO_ID' => $lastID, 'FK_PESSOA_ID' => $aluno['ID'] ) );
+            if(!$return):
+                return FALSE;
+            endif;
+            
+        endforeach;
+        
+        return TRUE;
+        
+    }//insertAvisoAluno
+    
+    /**
+     * Cadastra a relacao de aviso com todos os administradores
+     * @return boolean TRUE or FALSE
+     */
+    private function insertAvisoAdministrador(){
+        
+        $administradores = $this->administrador->getAll();
+         if($administradores === NULL):
+            return TRUE;
+        endif;
+        $lastID = $this->aviso->lastID();
+        foreach($administradores as $administrador):
+            
+            $return = $this->aviso->insertRelation(array('FK_AVISO_ID' => $lastID, 'FK_PESSOA_ID' => $administrador['ID'] ) );
+            if(!$return):
+                return FALSE;
+            endif;
+            
+        endforeach;
+        
+        return TRUE;
+        
+    }//insertAvisoAdministrador
+    
+    
+    /**
+     * Faz a validacao de aviso
+     * @return boolean TRUE se for validado, FALSE se nao
+     */
+    private function validaAviso(){
+        
+        $this->load->library('form_validation');
+        
+        $this->form_validation->set_rules('titulo','Titulo','trim|required|min_length[5]|max_length[25]');
+        $this->form_validation->set_rules('mensagem','Mensagem','trim|required|min_length[5]|max_length[240]');
+        
+        if($this->form_validation->run()){
+            
+            if($this->input->post('avisopara') === NULL){
+                showError('mensagem_aviso','Selecione o(s) grupo(s) que receberá o aviso','danger');
+                return FALSE;
+            }//if
+            else{
+                return TRUE;
+            }//else            
+        }//if
+        else{
+            showError('mensagem_aviso',validation_errors(),'danger');
+            return FALSE;
+        }//else
+        
+        
+    }//validaAviso
+    
+    /**
+     * Cadastra uma nova materia no banco de dados
+     */
     public function materia(){
         
         
@@ -90,6 +646,10 @@ class Cadastro extends CI_Controller{
         
     }//materia
     
+    
+    /**
+     * Cadastra um novo curso no banco de dados
+     */
     public function curso(){
         
         

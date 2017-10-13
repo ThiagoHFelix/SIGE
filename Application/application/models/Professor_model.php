@@ -33,10 +33,23 @@ class Professor_model extends CI_Model  {
   */
  public function lastID(){
     
-     return $this->db->query('SELECT GEN_ID(GN_PESSOA,0) FROM RDB$DATABASE');
+    return $this->db->query('SELECT GEN_ID(GN_PESSOA,0) FROM RDB$DATABASE')->result_array()[0]['GEN_ID'];
      
  }//lastID
 
+  public function insertEmail(array $dados){
+     
+     return $this->db->insert('EMAIL',$dados);
+
+ }//insertEmail
+ 
+ public function insertTelefone($dados){
+     
+     return $this->db->insert('TELEFONE',$dados);
+     
+ }//insertTelefone
+ 
+ 
 /**
  * Faz a verificaçao no banco de dados se o CPF informado ja existe
  * @param string $cpf CPF a ser buscado no banco de dados

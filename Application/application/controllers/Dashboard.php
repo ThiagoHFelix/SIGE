@@ -20,18 +20,26 @@ class Dashboard extends CI_Controller {
 
             isSessionStarted();
 
+            
+            //Busco avisos para o quadro
+            $this->load->model('Aviso_model','aviso');
+            $this->load->library('session');
+           // die(var_dump($this->aviso->getMyAvisos($this->session->userdata('user_id'))));
+            $dados['avisos'] = $this->aviso->getMyAvisos($this->session->userdata('user_id'));
+        
+            
             //Carregando view
             //Administrador
             if (strcmp($this->session->userdata('entidade'), 'Administrador') == 0):
-                $this->load->view('administrador/dashboard');
+                $this->load->view('administrador/dashboard',$dados);
             endif;
             //Professor
             if (strcmp($this->session->userdata('entidade'), 'Professor') == 0):
-                $this->load->view('professor/dashboard');
+                $this->load->view('professor/dashboard',$dados);
             endif;
             //Aluno
             if (strcmp($this->session->userdata('entidade'), 'Aluno') == 0):
-                $this->load->view('aluno/dashboard');
+                $this->load->view('aluno/dashboard',$dados);
             endif;
 
 
