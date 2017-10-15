@@ -52,7 +52,7 @@
                 <!-- Main content -->
                 <section class="content">
 
-
+                  
                     <!-- Primeira Linha --->
                     <div class="row">
 
@@ -61,7 +61,7 @@
                                 <span class="info-box-icon bg-blue"><i class="fa fa-book"></i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Materias</span>
+                                    <span class="info-box-text"></span>
                                     <span class="info-box-number">41</span>
                                 </div>
                                 <!-- /.info-box-content -->
@@ -121,7 +121,7 @@
                         </div>
                         <!-- /.col -->
 
-
+                         
                     </div>
 
 
@@ -140,6 +140,11 @@
                                     <a href="<?php echo base_url('/'); ?>">  <button class="btn btn-app" >
                                             <span class="fa fa-users" aria-hidden="true"></span>
                                             Minhas Materias
+                                        </button> </a>
+                                    
+                                    <a href="<?php echo base_url('/'); ?>">  <button class="btn btn-app" >
+                                            <span class="fa fa-info" aria-hidden="true"></span>
+                                            Matricular
                                         </button> </a>
 
 

@@ -30,6 +30,22 @@ public function getAllTupla(){
 
 }//getAllTupla
             
+
+ // Busca no banco de dados com WHERE, se nada for encontrado retorno NULL
+    public function getWhere(array $dados){
+
+      $this->db->where($dados);
+      $retorno = $this->db->get('TURMA');
+
+      if($retorno->num_rows() > 0)
+        return $retorno->result_array();
+      else
+        return NULL;
+
+
+    }//getWhere
+
+
     /**
      * Busca todos as turmas
      * @return type

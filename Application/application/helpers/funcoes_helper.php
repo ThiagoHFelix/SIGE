@@ -25,7 +25,8 @@ if(!function_exists('showError')){
         //Verifico se existe erro
         if(strcmp($message,'') != 0){
 
-            $string_error = "<div class=' alert text-center alert-".$type."'>". $message." </div>";
+            $string_error = "<div class=' alert text-center  alert-info'>". $message." </div>";
+           // $string_error = "<div class=' alert text-center  alert-".$type."'>". $message." </div>";
           //  $string_error = "<p class=\"login-box-msg \" style=\"color:red\">".$message."</p>";
         }
 
@@ -163,10 +164,10 @@ if(!function_exists('getVersion')):
     function getVersion($paramer){
 
         if(strcmp($paramer, 'n') == 0):
-            return '0.14';
+            return '0.18';
         endif;
 
-        return 'Release 0.14';
+        return 'Release 0.18';
 
     }//getVersion
 

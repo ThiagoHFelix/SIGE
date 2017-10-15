@@ -15,16 +15,13 @@
             </div>
         </div>
 
-         <!-- search form
+        <!-- search form --
 
+        <p class="box-title text-center" style=" margin-top:5px;"><?php
+          // 
+            ?></p>
 
-        <div  class="sidebar-form info" style="height: 35px; text-align: center; ">
-              <p class="box-title" style="color:white; margin-top:5px;"><?php
-              //date_default_timezone_set('America/Sao_Paulo');
-              //echo 'Hoje: '. date('d/m/Y')?></p>
-        </div>
-
-      <!-- /.search form -->
+        <!-- /.search form -->
 
         <!--
 
@@ -57,7 +54,7 @@
                 </a>
             </li>
 
-           <li>
+            <li>
                 <a href="<?php echo base_url('/dashboard'); ?>">
                     <i class="fa fa-book"></i> <span>Minhas Materias</span>
                     <span class="pull-right-container">
@@ -67,7 +64,7 @@
             </li>
 
 
-           
+
 
             <li>
                 <a href="<?php echo base_url('/dashboard'); ?>">

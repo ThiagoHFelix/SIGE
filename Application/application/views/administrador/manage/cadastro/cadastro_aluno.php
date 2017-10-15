@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <title>SIGE | Cadastro  Aluno</title>
+        <title>SIGE | Matricula Aluno</title>
 
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -53,7 +53,7 @@
             <!-- =============================================== -->
 
             <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper"style="height:690px;">
+            <div class="content-wrapper"style="height:980px;">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <div class="col-xs-12">
@@ -75,7 +75,7 @@
                                 <div class="text-center login-logo">
 
                                     <div class=" box-header register-logo">
-                                        <a> Cadastro de Aluno</a>
+                                        <a> Matricula de Aluno</a>
                                     </div>
 
 
@@ -111,7 +111,7 @@
 
                     <div class="col-md-12" >
 
-                        <div class="box box-solid" style="height: 500px; ">
+                        <div class="box box-solid" >
                             <div class="box-header text-center"> Todos os campos com o caracter (*) são obrigatórios </div>
                             
 
@@ -127,7 +127,7 @@
 
                             
                             </div>
-
+                            <div class="box-body">
                             <div class="col-md-6">
 
 
@@ -278,26 +278,28 @@
                                 <!--------------- /. BAIRRO --------------->
 
 
+                                
                                 <!--------------- RUA --------------->
                                 <div class="form-group has-feedback">
                                     <input  name="rua" type="text" class="form-control" value="<?php echo setValue('rua'); ?>" placeholder="Rua"  >
                                     <span class="fa fa-road form-control-feedback"></span>
                                 </div>
                                 <!--------------- /. RUA --------------->
+                              
 
-                             
 
                             </div>
 
                             <div class="col-md-6">
-
-                                <!--------------- EMAIL --------------->
+                                
+                             
+                                
+                               <!--------------- EMAIL --------------->
                                 <div class="form-group has-feedback">
                                     <input   required name="email" type="email" class="form-control "  value="<?php echo setValue('email'); ?>" placeholder="Email*">
                                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                                 </div>
                                 <!--------------- /. EMAIL --------------->
-
 
                                 <!--------------- CPF --------------->
                                 <div class="form-group has-feedback">
@@ -356,11 +358,49 @@
                                 <!--------------- /. CONFIRMAÇÃO DA SENHA --------------->
 
                                   
+                                 <!--------------- CURSOS --------------->
+                                    <div class="form-group has-feedback">
+                                        <select  required class="form-control" name="cursos" >
+                                            <option value="" >Curso*</option> 
+
+                                            <?php if (isset($cursos)): ?> 
+                                                <?php foreach ($cursos as $curso): ?>
+
+                                                    <option 
+                                                    <?php
+                                                    if (strcmp($this->input->post('cursos'), $curso['ID']) === 0): echo 'selected';
+                                                    endif;
+                                                    ?> 
+                                                        value="<?php echo $curso['ID'] ?>"><?php echo $curso['TITULO']; ?></option>
+
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+
+                                        </select>
+                                    </div>
+                                    <!--------------- /. CURSOS --------------->
                                 
                                 
-                                <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                        Informações adicionais da Matricula:
+                                        <div class="form-group has-feedback">
+
+                                            <textarea required maxlength="250" class="form-control" minlength="255" rows="6" name="infoadd" placeholder="infoadd*"><?php echo setValue('infoadd'); ?></textarea>
+                                            <span class="fa fa-book form-control-feedback"></span>
+
+                                        </div> 
+                                
+                                 <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>
+
 
                             </div>
+                            
+                            
+                            
+                           
+                      
                         </div>
                       
                         
@@ -402,6 +442,11 @@
         <!-- AdminLTE for demo purposes -->
         <script src="<?php echo base_url('data-views/dashboard/dist/js/demo.js'); ?>  "></script>
 
+        <!-- CK EDITOR-->
+ <!--  <script src="//cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script> -->
+<script src="<?php echo base_url('data-views/biblioteca/ckeditor-basic/ckeditor.js'); ?>  "></script>
+        
+        
         <!-- Select2 -->
         <script src="<?php echo base_url('data-views/dashboard/bower_components/select2/dist/js/select2.full.min.js'); ?>"></script>
 
@@ -419,7 +464,9 @@
                 $('[data-mask]').inputmask()
 
 
-            })
+            });
+            
+                CKEDITOR.replace('infoadd');
         </script>
 
     </body>

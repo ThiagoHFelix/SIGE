@@ -1,9 +1,9 @@
 /*
 	*********************************
 	* Author: Thiago Henrique Felix *
-	* Data: 11/10/2017		*
-	* Hora: 11:38			*
-	* Version: 5.2			*
+	* Data: 14/10/2017		*
+	* Hora: 16:40			*
+	* Version: 6.2			*
 	*********************************
 */
 
@@ -26,7 +26,13 @@ CREATE TABLE Pessoa (
     rg varchar(15),
     foto varchar(255),
     Pessoa_TIPO varchar(13), /* Administrador, Professor e Aluno */
-
+    FK_Curso_id integer,
+    status_matricula varchar(10),
+    info_matricula varchar(255),
+    hora_matricula time,
+    data_matricula date,
+    
+    CONSTRAINT Check_Tipo_Matri check(upper(status_matricula) in ('CURSANDO','PARADO') ),
     CONSTRAINT Check_Tipo check(upper(Pessoa_TIPO) in ('ADMINISTRADOR','PROFESSOR','ALUNO') ),
     CONSTRAINT Check_Status check (upper(status) in ('ATIVADO','DESATIVADO')),
     CONSTRAINT Check_Sexo check (upper(sexo) in ('MASCULINO', 'FEMININO') ),
@@ -40,6 +46,7 @@ CREATE TABLE Curso (
     titulo varchar(60) not null,
     status varchar(10) not null,
     descricao varchar(250),
+    FK_TURNO_ID integer,
 
     CONSTRAINT CK_Curso check (upper(status) in ('ATIVADO','DESATIVADO')),
     CONSTRAINT PK_Curso PRIMARY KEY (id)
@@ -122,11 +129,14 @@ CREATE TABLE Email (
 CREATE TABLE Curso_materia (
     FK_Materia_id integer,
     FK_Curso_id integer,
-
+    quantPeriTemp integer,
+    periodoTempo varchar(25),
+    
+    CONSTRAINT CK_PERIODO CHECK(UPPER(periodoTempo) in ('SEMANA','MES','ANO','QUINZENA','BIMESTRE','TRIMESTRE','QUADRIMESTRE','SEMESTRE') ),
     CONSTRAINT PK_CUR_MAT PRIMARY KEY (FK_Materia_id, FK_Curso_id)
 );
 
-CREATE TABLE Matricula (
+CREATE TABLE matricula_curso (
   FK_Curso_id integer,
   FK_Pessoa_id integer,
   status varchar(12) not null,
@@ -149,11 +159,13 @@ CREATE TABLE Avaliado (
 );
 
 CREATE TABLE Frequenta (
-  FK_Pessoa_id integer,
-  FK_turma_id integer,
-  Presenca char(1),
-  dataHora timestamp,
-  FK_Materia_id integer,
+    FK_Pessoa_id integer,
+    FK_turma_id integer,
+    Presenca char(1),
+    data date,
+    hora time,
+    Assunto_aula varchar(50),
+    dia_semana varchar(25),
 
     CONSTRAINT PK_Frequenta PRIMARY KEY (FK_turma_id, FK_Pessoa_id)
 );
@@ -216,6 +228,15 @@ CREATE TABLE Atividade (
     PRIMARY KEY (FK_turma_id, FK_Pessoa_id)
 );
 
+CREATE TABLE matricula_turma (
+    FK_turma_id integer,
+    FK_Pessoa_id integer,
+    infoAdd varchar(255),
+    status varchar(10),
+    data date,
+    hora time,
+    PRIMARY KEY (FK_Pessoa_id, FK_turma_id)
+);
 
  
 ALTER TABLE turma ADD CONSTRAINT FK_turma_1
@@ -229,6 +250,12 @@ ALTER TABLE turma ADD CONSTRAINT FK_turma_2
 ALTER TABLE turma ADD CONSTRAINT FK_turma_3
     FOREIGN KEY (FK_Turno_id)
     REFERENCES Turno (id);
+    
+    ALTER TABLE curso ADD CONSTRAINT FK_curso_turno
+    FOREIGN KEY (FK_TURNO_ID)
+    REFERENCES Turno (id);
+    
+    
  
 ALTER TABLE Telefone ADD CONSTRAINT FK_Telefone_0
     FOREIGN KEY (FK_Pessoa_id)
@@ -246,11 +273,11 @@ ALTER TABLE Curso_materia ADD CONSTRAINT FK_Curso_materia_1
     FOREIGN KEY (FK_Curso_id)
     REFERENCES Curso (id);
  
-ALTER TABLE Matricula ADD CONSTRAINT FK_Matricula_0
+ALTER TABLE matricula_curso ADD CONSTRAINT FK_Matricula_0
     FOREIGN KEY (FK_Curso_id)
     REFERENCES Curso (id);
  
-ALTER TABLE Matricula ADD CONSTRAINT FK_Matricula_1
+ALTER TABLE matricula_curso ADD CONSTRAINT FK_Matricula_1
     FOREIGN KEY (FK_Pessoa_id)
     REFERENCES Pessoa (id);
  
@@ -295,7 +322,19 @@ ALTER TABLE Atividade ADD CONSTRAINT FK_Atividade_1
     FOREIGN KEY (FK_Pessoa_id)
     REFERENCES Pessoa (id);
 
-
+ 
+ALTER TABLE matricula_turma ADD CONSTRAINT FK_matricula_turma_0
+    FOREIGN KEY (FK_turma_id)
+    REFERENCES turma (id);
+ 
+ALTER TABLE matricula_turma ADD CONSTRAINT FK_matricula_turma_1
+    FOREIGN KEY (FK_Pessoa_id)
+    REFERENCES Pessoa (id);
+    
+ALTER TABLE Pessoa ADD CONSTRAINT FK_Pessoa_1
+    FOREIGN KEY (FK_Curso_id)
+    REFERENCES Curso (id);    
+    
 /*======================================================================*/
  /* Criação de GENERATOR */
 
@@ -459,6 +498,16 @@ BEGIN
         IF(NEW.ID IS NULL) THEN BEGIN
             NEW.ID = GEN_ID(GN_PESSOA,1);
         END
+        
+        IF(NEW.HORA_MATRICULA IS NULL) THEN BEGIN
+            NEW.HORA_MATRICULA = CURRENT_TIME ;
+        END
+        
+        IF(NEW.DATA_MATRICULA IS NULL) THEN BEGIN
+            NEW.DATA_MATRICULA = CURRENT_DATE;
+        END
+        
+        
 
         INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
@@ -558,7 +607,7 @@ SET TERM;^
 
 SET TERM^;
 
-CREATE TRIGGER TR_MATRICULA FOR MATRICULA
+CREATE TRIGGER TR_MATRICULA FOR MATRICULA_CURSO
 ACTIVE
 BEFORE INSERT OR UPDATE OR DELETE
 AS

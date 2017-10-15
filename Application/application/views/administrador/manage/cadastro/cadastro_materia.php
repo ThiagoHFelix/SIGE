@@ -65,7 +65,7 @@
 
                                 <a href="<?php echo base_url('/manage/materia'); ?>">  <button class="btn btn-app "  >
                                         <span class="fa fa-book" aria-hidden="true"></span>
-                                        Gerenciar <?php echo ucfirst($this->uri->segment(3)); ?>
+                                        Gerenciar Matérias
                                     </button> </a>
 
                             </div>
@@ -117,9 +117,9 @@
                         
                         <div class="col-md-12" >
 
-                            <div class="box box-solid" style="height: 550px; margin-left: auto; margin-right: auto;">
+                            <div class="box box-solid" >
                                 
-
+                                <div class="box-body">
 
                               <?php echo form_open('cadastro/materia');  ?>
 
@@ -145,6 +145,7 @@
 
 
                                         <!--------------- APRESENTAÇÃO --------------->
+                                        Apresentação da matéria:
                                         <div class="form-group has-feedback">
                                             <textarea class="form-control" rows="5" name="apresentacao" placeholder="Apresentação da matéria"><?php echo setValue('apresentacao'); ?></textarea>
                                             <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -154,6 +155,7 @@
 
 
                                       <!--------------- OBJETIVO --------------->
+                                      Objetivo da matéria:
                                         <div class="form-group has-feedback">
                                             <textarea class="form-control" rows="5" name="objetivo" placeholder="Objetivo da matéria" ><?php echo setValue('objetivo'); ?></textarea>
                                             <span class="fa fa-dot-circle-o form-control-feedback"></span>
@@ -166,6 +168,7 @@
                                     <div class="col-md-6">
 
                                           <!--------------- EMENTA --------------->
+                                          Ementa da matéria:
                                         <div class="form-group has-feedback">
                                             <textarea class="form-control" rows="5" name="ementa" placeholder="Ementa da matéria" ><?php echo setValue('ementa'); ?></textarea>
                                             <span class="glyphicon glyphicon-bookmark form-control-feedback"></span>
@@ -173,6 +176,7 @@
                                         <!--------------- /. EMENTA --------------->
 
                                           <!--------------- BIBLIOGRAFIA     --------------->
+                                          Bibliografia:
                                         <div class="form-group has-feedback">
                                             <textarea class="form-control" rows="5" name="bibliografia" placeholder="Bibliografia" ><?php echo setValue('bibliografia'); ?></textarea>
                                             <span class="glyphicon glyphicon-book form-control-feedback"></span>
@@ -182,6 +186,7 @@
 </div>
 <div class="col-md-12">
                                           <!--------------- EXTRACLASSE --------------->
+                                          Extra Classe:
                                         <div class="form-group has-feedback">
                                             <textarea class="form-control" rows="5" name="extraclasse"  placeholder="Extra Classe" ><?php echo setValue('extraclasse'); ?></textarea>
                                             <span class="glyphicon glyphicon-log-out form-control-feedback"></span>
@@ -191,12 +196,13 @@
 
 
 
-<div class="col-md-6 pull-right">
-                                        <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>
-</div>
 
-                            </div>
+                                        <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>
+
+                            
                             </form>
+                            </div>
+                        </div>
                         </div>
 
                     </div>
@@ -235,6 +241,10 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url('data-views/dashboard/dist/js/demo.js'); ?>  "></script>
 
+
+<!-- CK EDITOR-->
+<script src="<?php echo base_url('data-views/biblioteca/ckeditor-basic/ckeditor.js'); ?>  "></script>
+
 <!-- Select2 -->
 <script src="<?php echo base_url('data-views/dashboard/bower_components/select2/dist/js/select2.full.min.js'); ?>"></script>
 
@@ -252,7 +262,17 @@
                                                 $('[data-mask]').inputmask()
 
 
-                                            })
+                                            });
+                                            
+                                            
+                                         
+    CKEDITOR.replace('apresentacao');
+    CKEDITOR.replace('objetivo');
+    CKEDITOR.replace('ementa');
+    CKEDITOR.replace('bibliografia');
+    CKEDITOR.replace('extraclasse');
+
+
 </script>
 
 </body>

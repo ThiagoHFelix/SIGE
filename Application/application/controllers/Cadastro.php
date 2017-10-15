@@ -26,6 +26,98 @@ class Cadastro extends CI_Controller{
     }//construtor padrao
     
     
+    /**
+     * Seleciona o Aluno para fazer a matricula
+     */
+    public function matriculaAlunoTurma(){
+        
+        
+        //Buscar todos os Alunos
+        $alunos = $this->aluno->getAll();
+        if($alunos !== NULL):
+            
+            $dados['alunos'] = $alunos;
+            
+        else:
+            
+            showError('mensagem_selectAluno','Não há ALUNOS cadastrados, por favor cadastre para continuar','warning');
+            
+        endif;
+        
+        
+        $this->load->view('administrador/manage/cadastro/Matricula_Turma/select_aluno',$dados);
+        
+        
+    }//matriculaTurma
+    
+    
+    public function alunoTurma(int $id){
+        
+        
+        //Verificando se ha Materias registradas
+        $this->load->model('Materia_model','materia');
+        $materias = $this->materia->getAll();
+        if($materias !== NULL):
+            
+            $dados['materias'] = $materias;
+            //Verificando Cursos registrados
+            $this->load->model('Curso_model','curso');
+            $cursos = $this->curso->getAll();
+            if($cursos !== NULL):
+                //Verifico se ALUNO existe
+                $aluno = $this->aluno->getAlunoById($id);
+                if($aluno !== NULL):
+                    
+                    //Busco curso do aluno
+                    $cursoAluno = $this->curso->getWhere(array('ID' => $aluno['FK_CURSO_ID'] ));
+                
+                    if($cursoAluno !== NULL):
+                        
+                        //FIXIT  query apenas para teste, fazer funçao no model para isso
+                        $materiasCurso = $this->curso->query('SELECT * FROM CURSO_MATERIA,MATERIA 
+                            WHERE 
+                                CURSO_MATERIA.FK_CURSO_ID = 2 AND 
+                                CURSO_MATERIA.FK_MATERIA_ID = MATERIA.ID'
+                        );
+                        
+                        //Verifico se existem materias neste curso
+                        if($materiasCurso !== NULL):
+                            
+                            $dados['materiasCurso'] = $materiasCurso;
+                            
+                            $this->load->model('Turma_model','turma');
+                            
+                            
+                            //die(var_dump($turmasMateria));
+                        else:
+                            showError('mensagem_MatriculaTurma','Não foi possível encontrar as MATERIAS deste CURSO <strong> Entre em contato com o administrador </strong>','info');
+                        endif;
+
+                    else:
+                        showError('mensagem_MatriculaTurma','Não foi possível encontrar o CURSO do ALUNO','info');
+                    endif;
+                    
+                    $dados['aluno'] = $aluno;
+                else:
+                     showError('mensagem_MatriculaTurma','Aluno não registrado no banco de dados','info');
+                endif;
+                
+            else:
+                 showError('mensagem_MatriculaTurma',' Não há CURSOS cadastrados, por favor cadastre para continuar ','info');
+            endif;
+            
+        else:
+            
+            showError('mensagem_MatriculaTurma',' Não há MATÉRIAS cadastrados, por favor cadastre para continuar ','info');
+            
+        endif;
+        
+        
+        $this->load->view('administrador/manage/cadastro/Matricula_Turma/cadastro_matriculaTurma',$dados);
+        
+    }//alunoTurma
+    
+    
     
     public function turma(){
         
@@ -400,9 +492,6 @@ class Cadastro extends CI_Controller{
     }//turma
     
     
-    
-    
-    
     public function aviso(){
         
         $this->load->helper(array('form','url'));
@@ -652,27 +741,27 @@ class Cadastro extends CI_Controller{
      */
     public function curso(){
         
-        
-        $this->load->library(array('form_validation', 'session'));
         $this->load->model('materia_model', 'materia');
-        $this->load->model('curso_model', 'curso');
-
-
-        //Declaração de variaveis
-        $dados = NULL;
-
-        //Criando regras para a validação do formulário
-        $this->form_validation->set_rules('titulo', '"Titulo"', 'trim|required|max_length[45]');
-        $this->form_validation->set_rules('descricao', '"Descriçao do Curso"', 'trim|max_length[62]');
-        $this->form_validation->set_rules('duracao', '"Duraçao do curso"', 'trim|max_length[62]');
-        $this->form_validation->set_rules('vagas', '"Vagas"', 'trim|max_length[62]');
-        $this->form_validation->set_rules('carga_horaria', '"Carga Horaria"', 'trim|max_length[62]');
-
-
-
-        //inicio a verificação da regras
-        if ($this->form_validation->run())
-        {
+        
+        $dados['Mate'] = $this->materia->getAll();
+        
+        if( isset($dados['Mate']) ):
+            
+            if($this->validationCurso()):
+                $this->cadastraCurso();
+            endif;
+            
+        else:
+            showError('mensagem_usuario','Não há MATERIA cadastrada, por favor CADASTRE para continuar','alert alert-warning');
+        endif;
+        
+        $this->load->view('/administrador/manage/cadastro/cadastro_curso', $dados);
+        
+    }//curso
+    
+    
+    private function cadastraCurso(){
+        
             //Verificando se o titulo existe no banco de dados
             $titulo_post = $this->input->post('titulo');
 
@@ -763,24 +852,87 @@ class Cadastro extends CI_Controller{
                 
                 
             }//if
+        
+    }//cadastraCurso
+    
+    private function validationCurso(){
+         
+        $this->load->library(array('form_validation', 'session'));
+        $this->load->model('curso_model', 'curso');
+
+
+        //Declaração de variaveis
+        $dados = NULL;
+
+        //Criando regras para a validação do formulário
+        $this->form_validation->set_rules('titulo', '"Titulo"', 'trim|required|max_length[45]');
+        $this->form_validation->set_rules('descricao', '"Descriçao do Curso"', 'trim|max_length[62]');
+        $this->form_validation->set_rules('duracao', '"Duraçao do curso"', 'trim|max_length[62]');
+        $this->form_validation->set_rules('vagas', '"Vagas"', 'trim|max_length[62]');
+        $this->form_validation->set_rules('carga_horaria', '"Carga Horaria"', 'trim|max_length[62]');
+
+
+
+        //inicio a verificação da regras
+        if ($this->form_validation->run())
+        {
+            
+            
+            if($this->validationMateriasCurso()):
+                
+                return TRUE;
+                
+            else:
+                return FALSE;
+            endif;
+            
+            
         }//validation
         else {
 
-            if (strcmp(validation_errors(), '') == 0) {
-                //Limpo a mensagem de erro
-                $this->session->set_flashdata('mensagem_usuario', '');
-            }//if
-            else {
-                $this->session->set_flashdata('mensagem_usuario', '<div class=" alert alert-danger">
-                  ' . validation_errors() . '
-                  </div> ');
-            }//else
+           showError('mensagem_usuario',validation_errors(),'warning');
+            
         }//validation
 
-        $dados['Mate'] = $this->materia->getAll();
-        $this->load->view('/administrador/manage/cadastro/cadastro_curso', $dados);
+    }//cadastraCurso
+    
+    
+    /**
+     * Faz a validaçao das materias inseridas no curso
+     */
+    private function validationMateriasCurso(){
         
-    }//curso
+        $materias = $this->input->post('materia');
+        if ($materias !== NULL):
+            
+            return TRUE;
+            
+            /*die(var_dump($this->input->post('periodo_ordinal')).var_dump($this->input->post('materia')));
+
+            $periodo_ordinais = $this->input->post('periodo_ordinal');
+            //Crio validaçao de campos dinamicamente, ou seja somente nas materias selecionadas
+            for($i = 0;$i < count($materias); $i++):
+                if (strcmp($materias[$i], "") !== 0):
+
+                    $this->form_validation->set_rules('periodo_ordinal['.$i.']', '"Periodo Ordinal '.$i.'"', 'required');
+
+                endif;
+            endfor;
+            
+            if($this->form_validation->run()):
+                return TRUE;
+            else:
+                showError('mensagem_usuario',validation_errors(),'alert alert-warning');
+                return FALSE;
+            endif;*/
+
+        else:
+            showError('mensagem_usuario', 'Nenhuma MATÉRIA foi selecionada, para cadastrar um novo curso é necessário no minimo uma', 'alert alert-warning');
+            return FALSE;
+        endif;
+    }//makeValidationMateriasCurso
+    
+    
     
     
     /**
@@ -857,36 +1009,59 @@ class Cadastro extends CI_Controller{
     }//professor
     
     /**
+     * Busca todas os Cursos para o cadastro do aluno
+     */
+    private function getCurso(){
+        
+        $this->load->model('Curso_model','curso');
+        $cursos = $this->curso->getAll();
+        if($cursos !== NULL):
+            return $cursos;
+        else:
+            showError('mensagem_usuario','Não há nenhum CURSO cadastrado, por favor CADASTRE um CURSO para continuar','alert alert-warning');
+            return NULL;
+        endif;
+        
+    }//getCurso
+    
+    
+    
+    /**
      * Cadastra um novo aluno no banco de dados
      */
     public function aluno() {
         
-        $returnValidacao = $this->validacaoPessoa();
-        if ($returnValidacao !== NULL) {
-            
-            //Verifico se CPF ja existe no banco de dados
-            $cpf = $this->input->post('cpf');
-            $return = $this->aluno->verificaCPF($cpf);
-            if (!$return) {
+       $dados['cursos'] = $this->getCurso(); 
+        
+       if ( $dados['cursos'] !== NULL):
 
-                $returnData = $this->insertData('ALUNO', $returnValidacao);
-                if ($returnData) {
-                    showError('mensagem_manage', 'Aluno cadastrado com sucesso', 'success');
-                    redirect(base_url() . 'manage/aluno');
-                }//if    
+            $returnValidacao = $this->validacaoPessoa('ALUNO');
+            if ($returnValidacao !== NULL) {
+
+                //Verifico se CPF ja existe no banco de dados
+                $cpf = $this->input->post('cpf');
+                $return = $this->aluno->verificaCPF($cpf);
+                if (!$return) {
+
+                    $returnData = $this->insertData('ALUNO', $returnValidacao);
+                    if ($returnData) {
+                        showError('mensagem_manage', 'Aluno cadastrado com sucesso', 'alert alert-success');
+                        redirect(base_url() . 'manage/aluno');
+                    }//if    
+                    else {
+                        showError('mensagem_usuario', 'Não foi possível cadastrar o aluno no banco de dados <strong> CONTATE O ADMINISTRADOR </strong>', 'danger');
+                    }//else
+                }//if
                 else {
-                    showError('mensagem_usuario', 'Não foi possível cadastrar o aluno no banco de dados <strong> CONTATE O ADMINISTRADOR </strong>', 'danger');
+                    showError('mensagem_usuario', 'O CPF inserido já existe, por favor insira outro', 'alert alert-warning');
                 }//else
             }//if
-            else{
-            showError('mensagem_usuario', 'O CPF inserido já existe, por favor insira outro', 'warning');
-            }//else
-            
-        }//if
-           
-        
+
+        endif;
+
+
         //Carregamento da view de cadastro
-        $this->load->view('administrador/manage/cadastro/cadastro_aluno');
+        $this->load->view('administrador/manage/cadastro/cadastro_aluno',$dados);
         
         
         
@@ -897,7 +1072,7 @@ class Cadastro extends CI_Controller{
      * Validaçao de dados de pessoas
      * @return type Retorna string com o local da imagem de perfil,NULL no caso de falha
      */        
-    private function validacaoPessoa() {
+    private function validacaoPessoa(string $entidade = NULL) {
 
         
 
@@ -918,6 +1093,11 @@ class Cadastro extends CI_Controller{
         $this->form_validation->set_rules('conf_senha', '"Confirmação da senha"', 'trim|required|max_length[20]|min_length[5]|matches[senha]');
         $this->form_validation->set_rules('email', '"Email"', 'valid_email|max_length[40]');
         $this->form_validation->set_rules('telefone', '"Telefone"', 'max_length[13]');
+        $this->form_validation->set_rules('telefone', '"Telefone"', 'max_length[13]');
+        if(strcmp(strtoupper($entidade),'ALUNO') == 0):
+            $this->form_validation->set_rules('cursos', '"Curso"', 'required|trim');
+           $this->form_validation->set_rules('infoadd', '"Informações Adicionais"', 'required|trim');
+        endif;
 
 
         //inicio a verificação da regras
@@ -985,6 +1165,11 @@ class Cadastro extends CI_Controller{
             
            
             case 'ALUNO':
+                
+                $dados['FK_CURSO_ID'] = $this->input->post('cursos');
+                $dados['INFO_MATRICULA'] = $this->input->post('infoadd');
+                $dados['STATUS_MATRICULA'] = 'CURSANDO';
+                
                return $this->insertAluno($dados);
             
             

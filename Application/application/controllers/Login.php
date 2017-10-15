@@ -206,14 +206,22 @@ class Login extends CI_Controller {
         $senha = $this->input->post('password');
         $cpf = $this->input->post('username');
 
-        if (strcasecmp($entidade, 'Administrador') == 0)
+        if (strcasecmp($entidade, 'Administrador') == 0):
             $pessoa = $this->administrador->getAdministrador($cpf);
+        endif;
+            
 
-        if (strcasecmp($entidade, 'Professor') == 0)
-            $pessoa = $this->professor->getProfessor($cpf);
+        if (strcasecmp($entidade, 'Professor') == 0):
+             $pessoa = $this->professor->getProfessor($cpf);
+        endif;
+           
 
-        if (strcasecmp($entidade, 'Aluno') == 0)
+        if (strcasecmp($entidade, 'Aluno') == 0):
             $pessoa = $this->aluno->getAluno($cpf);
+        endif;
+        
+       // die(var_dump($pessoa));
+            
 
 
         $this->session->set_userdata('user_cpf', $this->input->post()['username']);
@@ -222,7 +230,15 @@ class Login extends CI_Controller {
         $this->session->set_userdata('entidade', $entidade);
         $this->session->set_userdata('user_id', $pessoa['ID']);
         $this->session->set_userdata('logged_in', 'true');
-
+        
+        //BUSCO TITULO DO CURSO
+        $this->load->model('Curso_model', 'curso');
+        $curso = $this->curso->getWhere(array('ID' => $pessoa['FK_CURSO_ID']));
+        $this->session->set_userdata('titulo_curso', $curso[0]['TITULO']);
+        $this->session->set_userdata('id_curso', $pessoa['FK_CURSO_ID']);
+        $this->session->set_userdata('status_matricula', $curso[0]['STATUS']);
+        
+        
         //Registrar no banco de dados o login
         $dados_registro = array(
             'MENSAGEM' => 'Entrando no Sistema | ' . $entidade,
@@ -230,14 +246,20 @@ class Login extends CI_Controller {
             'USER_EMAIL' => $pessoa['CPF']
         );
 
-        if (strcasecmp($entidade, 'Administrador') == 0)
-            $this->administrador->registra_login($dados_registro);
+        if (strcasecmp($entidade, 'Administrador') == 0):
+             $this->administrador->registra_login($dados_registro);
+        endif;
+           
 
-        if (strcasecmp($entidade, 'Professor') == 0)
+        if (strcasecmp($entidade, 'Professor') == 0):
             $this->professor->registra_login($dados_registro);
+        endif;
+            
 
-        if (strcasecmp($entidade, 'Aluno') == 0)
+        if (strcasecmp($entidade, 'Aluno') == 0):
             $this->aluno->registra_login($dados_registro);
+        endif;
+            
     }//registraDados_session
 
 

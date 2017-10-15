@@ -140,14 +140,96 @@
 
                                         <!--------------- TITULO --------------->
                                         <div class="form-group has-feedback">
-                                            <input  required name="titulo" type="text" class="form-control  " value="<?php echo setValue('titulo'); ?>" placeholder="Titulo da matéria*">
+                                            <input  required name="titulo" type="text" class="form-control  " value="<?php echo setValue('titulo'); ?>" placeholder="Nome do Curso*">
                                             <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
                                         </div>
                                         <!--------------- /. TITULO --------------->
 
+
+
+                                        <div  class="col-md-12" style="height: 200px;overflow-x: auto; margin-bottom:40px">
+                                            <?php if (isset($Mate)): $i=0; ?>
+                                                <?php foreach ($Mate as $materia): $i++; ?>
+
+                                                    <div class="col-md-6 pull-left" >
+
+                                                        <div class="form-check" >
+                                                            <label class="form-check-label">
+                                                                <input type="checkbox" name="materia[<?php echo $i; ?>]" class="form-check-input" value="<?php echo $materia['ID']; ?>"  >
+                                                                <?php echo $materia['TITULO']; ?> 
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-6 pull-rigth">
+                                                        <div class="col-md-6">
+                                                            <!--------------- PERIODO ORDINAL --------------->
+                                                            <div class="form-group has-feedback">
+                                                                <input   name="periodo_ordinal[<?php echo $i; ?>]" type="number"   class="form-control  " value="
+
+                                                                        <?php// echo setValue('periodo_ordinal'); ?>
+
+
+                                                                        " placeholder="Periodo Ordinal">
+                                                                <span class="fa fa-info form-control-feedback"></span>
+                                                            </div>
+                                                            <!--------------- /. PERIODO ORDINAL --------------->
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <!--------------- TEMPO --------------->
+                                                            <div class="form-group has-feedback">
+                                                                <select   class="form-control" name="tempo[<?php echo $i; ?>]" >
+
+                                                                    <option value="">Tempo*</option>
+                                                                    <option value="Semana">Semana</option>
+                                                                    <option value="Mes">Mes</option>
+                                                                    <option value="Ano">Ano</option>
+                                                                    <option value="Quinzena">Quinzena</option>
+                                                                    <option value="Bimestre">Bimestre</option>
+                                                                    <option value="Trimestre">Trimestre</option>
+                                                                    <option value="Quadrimestre">Quadrimestre</option>
+                                                                    <option value="Semestre">Semestre</option>
+
+                                                                </select>
+                                                            </div>
+                                                            <!--------------- /. TEMPO
+                                                            
+                                                            
+                                                            
+                                                            --------------->
+
+
+
+                                                        </div>
+                                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
 
                                     <div class="col-md-6">
+
+
+
+
+
 
 
 
@@ -175,16 +257,16 @@
                                     <div class="col-md-6">
 
                                         <!--------------- Descrição de Vagas --------------->
-                                       Descrição sobre as Vagas:
+                                        Descrição sobre as Vagas:
                                         <div class="form-group has-feedback">
-                                           
-                                            
+
+
                                             <textarea class="form-control" rows="5" maxlength="62" name="vagas" placeholder="Descrição sobre as Vagas" ><?php echo setValue('vagas'); ?></textarea>
                                             <span class="glyphicon glyphicon-bookmark form-control-feedback"></span>
-                                            
+
                                         </div>
-                                             
-                                            
+
+
                                         <!--------------- /. Descrição de Vagas --------------->
 
                                         <!--------------- Carga Horaria     --------------->
@@ -196,56 +278,10 @@
                                         <!--------------- /. Carga Horaria  --------------->
 
                                     </div>
-                                    <div class="col-md-12">
-                                        <table id="list_materia" class="table " >
-
-                                            <thead >
-                                                <tr>
-                                                    <td>
-                                                        Nome da Matéria
-                                                    </td>
-
-                                                    <td>
-                                                        Ações
-                                                    </td>
-
-                                                </tr>
-                                            </thead>
-
-                                        </table>
-                                        <div  class="col-md-12" style="height: 200px;overflow-x: auto; margin-bottom:40px">
-                                            <table id="list_materia" class="table table-bordered "style="background-color:lightyellow"  >
-
-
-                                                <tbody>
-                                                    <?php foreach ($Mate as $materia): ?>
-
-                                                        <tr>
-                                                            <td>
-                                                                <?php echo $materia['TITULO']; ?>
-                                                            </td>
-                                                            <td>
-                                                                <div class="form-check" >
-                                                                    <label class="form-check-label">
-                                                                        <input type="checkbox" name="materia[]" class="form-check-input" value="<?php echo $materia['ID']; ?>"  >
-                                                                        Adicionar
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-
-                                                    <?php endforeach; ?>
-
-                                                </tbody>
 
 
 
-                                            </table>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-6 pull-right">
+                                    <div class="col-md-12 ">
                                         <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>
                                     </div>
 
@@ -303,15 +339,15 @@
 <script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.extensions.js'); ?>"></script>
 
 <script>
-                $(function () {
-                    //Initialize Select2 Elements
-                    $('.select2').select2()
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
 
-                    //Money Euro
-                    $('[data-mask]').inputmask()
+        //Money Euro
+        $('[data-mask]').inputmask()
 
 
-                })
+    })
 </script>
 
 <script>

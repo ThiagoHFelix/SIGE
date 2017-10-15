@@ -91,6 +91,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  }//getMaterias
  
  
+ public function query($query){
+     
+      $return = $this->db->query($query);
+     
+     if($return->num_rows() > 0):
+         return $return->result_array();
+     else:
+         return NULL;
+     endif;
+     
+     
+ }
+ 
  
 //Ativa status de curso no banco de dados
 //Retorna TRUE se ativar com sucesso e FALSE se falhar

@@ -54,6 +54,7 @@ class  Materia_model extends CI_Model{
         else:
             return NULL;
         endif;
+        
     }//getAll
 
     // Busca no banco de dados com WHERE, se nada for encontrado retorno NULL
