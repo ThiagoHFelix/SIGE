@@ -62,6 +62,7 @@ CREATE TABLE Materia (
   material varchar(250),
   bibliografia varchar(250),
   extraClasse varchar(250),
+  FK_Area_id integer,
 
   CONSTRAINT CK_Materia check (upper(status) in ('ATIVADO','DESATIVADO')),
   CONSTRAINT PK_Materia PRIMARY KEY (id)
@@ -129,10 +130,9 @@ CREATE TABLE Email (
 CREATE TABLE Curso_materia (
     FK_Materia_id integer,
     FK_Curso_id integer,
-    quantPeriTemp integer,
-    periodoTempo varchar(25),
+    semestre varchar(25),
     
-    CONSTRAINT CK_PERIODO CHECK(UPPER(periodoTempo) in ('SEMANA','MES','ANO','QUINZENA','BIMESTRE','TRIMESTRE','QUADRIMESTRE','SEMESTRE') ),
+    CONSTRAINT CK_SEMESTRE CHECK(UPPER(semestre) in ('PRIMEIRO','SEGUNDO','TERCEIRO','QUARTO','QUINTO','SEXTO') ),
     CONSTRAINT PK_CUR_MAT PRIMARY KEY (FK_Materia_id, FK_Curso_id)
 );
 
@@ -238,6 +238,13 @@ CREATE TABLE matricula_turma (
     PRIMARY KEY (FK_Pessoa_id, FK_turma_id)
 );
 
+CREATE TABLE Area (
+    id integer PRIMARY KEY,
+    titulo varchar(100)
+);
+
+
+
  
 ALTER TABLE turma ADD CONSTRAINT FK_turma_1
     FOREIGN KEY (FK_Materia_id)
@@ -254,7 +261,6 @@ ALTER TABLE turma ADD CONSTRAINT FK_turma_3
     ALTER TABLE curso ADD CONSTRAINT FK_curso_turno
     FOREIGN KEY (FK_TURNO_ID)
     REFERENCES Turno (id);
-    
     
  
 ALTER TABLE Telefone ADD CONSTRAINT FK_Telefone_0
@@ -334,7 +340,12 @@ ALTER TABLE matricula_turma ADD CONSTRAINT FK_matricula_turma_1
 ALTER TABLE Pessoa ADD CONSTRAINT FK_Pessoa_1
     FOREIGN KEY (FK_Curso_id)
     REFERENCES Curso (id);    
-    
+
+ 
+ALTER TABLE materia ADD CONSTRAINT FK_area_materia_1
+    FOREIGN KEY (FK_Area_id)
+    REFERENCES Area (id);
+
 /*======================================================================*/
  /* Criação de GENERATOR */
 
@@ -355,6 +366,64 @@ CREATE GENERATOR GN_TURMA;
 CREATE GENERATOR GN_ATIVIDADE;
 CREATE GENERATOR GN_AVISO;
 CREATE GENERATOR GN_DIA_SEMANA;
+CREATE GENERATOR GN_AREA;
+/*======================================================================*/
+/* AREA */
+
+
+SET TERM^;
+
+CREATE TRIGGER TR_AREA FOR AREA
+ACTIVE
+BEFORE INSERT OR UPDATE OR DELETE
+AS
+BEGIN
+
+    IF(INSERTING) THEN BEGIN
+
+        IF(NEW.ID IS NULL) THEN BEGIN
+            NEW.ID = GEN_ID(GN_AREA,1);
+        END
+        
+
+        INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'INSERT',
+         CURRENT_USER
+        );
+
+    END
+
+    IF(DELETING) THEN BEGIN
+
+         INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'DELETE',
+         CURRENT_USER
+        );
+
+    END
+
+    IF(UPDATING) THEN BEGIN
+
+         INSERT INTO HISTORY VALUES(
+         GEN_ID(GN_HISTORY,1),
+         CURRENT_DATE,
+         CURRENT_TIME,
+         'UPDATE',
+         CURRENT_USER
+        );
+
+    END
+
+END^
+
+SET TERM;^
+
 
 
 /*======================================================================*/
@@ -827,6 +896,20 @@ BEGIN
 
     IF(INSERTING) THEN BEGIN
 
+
+    IF(NEW.DATA IS NULL) THEN BEGIN
+    
+        NEW.DATA = CURRENT_DATE;
+
+    END
+
+    IF(NEW.HORA IS NULL) THEN BEGIN
+
+        NEW.HORA = CURRENT_TIME; 
+
+    END
+
+
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),
          CURRENT_DATE,
@@ -877,6 +960,11 @@ AS
 BEGIN
 
     IF(INSERTING) THEN BEGIN
+
+
+    IF(NEW.DATAHORA IS NULL) THEN BEGIN
+        NEW.DATAHORA = CURRENT_TIMESTAMP;
+    END
 
           INSERT INTO HISTORY VALUES(
          GEN_ID(GN_HISTORY,1),

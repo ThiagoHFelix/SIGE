@@ -31,7 +31,74 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
 
+        <style>
+            /* Customize the label (the container) */
+            .container {
+                display: block;
+                position: relative;
+                padding-left: 35px;
+                margin-bottom: 12px;
+                cursor: pointer;
+                font-size: 16px;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
 
+            /* Hide the browser's default checkbox */
+            .container input {
+                position: absolute;
+                opacity: 0;
+            }
+
+            /* Create a custom checkbox */
+            .checkmark {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 25px;
+                width: 25px;
+                background-color: #eee;
+            }
+
+            /* On mouse-over, add a grey background color */
+            .container:hover input ~ .checkmark {
+                background-color: #ccc;
+            }
+
+            /* When the checkbox is checked, add a blue background */
+            .container input:checked ~ .checkmark {
+                background-color: #2196F3;
+            }
+
+            /* Create the checkmark/indicator (hidden when not checked) */
+            .checkmark:after {
+                content: "";
+                position: absolute;
+                display: none;
+            }
+
+            /* Show the checkmark when checked */
+            .container input:checked ~ .checkmark:after {
+                display: block;
+            }
+
+            /* Style the checkmark/indicator */
+            .container .checkmark:after {
+                left: 9px;
+                top: 5px;
+                width: 5px;
+                height: 10px;
+                border: solid white;
+                border-width: 0 3px 3px 0;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+            }
+            Try it Yourself »
+
+        </style>
 
     </head>
     <body class="hold-transition <?php echo $this->session->userdata('main_theme'); ?> sidebar-mini">
@@ -121,17 +188,13 @@
 
                             <div class="box box-solid" >
 
-
-
-
-
                                 <?php echo form_open('cadastro/curso'); ?>
 
 
 
                                 <div class="row" >
                                     <div class="box-header text-center" >
-                                        Todos os campos com o caracter (*) são obrigatórios
+                                        Selecione o semestre somente das matérias selecionadas
                                     </div>
 
                                 </div>
@@ -148,56 +211,90 @@
 
 
                                         <div  class="col-md-12" style="height: 200px;overflow-x: auto; margin-bottom:40px">
-                                            <?php if (isset($Mate)): $i=0; ?>
+
+                                            <?php if (isset($Mate)): $i = 0; ?>
                                                 <?php foreach ($Mate as $materia): $i++; ?>
 
-                                                    <div class="col-md-6 pull-left" >
-
-                                                        <div class="form-check" >
-                                                            <label class="form-check-label">
-                                                                <input type="checkbox" name="materia[<?php echo $i; ?>]" class="form-check-input" value="<?php echo $materia['ID']; ?>"  >
-                                                                <?php echo $materia['TITULO']; ?> 
-                                                            </label>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="col-md-6 pull-rigth">
-                                                        <div class="col-md-6">
-                                                            <!--------------- PERIODO ORDINAL --------------->
-                                                            <div class="form-group has-feedback">
-                                                                <input   name="periodo_ordinal[<?php echo $i; ?>]" type="number"   class="form-control  " value="
-
-                                                                        <?php// echo setValue('periodo_ordinal'); ?>
+                                                    <div class="col-md-6" >
+                                                        <div class="col-md-6 ">
 
 
-                                                                        " placeholder="Periodo Ordinal">
-                                                                <span class="fa fa-info form-control-feedback"></span>
+                                                            <div class="form-check" style="text-center">
+                                                                <label class="container">
+                                                                    <?php echo $materia['TITULO']; ?>
+                                                                    <input
+                                                                    <?php if ($this->input->post('materia') !== NULL): ?>
+                                                                        <?php foreach ($this->input->post('materia') as $materi): ?>
+                                                                            <?php
+                                                                            if (strcmp($materi, $materia['ID']) === 0): echo 'checked';
+                                                                                break;
+                                                                            endif;
+                                                                            ?>
+                                                                        <?php endforeach; ?>
+                                                                    <?php endif; ?>
+
+                                                                        type="checkbox" name="materia[]" class="form-check-input" value="<?php echo $materia['ID']; ?>"  >
+
+
+                                                                    <span class="checkmark"></span>
+
+                                                                </label>
+
+
                                                             </div>
-                                                            <!--------------- /. PERIODO ORDINAL --------------->
                                                         </div>
 
-                                                        <div class="col-md-6">
-                                                            <!--------------- TEMPO --------------->
-                                                            <div class="form-group has-feedback">
-                                                                <select   class="form-control" name="tempo[<?php echo $i; ?>]" >
 
-                                                                    <option value="">Tempo*</option>
-                                                                    <option value="Semana">Semana</option>
-                                                                    <option value="Mes">Mes</option>
-                                                                    <option value="Ano">Ano</option>
-                                                                    <option value="Quinzena">Quinzena</option>
-                                                                    <option value="Bimestre">Bimestre</option>
-                                                                    <option value="Trimestre">Trimestre</option>
-                                                                    <option value="Quadrimestre">Quadrimestre</option>
-                                                                    <option value="Semestre">Semestre</option>
+
+
+                                                        <div class="col-md-6 ">
+                                                            <!--------------- SEMESTRE --------------->
+                                                            <div class="form-group has-feedback">
+                                                                <select   class="form-control" name="semestre_<?php echo $materia['ID']; ?>" >
+
+                                                                    <option  value="">Semestre*</option>
+                                                                    <option 
+                                                                    <?php
+                                                                    if (strcmp($this->input->post('semestre_' . $materia['ID']), 'Primeiro') === 0): echo 'selected';
+                                                                    endif;
+                                                                    ?>
+                                                                        value="Primeiro">Primeiro</option>
+                                                                    <option 
+                                                                    <?php
+                                                                    if (strcmp($this->input->post('semestre_' . $materia['ID']), 'Segundo') === 0): echo 'selected';
+                                                                    endif;
+                                                                    ?>
+                                                                        value="Segundo">Segundo</option>
+                                                                    <option 
+                                                                    <?php
+                                                                    if (strcmp($this->input->post('semestre_' . $materia['ID']), 'Terceiro') === 0): echo 'selected';
+                                                                    endif;
+                                                                    ?>
+                                                                        value="Terceiro">Terceiro</option>
+                                                                    <option 
+                                                                    <?php
+                                                                    if (strcmp($this->input->post('semestre_' . $materia['ID']), 'Quarto') === 0): echo 'selected';
+                                                                    endif;
+                                                                    ?>
+                                                                                value="Quarto">Quarto</option>
+                                                                    <option 
+                                                                    <?php
+                                                                    if (strcmp($this->input->post('semestre_' . $materia['ID']), 'Quinto') === 0): echo 'selected';
+                                                                    endif;
+                                                                    ?>
+                                                                        value="Quinto">Quinto</option>
+                                                                    <option 
+                                                                    <?php
+                                                                    if (strcmp($this->input->post('semestre_' . $materia['ID']), 'Sexto') === 0): echo 'selected';
+                                                                    endif;
+                                                                    ?>
+                                                                        value="Sexto">Sexto</option>
+                                                                   
+
 
                                                                 </select>
                                                             </div>
-                                                            <!--------------- /. TEMPO
-                                                            
-                                                            
-                                                            
-                                                            --------------->
+                                                            <!--------------- /. SEMESTRE --------------->
 
 
 
@@ -288,11 +385,11 @@
                                 </div>
                                 </form>
 
-                            </div>  
+                            </div>
                         </div>
 
                     </div>
-            </div> 
+            </div>
 
         </section>
         <!-- /.content -->

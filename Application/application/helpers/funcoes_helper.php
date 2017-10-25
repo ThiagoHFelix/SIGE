@@ -40,6 +40,33 @@ if(!function_exists('showError')){
 
 
 
+if(!function_exists('setMessege')):
+    
+    /**
+     * Cria uma nova mensagem para o usuario
+     * @param string $userDataName Nome da variavel de mensagem
+     * @param string $messege Mensagem para o usuario
+     */
+    function setMessege(string $userDataName,string $messege){
+
+    
+        $ci =& get_instance();
+        $stringMessege = '';
+        if(strcmp($messege,'') !== 0):
+            $stringMessege = '  <div id="snackbar" class="show" > '.$messege.' </div>';
+        endif;
+               
+        $ci->session->set_flashdata($userDataName,$stringMessege);
+    
+        
+    }//setMessege
+    
+    
+    
+endif;
+
+
+
 if (!function_exists('setValue')):
 
     /**

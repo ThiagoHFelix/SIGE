@@ -196,9 +196,9 @@
 
 
 
-
+                                    <div class="col-md-12">
                                         <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Cadastrar </button>
-
+                                    </div>
                             
                             </form>
                             </div>

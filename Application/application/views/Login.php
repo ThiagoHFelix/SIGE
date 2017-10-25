@@ -14,6 +14,8 @@
         <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/bower_components/Ionicons/css/ionicons.min.css'); ?>">
         <!-- Theme style -->
         <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/dist/css/AdminLTE.min.css?v=3'); ?>">
+        <!-- Aviso style -->
+        <link rel="stylesheet" href="<?php echo base_url('data-views/biblioteca/aviso/aviso.css?v=8'); ?>">
         <!-- iCheck -->
         <link rel="stylesheet" href="<?php echo base_url('data-views/dashboard/plugins/iCheck/square/blue.css'); ?>">
 
@@ -116,9 +118,10 @@
                             <!-- /.col -->
                             <div class="col-xs-12 text-center">
                                 
-                                <p class="validation_erros" > <?php echo $this->session->flashdata('aviso_login'); ?> </p>
+                                <?php echo $this->session->flashdata('aviso_login'); ?>
                                 
-                                <button type="submit" class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="glyphicon glyphicon-log-in"></i><?php echo $this->lang->line('button_login'); ?> </button>
+                                
+                                <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="glyphicon glyphicon-log-in"></i><?php echo $this->lang->line('button_login'); ?> </button>
                             </div>
                             <!-- /.col -->
                         </div>
@@ -158,7 +161,15 @@
         <script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.js'); ?> "></script>
         <script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.date.extensions.js'); ?>"></script>
         <script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.extensions.js'); ?>"></script>
+        
+        
+        
+        <!-- AVISO SCRIPT -->
+        <script src="<?php echo base_url('data-views/biblioteca/aviso/aviso.js?v=1'); ?>"></script>
 
+        
+        
+        
         <script>
             $(function () {
                 //Initialize Select2 Elements
@@ -170,6 +181,12 @@
 
             })
         </script>
+        
+        <script type="text/javascript">
+        
+            window.onload( myFunction() );
+            
+         </script>
         
     
     </body>

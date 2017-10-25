@@ -29,7 +29,7 @@ class Cadastro extends CI_Controller{
     /**
      * Seleciona o Aluno para fazer a matricula
      */
-    public function matriculaAlunoTurma(){
+    public function selectAlunoTurma(){
         
         
         //Buscar todos os Alunos
@@ -50,9 +50,54 @@ class Cadastro extends CI_Controller{
         
     }//matriculaTurma
     
+    /**
+     * Verifica se o aluno existe
+     * @param int $id
+     * @return boolean TRUE se o aluno existe e FALSE se nao
+     */
+    private function alunoExist(int $id){
+        
+        $return = $this->aluno->getAlunoById($id);
+        
+        if($return !== NULL):
+            return TRUE;
+        else:
+            return FALSE;
+        endif;
+        
+    }//alunoExist
     
+    
+    private function verificaAlunoTurma(){
+        
+      //  die('Variavel Y -->'.$this->input->post('v_y'));
+    //   die('Groups -->'.$this->input->post('turma_category_0'));
+      /*  if($this->input->post('turma_category_0') !== NULL):
+            die('INSERIDO =D ');
+        else:
+            die('NAO INSERIDO');
+        endif;
+        
+        
+        */
+        
+        
+    }//verificaAlunoTurma
+    
+    
+    
+    /**
+     * 
+     * @param int $id
+     * @return boolean
+     */
     public function alunoTurma(int $id){
         
+        //Verifico se o aluno existe
+        if(!$this->alunoExist($id)):
+            show_404();
+            return FALSE;
+        endif;
         
         //Verificando se ha Materias registradas
         $this->load->model('Materia_model','materia');
@@ -68,15 +113,23 @@ class Cadastro extends CI_Controller{
                 $aluno = $this->aluno->getAlunoById($id);
                 if($aluno !== NULL):
                     
+                    //Registro dados do aluno
+                    $dados['aluno'] = $aluno;
                     //Busco curso do aluno
-                    $cursoAluno = $this->curso->getWhere(array('ID' => $aluno['FK_CURSO_ID'] ));
-                
+                    $cursoAluno = $this->curso->getWhere(array('ID' => $aluno['FK_CURSO_ID'] ))[0];
+                    
+                    
+                    
                     if($cursoAluno !== NULL):
+                        
+                        
+                        //Registro dados do curso
+                        $dados['curso'] = $cursoAluno;
                         
                         //FIXIT  query apenas para teste, fazer funçao no model para isso
                         $materiasCurso = $this->curso->query('SELECT * FROM CURSO_MATERIA,MATERIA 
                             WHERE 
-                                CURSO_MATERIA.FK_CURSO_ID = 2 AND 
+                                CURSO_MATERIA.FK_CURSO_ID = '.$cursoAluno['ID'].' AND 
                                 CURSO_MATERIA.FK_MATERIA_ID = MATERIA.ID'
                         );
                         
@@ -86,6 +139,10 @@ class Cadastro extends CI_Controller{
                             $dados['materiasCurso'] = $materiasCurso;
                             
                             $this->load->model('Turma_model','turma');
+                            
+                            
+                            $this->verificaAlunoTurma();
+                            
                             
                             
                             //die(var_dump($turmasMateria));
@@ -718,15 +775,9 @@ class Cadastro extends CI_Controller{
         }//validation
         else {
 
-            if (strcmp(validation_errors(), '') == 0) {
-                //Limpo a mensagem de erro
-                $this->session->set_flashdata('mensagem_usuario', '');
-            }//if
-            else {
-                $this->session->set_flashdata('mensagem_usuario', '<div class=" alert alert-danger">
-            ' . validation_errors() . '
-            </div> ');
-            }//else
+                
+               showError('mensagem_manage',validation_errors(),'warning');
+            
         }//validation
 
 
@@ -820,8 +871,8 @@ class Cadastro extends CI_Controller{
             
                     foreach($materias as $materia)
                     {
-                        
-                        $return = $this->curso->insertRelacao(array(  'FK_MATERIA_ID' =>  $materia, 'FK_CURSO_ID' => $idCurso ));
+                        $tempo = $this->input->post('semestre_'.$materia);
+                        $return = $this->curso->insertRelacao(array(  'FK_MATERIA_ID' =>  $materia, 'FK_CURSO_ID' => $idCurso,'SEMESTRE' => $tempo));
                         //Erro ao inserir
                         if(!$return)
                         {
@@ -879,8 +930,9 @@ class Cadastro extends CI_Controller{
             
             
             if($this->validationMateriasCurso()):
-                
+               
                 return TRUE;
+                
                 
             else:
                 return FALSE;
@@ -905,26 +957,19 @@ class Cadastro extends CI_Controller{
         $materias = $this->input->post('materia');
         if ($materias !== NULL):
             
-            return TRUE;
             
-            /*die(var_dump($this->input->post('periodo_ordinal')).var_dump($this->input->post('materia')));
-
-            $periodo_ordinais = $this->input->post('periodo_ordinal');
-            //Crio validaçao de campos dinamicamente, ou seja somente nas materias selecionadas
-            for($i = 0;$i < count($materias); $i++):
-                if (strcmp($materias[$i], "") !== 0):
-
-                    $this->form_validation->set_rules('periodo_ordinal['.$i.']', '"Periodo Ordinal '.$i.'"', 'required');
-
-                endif;
-            endfor;
+            //die(var_dump($this->input->post('periodo_ordinal')).var_dump($this->input->post('materia')));
+            foreach ($materias as $materia):
+                $this->form_validation->set_rules('semestre_'.$materia, '"Semestre"', 'trim|required');
+            endforeach;
+          
             
             if($this->form_validation->run()):
                 return TRUE;
             else:
                 showError('mensagem_usuario',validation_errors(),'alert alert-warning');
                 return FALSE;
-            endif;*/
+            endif;
 
         else:
             showError('mensagem_usuario', 'Nenhuma MATÉRIA foi selecionada, para cadastrar um novo curso é necessário no minimo uma', 'alert alert-warning');

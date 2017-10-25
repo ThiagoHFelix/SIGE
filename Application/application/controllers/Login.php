@@ -44,9 +44,9 @@ class Login extends CI_Controller {
 
             default: show_404();
         }//switch
-    }
+    }//View
 
-//View
+
 
     private function login(string $entidade) {
 
@@ -76,7 +76,8 @@ class Login extends CI_Controller {
             
         }//if
         else {
-            showError('aviso_login', validation_errors(), 'danger');
+             setMessege('aviso_login',validation_errors());
+           // showError('aviso_login', validation_errors(), 'danger');
         }//else
 
 
@@ -103,7 +104,8 @@ class Login extends CI_Controller {
                 if ($resultado != NULL) {
 
                     if (strcmp($resultado['SENHA'], $senha) != 0) {
-                         showError('aviso_login', 'Dados de Administrador inválidos', 'danger');
+                        setMessege('aviso_login','CPF ou senha de Administrador está incorreto');
+                        // showError('aviso_login', 'Dados de Administrador inválidos', 'danger');
                     }//IF | SENHA INCORRETA
                     else {
 
@@ -114,14 +116,15 @@ class Login extends CI_Controller {
                             redirect(base_url('/dashboard'), 'reflesh');
                         }//IF
                         else {
-                           showError('aviso_login', 'Esta conta está desativada', 'warning');
+                             setMessege('aviso_login','Esta conta está desativada');
+                         //  showError('aviso_login', 'Esta conta está desativada', 'warning');
                         }//ELSE | CONTA ESTÁ DESATIVADA
                         
                     }//else | SENHA CORRETA
                 }//if
                 else {
-
-                    showError('aviso_login', 'Dados de Administrador inválidos', 'danger');
+                    setMessege('aviso_login','CPF ou senha de Administrador está incorreto');
+                  //  showError('aviso_login', 'Dados de Administrador inválidos', 'danger');
                 }//else
 
                 break;
@@ -134,8 +137,8 @@ class Login extends CI_Controller {
                 if ($resultado != NULL) {
 
                     if (strcmp($resultado['SENHA'], $senha) != 0) {
-
-                        showError('aviso_login', 'Dados de Professor inválidos', 'danger');
+                        setMessege('aviso_login','CPF ou senha de Professor está incorreto');
+                        //showError('aviso_login', 'Dados de Professor inválidos', 'danger');
                     }//IF | SENHA INCORRETA
                     else {
 
@@ -146,14 +149,14 @@ class Login extends CI_Controller {
                             redirect(base_url('/dashboard'), 'reflesh');
                         }//IF
                         else {
-
-                           showError('aviso_login', 'Esta conta está desativada', 'warning');
+                            setMessege('aviso_login','Esta conta está desativada');
+                          // showError('aviso_login', 'Esta conta está desativada', 'warning');
                         }//ELSE | CONTA ESTÁ DESATIVADA
                     }//else | SENHA CORRETA
                 }//if
                 else {
-
-                    showError('aviso_login', 'Dados de professor inválidos', 'danger');
+                     setMessege('aviso_login','CPF ou senha de Professor está incorreto');
+                   // showError('aviso_login', 'Dados de professor inválidos', 'danger');
                 }//else
 
                 break;
@@ -167,8 +170,8 @@ class Login extends CI_Controller {
 
 
                     if (strcmp($resultado['SENHA'], $senha) != 0) {
-
-                       showError('aviso_login', 'Dados de Aluno inválidos', 'danger');
+                         setMessege('aviso_login','CPF ou senha de Aluno está incorreto');
+                     //  showError('aviso_login', 'Dados de Aluno inválidos', 'danger');
                     }//IF | SENHA INCORRETA
                     else {
                         //VERIFICANDO SE A CONTA ESTÁ ATIVADA
@@ -178,14 +181,14 @@ class Login extends CI_Controller {
                             redirect(base_url('/dashboard'), 'reflesh');
                         }//IF
                         else {
-
-                           showError('aviso_login', 'Esta conta está desativada', 'warning');
+                             setMessege('aviso_login','Esta conta está desativada');
+                          // showError('aviso_login', 'Esta conta está desativada', 'warning');
                         }//ELSE | CONTA ESTÁ DESATIVADA
                     }//ELSE | SENHA CORRETA
                 }//if
                 else {
-
-                    showError('aviso_login', 'Dados de Aluno inválidos', 'danger');
+                       setMessege('aviso_login','CPF ou senha de Aluno está incorreto');
+                 //   showError('aviso_login', 'Dados de Aluno inválidos', 'danger');
                 }//else
 
                 break;
@@ -303,13 +306,13 @@ class Login extends CI_Controller {
                 $this->recoverAluno($retorno[0]);
             }//aluno
 
-
-             showError('aviso_recuperacao', 'Verifique seu email', 'warning');
+            setMessege('aviso_recuperacao','Verifique seu email');
+            // showError('aviso_recuperacao', '', 'warning');
 
         }//run rules
         else {
-            
-            showError('aviso_recuperacao', validation_errors(), 'danger');
+            setMessege('aviso_recuperacao',validation_errors());
+           // showError('aviso_recuperacao', validation_errors(), 'danger');
         }
 
 

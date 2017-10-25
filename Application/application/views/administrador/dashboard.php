@@ -160,7 +160,7 @@
                                         Avisos
                                     </button> </a>
 
-                                <a href="<?php echo base_url('/cadastro/matriculaAlunoTurma'); ?>">  <button class="btn btn-app" >
+                                <a href="<?php echo base_url('/cadastro/selectAlunoTurma'); ?>">  <button class="btn btn-app" >
                                         <span class="fa fa-save" aria-hidden="true"></span>
                                         Matricular Aluno
                                     </button> </a>
