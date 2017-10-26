@@ -67,20 +67,24 @@ class Cadastro extends CI_Controller{
         
     }//alunoExist
     
-    
+    /**
+     * Verifica se ao menos uma turma foi escolhida para a matricula
+     */
     private function verificaAlunoTurma(){
         
-      //  die('Variavel Y -->'.$this->input->post('v_y'));
-    //   die('Groups -->'.$this->input->post('turma_category_0'));
-      /*  if($this->input->post('turma_category_0') !== NULL):
-            die('INSERIDO =D ');
-        else:
-            die('NAO INSERIDO');
-        endif;
+        $quantidade_materia_turma = $this->input->post('v_y');
         
-        
-        */
-        
+        for($i=0;$i<$quantidade_materia_turma;$i++):
+            
+            $data = $this->input->post('turma_category_'.$i);
+            
+            if($data !== NULL):
+                return TRUE;
+            endif;
+            
+        endfor;
+   
+        return FALSE;
         
     }//verificaAlunoTurma
     
@@ -94,85 +98,132 @@ class Cadastro extends CI_Controller{
     public function alunoTurma(int $id){
         
         //Verifico se o aluno existe
-        if(!$this->alunoExist($id)):
+        if (!$this->alunoExist($id)):
             show_404();
             return FALSE;
         endif;
-        
+
         //Verificando se ha Materias registradas
-        $this->load->model('Materia_model','materia');
+        $this->load->model('Materia_model', 'materia');
         $materias = $this->materia->getAll();
-        if($materias !== NULL):
-            
+        if ($materias !== NULL):
+
             $dados['materias'] = $materias;
             //Verificando Cursos registrados
-            $this->load->model('Curso_model','curso');
+            $this->load->model('Curso_model', 'curso');
             $cursos = $this->curso->getAll();
-            if($cursos !== NULL):
+            if ($cursos !== NULL):
                 //Verifico se ALUNO existe
                 $aluno = $this->aluno->getAlunoById($id);
-                if($aluno !== NULL):
-                    
+                if ($aluno !== NULL):
+
                     //Registro dados do aluno
                     $dados['aluno'] = $aluno;
                     //Busco curso do aluno
-                    $cursoAluno = $this->curso->getWhere(array('ID' => $aluno['FK_CURSO_ID'] ))[0];
-                    
-                    
-                    
-                    if($cursoAluno !== NULL):
-                        
-                        
+                    $cursoAluno = $this->curso->getWhere(array('ID' => $aluno['FK_CURSO_ID']))[0];
+
+
+
+                    if ($cursoAluno !== NULL):
+
+
                         //Registro dados do curso
                         $dados['curso'] = $cursoAluno;
-                        
+
                         //FIXIT  query apenas para teste, fazer funçao no model para isso
                         $materiasCurso = $this->curso->query('SELECT * FROM CURSO_MATERIA,MATERIA 
                             WHERE 
-                                CURSO_MATERIA.FK_CURSO_ID = '.$cursoAluno['ID'].' AND 
+                                CURSO_MATERIA.FK_CURSO_ID = ' . $cursoAluno['ID'] . ' AND 
                                 CURSO_MATERIA.FK_MATERIA_ID = MATERIA.ID'
                         );
-                        
+
                         //Verifico se existem materias neste curso
-                        if($materiasCurso !== NULL):
-                            
+                        if ($materiasCurso !== NULL):
+
                             $dados['materiasCurso'] = $materiasCurso;
-                            
-                            $this->load->model('Turma_model','turma');
-                            
-                            
-                            $this->verificaAlunoTurma();
-                            
-                            
-                            
-                            //die(var_dump($turmasMateria));
+
+                            $this->load->model('Turma_model', 'turma');
+
+
+                            if ($this->verificaAlunoTurma()):
+                                
+                                if($this->insertMatriculaTurma($id)):
+                                    
+                                    showError('mensagem_MatriculaTurma', 'Matricula realizada com sucesso', 'info');
+                                    
+                                else:
+                                    showError('mensagem_MatriculaTurma', 'Ocorreu um erro interno durante o cadastro <strong> CONTATE O ADMINISTRADOR SE O PROBLEMA PERSISTIR </strong>', 'info');
+                                endif;
+                                
+                                
+                            else:
+                                showError('mensagem_MatriculaTurma', 'Nenhuma turma foi selecionada', 'info');
+                            endif;
+
                         else:
-                            showError('mensagem_MatriculaTurma','Não foi possível encontrar as MATERIAS deste CURSO <strong> Entre em contato com o administrador </strong>','info');
+                            showError('mensagem_MatriculaTurma', 'Não foi possível encontrar as MATERIAS deste CURSO <strong> Entre em contato com o administrador </strong>', 'info');
                         endif;
 
                     else:
-                        showError('mensagem_MatriculaTurma','Não foi possível encontrar o CURSO do ALUNO','info');
+                        showError('mensagem_MatriculaTurma', 'Não foi possível encontrar o CURSO do ALUNO', 'info');
                     endif;
-                    
+
                     $dados['aluno'] = $aluno;
                 else:
-                     showError('mensagem_MatriculaTurma','Aluno não registrado no banco de dados','info');
+                    showError('mensagem_MatriculaTurma', 'Aluno não registrado no banco de dados', 'info');
                 endif;
-                
+
             else:
-                 showError('mensagem_MatriculaTurma',' Não há CURSOS cadastrados, por favor cadastre para continuar ','info');
+                showError('mensagem_MatriculaTurma', ' Não há CURSOS cadastrados, por favor cadastre para continuar ', 'info');
+            endif;
+
+        else:
+
+            showError('mensagem_MatriculaTurma', ' Não há MATÉRIAS cadastrados, por favor cadastre para continuar ', 'info');
+
+        endif;
+
+
+        $this->load->view('administrador/manage/cadastro/Matricula_Turma/cadastro_matriculaTurma', $dados);
+    }//alunoTurma
+
+
+    /**
+     * Matricula aluno em uma turma
+     */
+    private function insertMatriculaTurma(int $idPessoa){
+        
+        $quantidade_materia_turma = $this->input->post('v_y');
+        
+        for($i=0;$i<$quantidade_materia_turma;$i++):
+            
+            $data = $this->input->post('turma_category_'.$i);
+            
+            //Turma Inserida
+            if($data !== NULL):
+               
+               $dados = array(
+                   
+                   'FK_TURMA_ID' => $data,
+                   'FK_PESSOA_ID' => $idPessoa,
+                   'INFOADD' => '',
+                   'STATUS' => 'ATIVADO'
+                   
+               ); 
+            
+              $retorno = $this->aluno->insertAlunoTurma($dados);
+              if($retorno === FALSE):
+                  return FALSE;
+              endif;
+                
+                
             endif;
             
-        else:
-            
-            showError('mensagem_MatriculaTurma',' Não há MATÉRIAS cadastrados, por favor cadastre para continuar ','info');
-            
-        endif;
+        endfor;
+   
+        return TRUE;
         
-        
-        $this->load->view('administrador/manage/cadastro/Matricula_Turma/cadastro_matriculaTurma',$dados);
-        
-    }//alunoTurma
+    }//matriculaTurma
     
     
     

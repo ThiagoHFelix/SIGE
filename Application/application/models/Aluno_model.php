@@ -228,6 +228,15 @@ public function ativar(int $id){
 
  }//desativar
 
+  /**
+   * Insere dados na tabela de relaçao entre aluno e turma MATRICULA_TURMA
+   */
+  public function insertAlunoTurma(array $dados){
+      
+      return $this->db->insert('MATRICULA_TURMA',$dados);
+      
+  }//insertAlunoTurma
+ 
 
 
 //Destroi o objeto

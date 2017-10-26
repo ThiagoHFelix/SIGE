@@ -241,7 +241,7 @@
                                                                         <label for="category_<?php echo $y . $i; ?>">
                                                                             <h2><?php echo $turma['TITULO']; ?></h2>
                                                                             <p><?php echo $turma['STATUS']; ?></p>
-                                                                            <p><?php echo $turma['DATAINICIAL']; ?></p>
+                                                                            <p><?php echo 'Inicia em: '.$turma['DATAINICIAL']; ?></p>
                                                                         </label>
                                                                     </div>
 
