@@ -22,7 +22,7 @@ class Turma_model extends CI_Model{
         
     }//construct
             
-            //Retorna o total de tuplas da turma no banco de dados
+//Retorna o total de tuplas da turma no banco de dados
 public function getAllTupla(){
 
   
