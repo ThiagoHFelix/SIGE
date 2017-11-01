@@ -5,7 +5,7 @@
 ### **Sobre**
 SIGE é um projeto desenvolvido para cumprimento do TCC (Trabalho de Conclusão de Curso) em exigência do curso de Análise e Desenvolvimento de Software da FATEC (Faculdade de Tecnologia) da cidade de Americana-SP.
 
-###**Ferramentas**
+### **Ferramentas**
 Para o desenvolvimento da plataforma escolar o objetivo foi utilizar ferramentas gratuitas de preferencia Open-Source. Abaixo estão listadas as ferramentas utilizadas:
 
  - SGBD (Sistema Gerenciador de Banco de dados) **Firebird** | Version: 2.5
@@ -13,17 +13,17 @@ Para o desenvolvimento da plataforma escolar o objetivo foi utilizar ferramentas
  - *Framework Back-end* **Codeigniter** | Version : 3.1.6
  - *Framework Front-end* **AdminLTE** | Version: 2.4.0
 
-###**Desenvolvedores**
+### **Desenvolvedores**
 
  - Thiago Henrique Felix
 
-###**Status do Projeto**
+### **Status do Projeto**
 
  - Em Desenvolvimento
 
-###**Licença**
+### **Licença**
 O sistema de gerenciamento escolar SIGE é um *software* *Open-Source* licenciado através da [GNU General Public License version 3.](https://opensource.org/licenses/GPL-3.0)
 
-###**Imagens SIGE**
+### **Imagens SIGE**
 
 ![Login SIGE](http://i67.tinypic.com/2cntmzb.png)
