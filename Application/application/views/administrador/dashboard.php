@@ -161,31 +161,18 @@
                                     </button> </a>
 
                                 <a href="<?php echo base_url('/cadastro/selectAlunoTurma'); ?>">  <button class="btn btn-app" >
-                                        <span class="fa fa-save" aria-hidden="true"></span>
+                                        <span class="fa fa-user" aria-hidden="true"></span>
                                         Matricular Aluno
                                     </button> </a>
-                                
-                                <a href="#">  <button class="btn btn-app" >
-                                        <span class="fa fa-pencil" aria-hidden="true"></span>
-                                        Registrar Nota
-                                    </button> </a>
-
-                                <a href="#">  <button class="btn btn-app" >
-                                        <span class="fa fa-comments" aria-hidden="true"></span>
-                                        Chat
-                                    </button> </a>
-
-                                <a href="#">  <button class="btn btn-app" >
-                                        <span class="fa fa-area-chart" aria-hidden="true"></span>
-                                        Relatórios
-                                    </button> </a>
+                               
 
                                 <a href="<?php echo base_url('manage/configuration'); ?>">  <button class="btn btn-app" >
                                         <span class="fa fa-gears" aria-hidden="true"></span>
                                         Configurações
                                     </button> </a>
+                                
                                 <a href="<?php echo base_url('manage/log'); ?>">  <button class="btn btn-app" >
-                                        <span class="fa fa-gears" aria-hidden="true"></span>
+                                        <span class="fa fa-gear" aria-hidden="true"></span>
                                         Logs
                                     </button> </a>
 

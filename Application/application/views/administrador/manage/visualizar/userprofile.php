@@ -55,15 +55,18 @@
                         ?>
                         <!--------------------------- / HEADER / ------------------------------------------------------------------------------------------------------------------------------>
                         <div class="row"  style="margin-bottom:-20px">
-
                             <div class="col-md-2">
+                            <?php if (strcmp(strtoupper($this->session->userdata('entidade')), 'ADMINISTRADOR') === 0): ?>
+                                
 
-                                <a href="<?php echo base_url('/manage/'.ucfirst($this->uri->segment(2))); ?>">  <button class="btn btn-app "  >
-                                        <span class="fa fa-users" aria-hidden="true"></span>
-                                        Gerenciar <?php echo ucfirst($this->uri->segment(2)); ?>
-                                    </button> </a>
+                                    <a href="<?php echo base_url('/manage/' . ucfirst($this->uri->segment(2))); ?>">  <button class="btn btn-app "  >
+                                            <span class="fa fa-users" aria-hidden="true"></span>
+                                            Gerenciar <?php echo ucfirst($this->uri->segment(2)); ?>
+                                        </button> </a>
 
-                            </div>
+                              
+                            <?php endif; ?>
+                                  </div>
 
 
                             <div class="col-md-8">
@@ -83,54 +86,52 @@
 
 
                             <div class="col-md-2 pull-right"  >
-                                
-                               
+
+
 
                             </div>
 
 
                         </div>
                         <!--------------------------------------------------------------------------------------------------------------------------------------------------------->
-                        
+
                 </section>
-                
-                 
+
+
 
                 <!-- Main content -->
                 <section class="content">
 
 
-                        
-                    
-                    
+
+
+
                     <div class="row">
-                        
-                       
-                        
+
+
+
                         <div class="col-md-3">
 
                             <!-- Profile Image -->
                             <div class="box box-solid">
                                 <div class="box-body box-profile">
-                                    <img class="profile-user-img img-responsive img-circle" src="<?php  echo $FOTO; ?>" alt="User profile picture">
+                                    <img class="profile-user-img img-responsive img-circle" src="<?php echo $FOTO; ?>" alt="User profile picture">
 
-                                    <h3 class="profile-username text-center"> <?php echo $PRIMEIRONOME.' '.$SOBRENOME; ?></h3>
+                                    <h3 class="profile-username text-center"> <?php echo $PRIMEIRONOME . ' ' . $SOBRENOME; ?></h3>
 
                                     <p class="text-muted text-center"> <?php echo $entidade; ?> </p>
 
                                     <ul class="list-group list-group-unbordered">
                                         <li class="list-group-item">
-                                            <b>CPF</b> <a class="pull-right"><?php  echo $CPF; ?></a>
+                                            <b>CPF</b> <a class="pull-right"><?php echo $CPF; ?></a>
                                         </li>
                                         <li class="list-group-item">
-                                            <b>RG</b> <a class="pull-right"><?php  echo $RG; ?></a>
+                                            <b>RG</b> <a class="pull-right"><?php echo $RG; ?></a>
                                         </li>
                                         <li class="list-group-item">
                                             <b>Sexo</b> <a class="pull-right"><?php
-
-                                           echo $SEXO;
-
-                                            ?></a>
+                                                echo $SEXO;
+                                                ?></a>
                                         </li>
                                     </ul>
 
@@ -197,11 +198,11 @@
                                 <!------- TITULO ------>
                                 <div class="col-md-12">
 
-                                  <div class="box-header register-logo">
-                                     
-                                  </div>
-                                <!-------/ TITULO ------>
-                              </div>
+                                    <div class="box-header register-logo">
+
+                                    </div>
+                                    <!-------/ TITULO ------>
+                                </div>
 
 
 
@@ -209,48 +210,48 @@
                                 <!-------/ COL-MD-12 ------>
 
                                 <!------- ESQUERDA ------>
-                                  <div class="col-md-5" >
+                                <div class="col-md-5" >
 
                                     <div class="register-logo" style="font-size:20pt; ">
-                                      Endereço
+                                        Endereço
                                     </div>
 
 
                                     <div id="dados" style=" margin-left:25px;  font-size:12pt;" >
 
-                                      <p> <?php echo '- ESTADO: '.$ESTADO; ?> </p>
-                                      <p> <?php echo '- CIDADE: '.$CIDADE; ?> </p>
-                                      <p> <?php echo '- BAIRRO: '.$BAIRRO; ?> </p>
-                                      <p> <?php echo '- CEP: '.$CEP; ?> </p>
-                                      <p> <?php echo '- RUA: '.$RUA; ?> </p>
+                                        <p> <?php echo '- ESTADO: ' . $ESTADO; ?> </p>
+                                        <p> <?php echo '- CIDADE: ' . $CIDADE; ?> </p>
+                                        <p> <?php echo '- BAIRRO: ' . $BAIRRO; ?> </p>
+                                        <p> <?php echo '- CEP: ' . $CEP; ?> </p>
+                                        <p> <?php echo '- RUA: ' . $RUA; ?> </p>
 
 
                                     </div>
 
 
 
-                                  </div>
-                                  <!-------/ ESQUERDA ------>
+                                </div>
+                                <!-------/ ESQUERDA ------>
 
-                                  <!------- DIREITA ------>
-                                  <div class="col-md-6" >
+                                <!------- DIREITA ------>
+                                <div class="col-md-6" >
 
                                     <div class="register-logo" style="font-size:20pt;">
-                                      Dados Pessoais
+                                        Dados Pessoais
                                     </div>
 
                                     <div id="dados" style=" margin-left:25px; font-size:12pt; " >
 
-                                      <p> <?php echo '- CEF: '.$CPF; ?> </p>
-                                      <p> <?php echo '- RG: '.$RG; ?> </p>
-                                      <p> <?php echo '- TELEFONE: '; ?> </p>
-                                      <p> <?php echo '- REGISTRO: '.$ID; ?> </p>
+                                        <p> <?php echo '- CEF: ' . $CPF; ?> </p>
+                                        <p> <?php echo '- RG: ' . $RG; ?> </p>
+                                        <p> <?php echo '- TELEFONE: '; ?> </p>
+                                        <p> <?php echo '- REGISTRO: ' . $ID; ?> </p>
 
                                     </div>
 
 
-                                  </div>
-                                  <!-------/ DIREITA ------>
+                                </div>
+                                <!-------/ DIREITA ------>
 
 
 
@@ -278,10 +279,10 @@
 
 
             <!-- =============================================== -->
-            <?php
-            //Carrega footer
-            $this->load->view('administrador/footer');
-            ?>
+<?php
+//Carrega footer
+$this->load->view('administrador/footer');
+?>
 
         </div>
 

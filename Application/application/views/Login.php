@@ -26,6 +26,12 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
 
+
+        <!-- Tela de Aviso Modal -->
+        <link rel="stylesheet" href="<?php echo base_url('data-views/biblioteca/Aviso_Model/Aviso_Model.css?v=2'); ?>   ">
+
+       
+
         <!-- Google Font -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
         <style type="text/css">
@@ -43,9 +49,6 @@
 
 
         </style>
-
-
-
 
 
 
@@ -86,47 +89,49 @@
     </head>
     <body class="hold-transition  ">
 
+        <?php echo $this->session->flashdata('aviso_login'); ?>
+        
         <div class="login-box">
-            
+
             <div class="login-logo" style="padding-top:0px;">
                 <a style="color:white;" href="<?php echo base_url(); ?>"><b>SIGE</b></a>
             </div>
-            
-            
+
+
             <!-- /.login-logo -->
             <div id="login-body" class='login-box-body'>
                 <p class="login-box-msg">Identifique-se para utilzar o sistema</p>
 
-                
-             
-                    <form action="<?php echo base_url('/login/' . $this->uri->segment(2)); ?>" method="post">
-                        
-                        
-                        <div class="form-group has-feedback">
-                            <input required name="username" type="text" class="form-control" minlength="14" maxlength="14" value="<?php echo setValue('username'); ?>" placeholder="CPF"
-                                    data-inputmask='"mask": "999.999.999-99"' data-mask
-                                   >
-                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+
+
+                <form action="<?php echo base_url('/login/' . $this->uri->segment(2)); ?>" method="post">
+
+
+                    <div class="form-group has-feedback">
+                        <input required name="username" type="text" class="form-control" minlength="14" maxlength="14" value="<?php echo setValue('username'); ?>" placeholder="CPF"
+                               data-inputmask='"mask": "999.999.999-99"' data-mask
+                               >
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input required name="password" type="password" class="form-control" value="<?php echo setValue('password'); ?>" placeholder="<?php echo $this->lang->line('placeholder_password'); ?>"
+
+                               >
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+                        <!-- /.col -->
+                        <div class="col-xs-12 text-center">
+
+                            
+
+
+                            <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="glyphicon glyphicon-log-in"></i><?php echo $this->lang->line('button_login'); ?> </button>
                         </div>
-                        <div class="form-group has-feedback">
-                            <input required name="password" type="password" class="form-control" value="<?php echo setValue('password'); ?>" placeholder="<?php echo $this->lang->line('placeholder_password'); ?>"
-                                   
-                                   >
-                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                        </div>
-                        <div class="row">
-                            <!-- /.col -->
-                            <div class="col-xs-12 text-center">
-                                
-                                <?php echo $this->session->flashdata('aviso_login'); ?>
-                                
-                                
-                                <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="glyphicon glyphicon-log-in"></i><?php echo $this->lang->line('button_login'); ?> </button>
-                            </div>
-                            <!-- /.col -->
-                        </div>
-                    </form>
-                
+                        <!-- /.col -->
+                    </div>
+                </form>
+
 
 
                 <div class="social-auth-links text-center">
@@ -139,8 +144,8 @@
 
                 </div>
                 <!-- /.social-auth-links -->
-                
-                
+
+
 
             </div>
             <!-- /.login-box-body -->
@@ -153,23 +158,24 @@
         <script src="<?php echo base_url('data-views/dashboard/bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
         <!-- iCheck -->
         <script src="<?php echo base_url('data-views/dashboard/plugins/iCheck/icheck.min.js'); ?>"></script>
-        
-           <!-- Select2 -->
+
+        <!-- Select2 -->
         <script src="<?php echo base_url('data-views/dashboard/bower_components/select2/dist/js/select2.full.min.js'); ?>"></script>
-        
-     <!-- InputMask -->
+
+        <!-- InputMask -->
         <script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.js'); ?> "></script>
         <script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.date.extensions.js'); ?>"></script>
         <script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.extensions.js'); ?>"></script>
-        
-        
-        
+
+
+
         <!-- AVISO SCRIPT -->
         <script src="<?php echo base_url('data-views/biblioteca/aviso/aviso.js?v=1'); ?>"></script>
 
-        
-        
-        
+         <!-- Tela de Aviso Modal -->
+        <script src="<?php echo base_url('data-views/biblioteca/Aviso_Model/Aviso_Model.js?v=2'); ?>"></script>
+
+
         <script>
             $(function () {
                 //Initialize Select2 Elements
@@ -181,13 +187,13 @@
 
             })
         </script>
-        
+
         <script type="text/javascript">
-        
-            window.onload( myFunction() );
-            
-         </script>
-        
-    
+
+            window.onload(myFunction());
+
+        </script>
+
+
     </body>
 </html>

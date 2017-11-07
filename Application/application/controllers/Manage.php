@@ -376,48 +376,7 @@ class Manage extends CI_Controller {
         $this->load->view('administrador/manage/info/info_materia', $resultado[0]);
     }//infoMateria
 
-    /**
-     * /Mostra as informações do Curso
-     * @param int $id
-     */
-    public function infoCurso(int $id) {
-
-
-        $this->load->model('curso_model', 'curso');
-        $this->load->model('materia_model', 'materia');
-        $resultado = $this->curso->getWhere(array('ID' => $id));
-        $resultado[0]['materias'] = '';
-        
-        
-        
-        if($resultado)
-        {
-            //Buscar todas as materias do curso
-            $return = $this->curso->getMaterias($id);
-            
-            if($return)
-            {
-                foreach($return as $materia)
-                {
-                    $return = $this->materia->getWhere(array('ID' => $materia['FK_MATERIA_ID']));
-                    $resultado[0]['materias'] =  $resultado[0]['materias'].'<br/>'.$return[0]['TITULO'];
-
-                }//foreach
-                
-            }//if
-
-                        
-            $this->load->view('administrador/manage/info/info_curso', $resultado[0]);
-            
-        }//if
-        
-        else
-        {
-            show_404();
-        }//else
-        
-        
-    }//infoCurso
+   
 
     /**
      * Lista todas as matérias registradas no banco de dados

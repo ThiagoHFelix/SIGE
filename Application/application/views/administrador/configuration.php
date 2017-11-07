@@ -59,144 +59,146 @@
                         <div  class="col-md-12" >
 
 
-                                    <div class="row">
+                            <div class="row">
 
 
 
-                                    </div>
+                            </div>
 
-                                    <div class="row">
-
-
-                                      <div class="col-md-3">
-
-                                        <div class="box box-solid" >
-                                                 <div class="box-body no-padding">
-                                                   <table id="layout-skins-list" class="table table-striped bring-up nth-2-center">
-                                                     <thead>
-                                                       <tr>
-                                                         <th style="width: 210px;">Skin Class</th>
-                                                         <th>Preview</th>
-                                                       </tr>
-                                                     </thead>
-                                                     <tbody>
-                                                       <tr>
-                                                         <td><code>skin-blue</code></td>
-                                                         <td><a href="#" data-skin="skin-blue" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i></a></td>
-                                                       </tr>
-                                                       <tr>
-                                                         <td><code>skin-blue-light</code></td>
-                                                         <td><a href="#" data-skin="skin-blue-light" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i></a></td>
-                                                       </tr>
-                                                       <tr>
-                                                         <td><code>skin-yellow</code></td>
-                                                         <td><a href="#" data-skin="skin-yellow" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i></a></td>
-                                                       </tr>
-                                                       <tr>
-                                                         <td><code>skin-yellow-light</code></td>
-                                                         <td><a href="#" data-skin="skin-yellow-light" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i></a></td>
-                                                       </tr>
-                                                       <tr>
-                                                         <td><code>skin-green</code></td>
-                                                         <td><a href="#" data-skin="skin-green" class="btn btn-success btn-xs"><i class="fa fa-eye"></i></a></td>
-                                                       </tr>
-                                                       <tr>
-                                                         <td><code>skin-green-light</code></td>
-                                                         <td><a href="#" data-skin="skin-green-light" class="btn btn-success btn-xs"><i class="fa fa-eye"></i></a></td>
-                                                       </tr>
-                                                       <tr>
-                                                         <td><code>skin-purple</code></td>
-                                                         <td><a href="#" data-skin="skin-purple" class="btn bg-purple btn-xs"><i class="fa fa-eye"></i></a></td>
-                                                       </tr>
-                                                       <tr>
-                                                         <td><code>skin-purple-light</code></td>
-                                                         <td><a href="#" data-skin="skin-purple-light" class="btn bg-purple btn-xs"><i class="fa fa-eye"></i></a></td>
-                                                       </tr>
-                                                       <tr>
-                                                         <td><code>skin-red</code></td>
-                                                         <td><a href="#" data-skin="skin-red" class="btn btn-danger btn-xs"><i class="fa fa-eye"></i></a></td>
-                                                       </tr>
-                                                       <tr>
-                                                         <td><code>skin-red-light</code></td>
-                                                         <td><a href="#" data-skin="skin-red-light" class="btn btn-danger btn-xs"><i class="fa fa-eye"></i></a></td>
-                                                       </tr>
-                                                       <tr>
-                                                         <td><code>skin-black</code></td>
-                                                         <td><a href="#" data-skin="skin-black" class="btn bg-black btn-xs"><i class="fa fa-eye"></i></a></td>
-                                                       </tr>
-                                                       <tr>
-                                                         <td><code>skin-black-light</code></td>
-                                                         <td><a href="#" data-skin="skin-black-light" class="btn bg-black btn-xs"><i class="fa fa-eye"></i></a></td>
-                                                       </tr>
-                                                     </tbody>
-                                                   </table>
-                                                 </div><!-- /.box-body -->
-                                               </div><!-- /.box -->
-
-                                      </div>
+                            <div class="row">
 
 
-                                        <div class="col-md-6">
+                                <div class="col-md-3">
 
-                                            <a href="<?php echo base_url('/manage/log'); ?>">  <button class="btn btn-default" style="width:100%">
-                                                    <span class="fa fa-gear" aria-hidden="true"></span>
-                                                    Log
-                                                </button> </a>
+                                    <div class="box box-solid" >
+                                        <div class="box-body no-padding">
+                                            <table id="layout-skins-list" class="table table-striped bring-up nth-2-center">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 210px;">Skin Class</th>
+                                                        <th>Preview</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><code>skin-blue</code></td>
+                                                        <td><a href="#" data-skin="skin-blue" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><code>skin-blue-light</code></td>
+                                                        <td><a href="#" data-skin="skin-blue-light" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><code>skin-yellow</code></td>
+                                                        <td><a href="#" data-skin="skin-yellow" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><code>skin-yellow-light</code></td>
+                                                        <td><a href="#" data-skin="skin-yellow-light" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><code>skin-green</code></td>
+                                                        <td><a href="#" data-skin="skin-green" class="btn btn-success btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><code>skin-green-light</code></td>
+                                                        <td><a href="#" data-skin="skin-green-light" class="btn btn-success btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><code>skin-purple</code></td>
+                                                        <td><a href="#" data-skin="skin-purple" class="btn bg-purple btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><code>skin-purple-light</code></td>
+                                                        <td><a href="#" data-skin="skin-purple-light" class="btn bg-purple btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><code>skin-red</code></td>
+                                                        <td><a href="#" data-skin="skin-red" class="btn btn-danger btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><code>skin-red-light</code></td>
+                                                        <td><a href="#" data-skin="skin-red-light" class="btn btn-danger btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><code>skin-black</code></td>
+                                                        <td><a href="#" data-skin="skin-black" class="btn bg-black btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><code>skin-black-light</code></td>
+                                                        <td><a href="#" data-skin="skin-black-light" class="btn bg-black btn-xs"><i class="fa fa-eye"></i></a></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div><!-- /.box-body -->
+                                    </div><!-- /.box -->
+
+                                </div>
 
 
-                                            <div class="box box-solid " style="margin-top:10px; padding:20px 10px ">
+                                <div class="col-md-6">
 
-                                              <div class="box-header text-center " style="font-size:16pt">
-                                            <small>    Banco de dados </small>
-                                              </div>
-                                              <div class="box-body no-padding">
+                                    <a href="<?php echo base_url('/manage/log'); ?>">  <button class="btn btn-default" style="width:100%">
+                                            <span class="fa fa-gear" aria-hidden="true"></span>
+                                            Log
+                                        </button> </a>
+
+                                    <?php if (strcmp(strtoupper($this->session->userdata('entidade')), 'ADMINISTRADOR') === 0): ?>
+                                        <div class="box box-solid " style="margin-top:10px; padding:20px 10px ">
+
+                                            <div class="box-header text-center " style="font-size:16pt">
+                                                <small>    Banco de dados </small>
+                                            </div>
+                                            <div class="box-body no-padding">
 
 
                                                 <div class="col-md-6">
 
-                                              <p>  <strong>  Versão: </strong>  <?php echo $this->db->version(); ?> </p>
-                                              <p>  <strong>  Plataforma: </strong>  <?php echo $this->db->platform(); ?> </p>
-                                              <p>  <strong>  Atual Banco: </strong>  <?php  echo $this->session->userdata('database'); ?> </p>
-                                              <p>  <strong>  Last Query: </strong>  <?php  echo $last_query ; ?> </p>
+                                                    <p>  <strong>  Versão: </strong>  <?php echo $this->db->version(); ?> </p>
+                                                    <p>  <strong>  Plataforma: </strong>  <?php echo $this->db->platform(); ?> </p>
+                                                    <p>  <strong>  Atual Banco: </strong>  <?php echo $this->session->userdata('database'); ?> </p>
+                                                    <p>  <strong>  Last Query: </strong>  <?php echo $last_query; ?> </p>
                                                 </div>
 
 
 
 
                                                 <div class="col-md-6">
-<form method="POST" action="<?php  echo base_url('/manage/configuration');  ?>" >
-                                                  <!--------------- BANCO ------------------>
-                                                  <div class="form-group  has-feedback">
-                                                      <select required name="banco" class="form-control" >
-                                                          <option value=""> Selecione o banco </option>
-                                                          <option value="test"> Desenvolvimento 1 (test) </option>
-                                                          <option value="test2"> Desenvolvimento 2 (test2)</option>
-                                                      </select>
-                                                  </div>
-                                                  <!--------------- /. BANCO --------------->
+
+                                                    <form method="POST" action="<?php echo base_url('/manage/configuration'); ?>" >
+                                                        <!--------------- BANCO ------------------>
+                                                        <div class="form-group  has-feedback">
+                                                            <select required name="banco" class="form-control" >
+                                                                <option value=""> Selecione o banco </option>
+                                                                <option value="test"> Desenvolvimento 1 (test) </option>
+                                                                <option value="test2"> Desenvolvimento 2 (test2)</option>
+                                                            </select>
+                                                        </div>
+                                                        <!--------------- /. BANCO --------------->
 
 
-                                                  <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-save "></i> Salvar </button>
-</form>
+                                                        <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-save "></i> Salvar </button>
+                                                    </form>
 
                                                 </div>
 
 
-
-                                              </div>
 
 
                                             </div>
 
 
-
-
-
-
                                         </div>
+                                    <?php endif; ?>
 
 
-                                    </div>
+
+
+
+                                </div>
+
+
+                            </div>
 
                         </div>
                     </div>

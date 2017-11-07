@@ -122,8 +122,6 @@ class Cadastro extends CI_Controller{
                     //Busco curso do aluno
                     $cursoAluno = $this->curso->getWhere(array('ID' => $aluno['FK_CURSO_ID']))[0];
 
-
-
                     if ($cursoAluno !== NULL):
 
 
@@ -144,20 +142,23 @@ class Cadastro extends CI_Controller{
 
                             $this->load->model('Turma_model', 'turma');
 
-
+                            //Busco todas as matriculas em turmas deste aluno no banco de dados
+                            $dados['matriculas'] =  $this->curso->query(' SELECT * FROM MATRICULA_TURMA WHERE FK_PESSOA_ID = '.$aluno['ID']);
+                            
+                            
                             if ($this->verificaAlunoTurma()):
                                 
                                 if($this->insertMatriculaTurma($id)):
                                     
-                                    showError('mensagem_MatriculaTurma', 'Matricula realizada com sucesso', 'info');
-                                    
+                                   // showError('mensagem_MatriculaTurma', 'Matricula realizada com sucesso', 'info');
+                                    showMessegeModal('mensagem_MatriculaTurma','Sucesso','<p>Matricula realizada com sucesso</p>.<p> Voce esta cadastrado nas seguintes materias: </p>');
                                 else:
                                     showError('mensagem_MatriculaTurma', 'Ocorreu um erro interno durante o cadastro <strong> CONTATE O ADMINISTRADOR SE O PROBLEMA PERSISTIR </strong>', 'info');
                                 endif;
                                 
                                 
                             else:
-                                showError('mensagem_MatriculaTurma', 'Nenhuma turma foi selecionada', 'info');
+                               // showError('mensagem_MatriculaTurma', 'Nenhuma turma foi selecionada', 'info');
                             endif;
 
                         else:

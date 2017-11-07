@@ -137,17 +137,30 @@
                                 <div class="box-body" >
 
 
-                                    <a href="<?php echo base_url('/'); ?>">  <button class="btn btn-app" >
+                                    <a href="<?php echo base_url('/visualizar/curso/'.$this->session->userdata('id_curso')); ?>">  <button class="btn btn-app" >
                                             <span class="fa fa-users" aria-hidden="true"></span>
-                                            Minhas Materias
+                                            Meu Curso
+                                        </button> </a>
+                                    
+                                    <a href="<?php echo base_url('/manage/infocurso/'.$this->session->userdata('id_curso')); ?>">  <button class="btn btn-app" >
+                                            <span class="fa fa-users" aria-hidden="true"></span>
+                                            Minhas Turmas
                                         </button> </a>
                                     
                                     <a href="<?php echo base_url('/'); ?>">  <button class="btn btn-app" >
-                                            <span class="fa fa-info" aria-hidden="true"></span>
-                                            Matricular
+                                            <span class="fa fa-book" aria-hidden="true"></span>
+                                            Notas Parciais
                                         </button> </a>
-
-
+                                    
+                                    <a href="<?php echo base_url('/'); ?>">  <button class="btn btn-app" >
+                                            <span class="fa fa-info-circle" aria-hidden="true"></span>
+                                            Faltas Parciais
+                                        </button> </a>
+                                    
+                                    <a href="<?php echo base_url('/visualizar/aluno/'.$this->session->userdata('user_cpf')); ?>">  <button class="btn btn-app" >
+                                            <span class="fa fa-user" aria-hidden="true"></span>
+                                            Perfil de Usuario
+                                        </button> </a>
 
                                     <a href="<?php echo base_url('manage/configuration'); ?>">  <button class="btn btn-app" >
                                             <span class="fa fa-gears" aria-hidden="true"></span>

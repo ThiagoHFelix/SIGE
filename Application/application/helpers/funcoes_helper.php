@@ -201,3 +201,59 @@ if(!function_exists('getVersion')):
 
 
 endif;
+
+
+
+if (!function_exists('showMessegeModal')) {
+
+    /**
+     * Cria uma mensagem de erro utilizando flashdata com modal
+     * @param type $flashName Nome do flash
+     * @param type $message Mensagem
+     */
+    function showMessegeModal($flashName,$title, $message, $color='blue') {
+
+        $ci = & get_instance();
+
+        //Declaração de variaveis
+        $string_messege = NULL;
+
+       
+        if (strcmp($message, '') !== 0) {
+
+            $string_messege = '
+                    
+                    
+                    <!----------------- MODAL CONTENT ----------------->
+                        <div id="myModal" class="modal">
+
+                            <div class="modal-content text-center">
+
+                                <div class="box box-solid">
+                                    
+                                    <div class="box-header modal-header" style="background-color:'.$color.'" > 
+                                        
+                                        <span class="close">&times;</span>
+                                        <h4>'.$title.'</h4>
+                                    </div>
+                                    <div class="box-body modal-body"> <p>'.$message.'</p> </div>
+                                    
+                                </div>
+                               
+
+                            </div>
+
+                        </div>
+                        <!----------------- /. MODAL CONTENT ----------------->
+                    
+                    
+                    ';
+            
+        }
+
+        $ci->session->set_flashdata($flashName, $string_messege);
+        
+    }//showMessege
+
+
+}//if 

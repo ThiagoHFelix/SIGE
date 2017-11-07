@@ -22,6 +22,10 @@
 
 
 
+        <!-- Tela de Aviso Modal -->
+        <link rel="stylesheet" href="<?php echo base_url('data-views/biblioteca/Aviso_Model/Aviso_Model.css?v=2'); ?>   ">
+
+
 
         <link rel="stylesheet" href="<?php echo base_url('data-views/biblioteca/componentes/radio_button.css?v=2'); ?>   ">
 
@@ -41,6 +45,8 @@
                 background: linear-gradient(to bottom, #3cb0fd, #3498db);
                 text-decoration: none;
             }
+
+
 
         </style>
 
@@ -65,7 +71,7 @@
             <!-- =============================================== -->
 
             <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper" style="height:1250px">
+            <div class="content-wrapper" style="height:1350px">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <div class="col-xs-12">
@@ -125,7 +131,7 @@
 
                     <div class="col-md-12" >
 
-                        <div class="box box-solid" >
+                        <div class="box box-solid">
 
 
                             <div class="box-header text-center">
@@ -228,10 +234,44 @@
                                                         <?php if ($turmas !== NULL): ?> 
 
 
+
+                                                            <?php
+                                                            //Verifico se o aluno ja esta cadastrado em alguma turma desta materia
+                                                            //Ira validar para o aluno se cadastrar em uma turma
+                                                            global $validacao;
+                                                            $validacao = TRUE;
+                                                            foreach ($turmas as $turma):
+
+                                                                foreach ($matriculas as $matricula):
+
+                                                                    //O aluno ja esta cadastrado em uma turma desta materia
+                                                                    if ($matricula['FK_TURMA_ID'] === $turma['ID']):
+                                                                        $validacao = FALSE;
+                                                                        ?>
+
+
+
+                                                                        <div class="alert alert-info text-center">
+
+                                                                            Este aluno já está cadastrado na seguinte turma : <strong> <?php echo $turma['TITULO']; ?> </strong>
+
+                                                                        </div>
+
+
+                                                                        <?php
+                                                                    endif;
+
+                                                                endforeach;
+
+                                                            endforeach;
+                                                            ?>
+
+
                                                             <?php
                                                             $i = 0; //Controlador do nome de cada radio da turma
                                                             //Busco todas as turmas de cada materia
-                                                            foreach ($turmas as $turma):
+                                                            if($validacao):
+                                                                  foreach ($turmas as $turma):
                                                                 ?>
                                                                 <div  class="col-md-3" >
 
@@ -241,7 +281,7 @@
                                                                         <label for="category_<?php echo $y . $i; ?>">
                                                                             <h2><?php echo $turma['TITULO']; ?></h2>
                                                                             <p><?php echo $turma['STATUS']; ?></p>
-                                                                            <p><?php echo 'Inicia em: '.$turma['DATAINICIAL']; ?></p>
+                                                                            <p><?php echo 'Inicia em: ' . $turma['DATAINICIAL']; ?></p>
                                                                         </label>
                                                                     </div>
 
@@ -251,6 +291,7 @@
                                                                 <?php
                                                                 ++$i;
                                                             endforeach;
+                                                            endif;
                                                             ?>
                                                             <?php
                                                         //Se nao existem turmas
@@ -287,27 +328,31 @@
                                             ?>
                                         <?php endif; ?>
 
-                                        
-                                        
-                                        <?php  //Envio  a variavel Y para a validaçao de cadastro ?>
+
+
+                                        <?php //Envio  a variavel Y para a validaçao de cadastro   ?>
                                         <input hidden="" value="<?php echo $y; ?>" type="text" name="v_y">
-                                        
-                                            
-                                        
-                                       
+
+
+
+
 
                                     </div>
-                                    
-                                    
-                                    <div  class="col-md-12">
-                                        
-                                         <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Confirmar </button>
+
+
+                                    <div  class="col-md-6 pull-right">
+
+                                        <button type="submit"  class="btn btn-block btn-social btn-primary btn-block btn-flat"><i class="fa fa-pencil"></i> Confirmar </button>
 
                                     </div>
-                                    
-                                    
-                                    
+
+
+
                                 </form>
+                            </div>
+                            <div class="box-footer">
+                                
+                                
                             </div>
 
 
@@ -327,7 +372,7 @@
 
             <!-- =============================================== -->
             <?php
-//Carrega footer
+            //Carrega footer
             $this->load->view('administrador/footer');
             ?>
 
@@ -339,7 +384,7 @@
         <!-- ./wrapper -->
 
         <!-- jQuery 3 -->
-
+        
         <script src="<?php echo base_url('data-views/dashboard/bower_components/jquery/dist/jquery.min.js'); ?>  "></script>
         <!-- Bootstrap 3.3.7 -->
         <script src="<?php echo base_url('data-views/dashboard/bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>     "></script>
@@ -352,8 +397,15 @@
         <!-- AdminLTE for demo purposes -->
         <script src="<?php echo base_url('data-views/dashboard/dist/js/demo.js'); ?>  "></script>
 
+
+        <link rel="stylesheet" href="<?php echo base_url('data-views/biblioteca/componentes/Aviso_Model/Aviso_Model.css?v=2'); ?>   ">
+
         <!-- Select2 -->
         <script src="<?php echo base_url('data-views/dashboard/bower_components/select2/dist/js/select2.full.min.js'); ?>"></script>
+
+
+        <!-- Tela de Aviso Modal -->
+        <script src="<?php echo base_url('data-views/biblioteca/Aviso_Model/Aviso_Model.js?v=2'); ?>"></script>
 
         <!-- InputMask -->
         <script src="<?php echo base_url('data-views/dashboard/plugins/input-mask/jquery.inputmask.js'); ?> "></script>

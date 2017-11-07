@@ -1,4 +1,4 @@
-  <footer class="main-footer">
+  <footer class="main-footer" >
                 <div class="pull-right hidden-xs">
                     <b>Version</b>  <?php echo getVersion('n');  ?>
                 </div>

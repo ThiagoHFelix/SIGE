@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Default Dashborad</title>
+        <title>SIGE | Curso</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
@@ -52,18 +52,19 @@
                     <div class="col-xs-12" >
 
                         <div class="col-md-2">
+                            <?php if (strcmp(strtoupper($this->session->userdata('entidade')), 'ADMINISTRADOR') === 0): ?>
 
-                            <a href="<?php echo base_url('/manage/curso'); ?>">  <button class="btn btn-app"  >
-                                    <span class="fa fa-graduation-cap" aria-hidden="true"></span>
-                                    Gerenciar Curso
-                                </button> </a>
-
+                                <a href="<?php echo base_url('/manage/curso'); ?>">  <button class="btn btn-app"  >
+                                        <span class="fa fa-graduation-cap" aria-hidden="true"></span>
+                                        Gerenciar Curso
+                                    </button> </a>
+                            <?php endif; ?>
                         </div>
 
                         <div class="col-md-8">
 
                             <div class="login-logo">
-                                <?php echo'Curso: '. $TITULO; ?>
+                                <?php echo'Curso: ' . $TITULO; ?>
                             </div>
                         </div>
 
@@ -78,7 +79,7 @@
                                     <ul class="nav nav-tabs ">
                                         <li class="active"><a data-toggle="tab" href="#home">Apresentação</a></li>
                                         <li><a data-toggle="tab" href="#menu1">Materias</a></li>
-                                        
+
                                     </ul>
 
                                     <div class="tab-content box box-solid">
@@ -95,9 +96,9 @@
                                                 }//else
                                                 ?></p>
 
-                                            
+
                                         </div>
-                                        
+
                                         <div id="menu1" class="tab-pane fade content">
                                             <h3>Materias do Curso</h3>
                                             <p><?php
@@ -111,9 +112,9 @@
                                                 }//else
                                                 ?></p>
 
-                                            
+
                                         </div>
-                                       
+
                                     </div>
 
                                 </div>
@@ -141,10 +142,10 @@
 
 
             <!-- =============================================== -->
-<?php
+            <?php
 //Carrega footer
-$this->load->view('administrador/footer');
-?>
+            $this->load->view('administrador/footer');
+            ?>
 
         </div>
 

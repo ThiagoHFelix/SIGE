@@ -187,7 +187,7 @@
 
                                                 endif;
 
-                                                $url = base_url('/manage/infocurso/'. $row['ID']);
+                                                $url = base_url('/visualizar/curso/'. $row['ID']);
 
                                                 if (strcmp(strtoupper($row['STATUS']), 'ATIVADO') == 0):
 
