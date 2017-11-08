@@ -147,13 +147,14 @@ CREATE TABLE matricula_curso (
 );
 
 CREATE TABLE Avaliado (
+
   FK_turma_id integer,
   FK_Pessoa_id integer,
   dataHora timestamp not null,
   Nota numeric(2,1) ,
   complemento varchar(255) not null,
   numProva integer ,
-  FK_Materia_id integer,
+ 
 
     CONSTRAINT PK_Avaliado PRIMARY KEY (FK_Pessoa_id, FK_turma_id, numProva)
 );
@@ -161,13 +162,14 @@ CREATE TABLE Avaliado (
 CREATE TABLE Frequenta (
     FK_Pessoa_id integer,
     FK_turma_id integer,
+    aula integer,
     Presenca char(1),
     data date,
     hora time,
     Assunto_aula varchar(50),
     dia_semana varchar(25),
 
-    CONSTRAINT PK_Frequenta PRIMARY KEY (FK_turma_id, FK_Pessoa_id)
+    CONSTRAINT PK_Frequenta PRIMARY KEY (FK_turma_id, FK_Pessoa_id,aula)
 );
 
 

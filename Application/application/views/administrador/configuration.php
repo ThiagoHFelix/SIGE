@@ -170,8 +170,8 @@
                                                         <div class="form-group  has-feedback">
                                                             <select required name="banco" class="form-control" >
                                                                 <option value=""> Selecione o banco </option>
-                                                                <option value="test"> Desenvolvimento 1 (test) </option>
-                                                                <option value="test2"> Desenvolvimento 2 (test2)</option>
+                                                                <option value="test_linux"> Desenvolvimento 1 (test) </option>
+                                                                <option value="test_linux2"> Desenvolvimento 2 (test2)</option>
                                                             </select>
                                                         </div>
                                                         <!--------------- /. BANCO --------------->

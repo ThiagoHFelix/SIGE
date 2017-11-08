@@ -16,7 +16,7 @@ class Login extends CI_Controller {
 
 
         //Default database
-        $this->session->set_userdata('database','test_linux');
+        $this->session->set_userdata('database','test_linux2');
 
 
 

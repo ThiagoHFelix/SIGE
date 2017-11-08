@@ -198,6 +198,7 @@
                                             echo '<td>  ' . $row['DATAINICIAL'] . ' </td>';
 
                                             $url = base_url('/visualizar/turma/' . $row['ID']);
+                                            $url_notas = base_url('/manage/notas/' . $row['ID']);
 
                                             if (strcmp(strtoupper($row['STATUS']), 'ATIVADO') == 0):
 
@@ -205,7 +206,8 @@
 
                                                      <td >
                                                         <div class=\"btn-group\">
-                                                             <a href=\" " . $url . "  \">   <button class=\"fa fa-info btn  btn-primary\" ></button> </a>
+                                                             <a href=\" " . $url_notas . "  \">   <button class=\"fa fa-info-circle btn btn-primary\" ><small> Notas</small></button> </a>
+                                                             <a href=\" " . $url . "  \">   <button class=\"fa fa-info-circle btn  btn-primary\" ><small> Mais Informações</small></button> </a>
                                                                  <a href='" . base_url('/update/turma/' . $row['ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
                                                             <a>   <button onclick=\"confirmaDelete(" . $row['ID'] . ")\" class=\"fa fa-lock btn btn-danger\"></button> </a>
 
@@ -219,8 +221,9 @@
 
                                                      <td >
                                                         <div class=\"btn-group\">
-                                                           <a href=\" " . $url . "  \">   <button class=\"fa fa-info btn  btn-primary\" ></button> </a>
-                                                                 <a href='" . base_url('/update/turma/' . $row['ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>"
+                                                            <a href=\" " . $url_notas . "  \">   <button class=\"fa fa-info-circle btn btn-primary\" ><small> Notas</small></button> </a>
+                                                             <a href=\" " . $url . "  \">   <button class=\"fa fa-info-circle btn  btn-primary\" ><small> Mais Informações</small></button> </a>
+                                                                   <a href='" . base_url('/update/turma/' . $row['ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>"
                                                     . " <a>   <button onclick=\"confirmaActive(" . $row['ID'] . ")\" class=\"fa fa-unlock btn btn-info\"></button> </a>
 
                                                         </div>

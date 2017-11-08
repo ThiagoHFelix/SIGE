@@ -134,6 +134,58 @@ class Manage extends CI_Controller {
     }//turma
     
     
+    
+    public function notas(int $idTurma){
+        
+        //XXX Gerenciamento de bibliotecas
+        $this->load->model('Turma_model','turma');
+        $this->load->model('Materia_model','materia');
+        
+        //XXX Variaveis
+        $turma = NULL;
+        $dados = NULL;
+        $materia = NULL;
+        
+        //XXX Buscando turma no banco de dados
+        $turma = $this->turma->getWhere(array('ID' => $idTurma));
+        
+        //XXX Verifico se a turma foi encontrada no banco de dados
+        if($turma !== NULL):
+            
+            //XXX Registro para a view
+            $dados['TURMA'] = $turma[0];
+            
+            //XXX Busco dados da materia da turma
+            $materia = $this->materia->getWhere(array('ID' => $turma[0]['FK_MATERIA_ID']));
+            
+            //XXX Verifico se a materia foi encontrada
+            if($materia !== NULL):
+                
+                $dados['MATERIA'] = $materia[0];
+            
+                //Busco todas as notas e alunos da turma
+                $dados['notas_alunos'] = $this->turma->query(' SELECT * FROM PESSOA,AVALIADO WHERE AVALIADO.FK_TURMA_ID = '.$idTurma.' AND PESSOA.ID = AVALIADO.FK_PESSOA_ID');
+               
+                
+            else:
+                //XXX Aviso o usuario
+                showError('message_nota', 'Nao foi possivel encontrar a matéria desta turma', 'alert alert-info');
+            endif;
+            
+        else:
+            
+            //XXX Aviso o usuario
+            showError('message_nota', 'A turma não foi encontrada no banco de dados', 'alert alert-info');
+            
+        endif;
+            
+        $this->load->view('/administrador/manage/manage_notas',$dados);
+        
+        /* */
+        
+    }//turma
+    
+    
     public function aviso(int $valor_pagina = 0){
         
         

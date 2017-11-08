@@ -45,6 +45,21 @@ public function getAllTupla(){
 
     }//getWhere
 
+    
+        
+ public function query($query){
+     
+      $return = $this->db->query($query);
+     
+     if($return->num_rows() > 0):
+         return $return->result_array();
+     else:
+         return NULL;
+     endif;
+     
+     
+ }
+    
 
     /**
      * Busca todos as turmas

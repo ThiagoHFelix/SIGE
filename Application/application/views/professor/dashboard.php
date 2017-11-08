@@ -36,12 +36,12 @@
 
             <?php
             //Carrega header
-            $this->load->view('administrador/header');
+            $this->load->view('professor/header');
             ?>
             <!-- =============================================== -->
             <?php
             //Carrega Manu Lateral
-            $this->load->view('administrador/lateralMenu');
+            $this->load->view('professor/lateralMenu');
             ?>
             <!-- =============================================== -->
 
@@ -58,11 +58,11 @@
 
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
-                                <span class="info-box-icon bg-blue"><i class="fa fa-users"></i></span>
+                                <span class="info-box-icon bg-orange"><i class="fa fa-table"></i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Alunos Online</span>
-                                    <span class="info-box-number">41</span>
+                                    <span class="info-box-text">Banco de dados</span>
+                                    <span class="label label-primary "> <?php echo $this->session->userdata('database'); ?> </span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -71,11 +71,11 @@
                         <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
-                                <span class="info-box-icon bg-blue"><i class="fa fa-users"></i></span>
+                                <span class="info-box-icon bg-blue"><i class="fa fa-gear"></i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Prof Online</span>
-                                    <span class="info-box-number">21</span>
+                                    <span class="info-box-text">Status de Log</span>
+                                    <span class="info-box-number">Ativo</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -84,11 +84,11 @@
                         <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
-                                <span class="info-box-icon bg-green"><i class="fa fa-money"></i></span>
+                                <span class="info-box-icon bg-green"><i class="fa fa-calendar-check-o"></i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text"> </span>
-                                    <span class="info-box-number">12</span>
+                                    <span class="info-box-text"> Data </span>
+                                    <span class="info-box-number" id="date-today"> <?php echo date('d/m/y'); ?></span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -97,17 +97,19 @@
                         <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
-                                <span class="info-box-icon bg-yellow"><i class="fa fa-google-plus"></i></span>
+                                <span class="info-box-icon bg-green"><i class="fa fa-laptop"></i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Likes</span>
-                                    <span class="info-box-number">41,410</span>
+                                    <span class="info-box-text">Status do Sistema</span>
+                                    <span class="info-box-number">Ativo</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
                             <!-- /.info-box -->
                         </div>
                         <!-- /.col -->
+
+
 
 
                     </div>
@@ -125,59 +127,17 @@
                             <div class="box-body" >
 
 
-                                <a href="<?php echo base_url('/manage/aluno'); ?>">  <button class="btn btn-app" >
-                                        <span class="fa fa-users" aria-hidden="true"></span>
-                                        Alunos
-                                    </button> </a>
-
-                                <a href="<?php echo base_url('/manage/professor'); ?>">  <button class="btn btn-app" >
-                                        <span class="fa fa-users" aria-hidden="true"></span>
-                                        Professores
-                                    </button> </a>
-
-                                <a href="<?php echo base_url('/manage/administrador'); ?>">  <button class="btn btn-app" >
-                                        <span class="fa fa-users" aria-hidden="true"></span>
-                                        Administradores
-                                    </button> </a>
-
-                                <a href="<?php echo base_url('/manage/curso'); ?>">  <button class="btn btn-app" >
-                                        <span class="fa fa-graduation-cap" aria-hidden="true"></span>
-                                        Cursos
-                                    </button> </a>
-
-                                <a href="<?php echo base_url('/manage/materia'); ?>">  <button class="btn btn-app" >
+                                <a href="<?php echo base_url('/manage/materiasMinistradas'); ?>">  <button class="btn btn-app" >
                                         <span class="fa fa-book" aria-hidden="true"></span>
-                                        Matérias
+                                        Turmas ministradas
                                     </button> </a>
 
-                                <a href="#">  <button class="btn btn-app" >
-                                        <span class="fa fa-users" aria-hidden="true"></span>
-                                        Turmas
-                                    </button> </a>
-
-                                <a href="#">  <button class="btn btn-app" >
-                                        <span class="fa fa-pencil" aria-hidden="true"></span>
-                                        Registrar Nota
-                                    </button> </a>
-
-                                <a href="#">  <button class="btn btn-app" >
-                                        <span class="fa fa-comments" aria-hidden="true"></span>
-                                        Chat
-                                    </button> </a>
-
-                                <a href="#">  <button class="btn btn-app" >
-                                        <span class="fa fa-area-chart" aria-hidden="true"></span>
-                                        Relatórios
-                                    </button> </a>
 
                                 <a href="<?php echo base_url('manage/configuration'); ?>">  <button class="btn btn-app" >
                                         <span class="fa fa-gears" aria-hidden="true"></span>
                                         Configurações
                                     </button> </a>
-                                <a href="<?php echo base_url('manage/log'); ?>">  <button class="btn btn-app" >
-                                        <span class="fa fa-gears" aria-hidden="true"></span>
-                                        Logs
-                                    </button> </a>
+                           
 
                             </div>
 
@@ -240,7 +200,7 @@
             <!-- =============================================== -->
             <?php
             //Carrega footer
-            $this->load->view('administrador/footer');
+            $this->load->view('professor/footer');
             ?>
 
         </div>

@@ -296,7 +296,7 @@
                                 
                                <!--------------- EMAIL --------------->
                                 <div class="form-group has-feedback">
-                                    <input   required name="email" type="email" class="form-control "  value="<?php echo setValue('email'); ?>" placeholder="Email*">
+                                    <input   required name="email" type="email" class="form-control "  maxlength="30" value="<?php echo setValue('email'); ?>" placeholder="Email*">
                                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                                 </div>
                                 <!--------------- /. EMAIL --------------->

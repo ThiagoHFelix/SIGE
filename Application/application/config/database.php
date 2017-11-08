@@ -115,6 +115,27 @@ $db['test_linux'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+$db['test_linux2'] = array(
+	'dsn'	=> '',
+	'hostname' => 'localhost',
+	'username' => 'SYSDBA',
+	'password' => 'masterkey',
+	'database' => '/var/www/html/SIGE/Banco de dados/linux_test2.fdb',
+	'dbdriver' => 'ibase',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
 
 $db['test_win'] = array(
 	'dsn'	=> '',
