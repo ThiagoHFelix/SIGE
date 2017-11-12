@@ -8,10 +8,13 @@ class Visualizar extends CI_Controller {
 
         parent::__construct();
         $this->load->helper(array('url', 'funcoes'));
-    }
+           //XXX Bibliotecas
+        $this->load->library('session');
+        isSessionStarted();
+    }//construtor
 
-//construtor
 
+    
     public function administrador(string $cpf) {
 
         $this->load->model('Administrador_model', 'administrador');
@@ -24,9 +27,9 @@ class Visualizar extends CI_Controller {
         $dados['entidade'] = 'Administrador';
 
         $this->load->view('administrador/manage/visualizar/userprofile', $dados);
-    }
+    }//administrador
 
-//administrador
+
 
     public function professor(string $cpf) {
 
@@ -42,9 +45,9 @@ class Visualizar extends CI_Controller {
         $dados['entidade'] = 'Professor';
 
         $this->load->view('administrador/manage/visualizar/userprofile', $dados);
-    }
+    }//professor
 
-//professor
+
 
     public function aluno(string $cpf) {
 
@@ -58,9 +61,9 @@ class Visualizar extends CI_Controller {
         $dados['entidade'] = 'Aluno';
 
         $this->load->view('administrador/manage/visualizar/userprofile', $dados);
-    }
+    }//aluno
 
-//aluno
+
 
     public function aviso(int $id) {
 
@@ -74,9 +77,9 @@ class Visualizar extends CI_Controller {
         else:
             show_404();
         endif;
-    }
+    }//aviso 
 
-//aviso 
+
 
     private function exists(string $entidade, $id) {
 
@@ -108,9 +111,9 @@ class Visualizar extends CI_Controller {
         }//IF
 
         return FALSE;
-    }
+    }//exists
 
-//exists
+
 
     /**
      * Mostra todas as informaçoes de uma turma
@@ -159,9 +162,9 @@ class Visualizar extends CI_Controller {
         else {
             show_404();
         }//else
-    }
+    }//turma
 
-//turma
+
 
     /**
      * /Mostra as informações do Curso
@@ -187,16 +190,76 @@ class Visualizar extends CI_Controller {
                     $resultado[0]['materias'] = $resultado[0]['materias'] . '<br/>' . $return[0]['TITULO'];
                 }//foreach
             }//if
-
-
-            $this->load->view('administrador/manage/info/info_curso', $resultado[0]);
+            
+            //XXX Verifico qual entidade esta buscando a view
+            if(strcmp(strtoupper($this->session->userdata('entidade')),'ADMINISTRADOR') === 0):
+                $this->load->view('administrador/manage/info/info_curso', $resultado[0]);
+            else:
+                $this->load->view('aluno/manage/visualizar/info_curso', $resultado[0]);
+            endif;
+            
+            
         }//if
         else {
             show_404();
         }//else
-    }
+    }//curso
+    
+    /**
+     * Mostra ao usuario todas as materias que ele esta matriculado no momento
+     */
+    public function minhas_turmas(){
+       
+        //XXX Bibliotecas
+        $this->load->model('Aluno_model','aluno');
+        $this->load->model('Curso_model','curso');
+        $this->load->model('Turma_model','turma');
+        $this->load->model('Materia_model','materia');
+        
+        //XXX Variaveis
+        $user_id = $this->session->userdata('user_id');
+        $aluno = $this->aluno->getAlunoById($user_id);
+        $curso = NULL;
+        $turma = NULL;
+        $materias = NULL;
+        
+        //XXX Verifico se o aluno foi encontrado no banco de dados
+        if ($aluno !== NULL):
 
-//curso
-}
+            //XXX Busco curso no banco de dados
+            $curso = $this->curso->query('SELECT * FROM CURSO WHERE CURSO.ID =' . $aluno['FK_CURSO_ID']);
 
-//class
+            //XXX Verifico se o curso foi encontrado
+            if ($curso != NULL):
+
+                $dados['CURSO'] = $curso;
+                $materias = $this->materia->query('SELECT * FROM MATERIA AS M ,CURSO_MATERIA AS CM WHERE CM.FK_CURSO_ID  = '.$curso[0]['ID'].' AND M.ID = CM.FK_MATERIA_ID');
+               
+            
+                //XXX Verifico se as materias foram encontradas
+                if ($materias != NULL):
+
+                    $dados['MATERIAS'] = $materias;
+                    $turmas = $this->turma->query(' SELECT * FROM MATRICULA_TURMA AS MT,TURMA AS T WHERE MT.FK_PESSOA_ID = '.$aluno['ID'].' AND MT.FK_TURMA_ID = T.ID');
+                    $dados['TURMAS'] = $turmas;
+                    
+                else:
+                    showError('message_minhas_turmas', 'As materias do aluno não foram encontradas no banco de dados', 'alert alert-info');
+                endif;
+
+            else:
+                showError('message_minhas_turmas', 'O curso deste aluno não foi encontrado no banco de dados', 'alert alert-info');
+            endif;
+
+        else:
+            showError('message_minhas_turmas', 'Este aluno não foi encontrado no banco de dados', 'alert alert-info');
+        endif;
+
+        $this->load->view('aluno/manage/visualizar/info_minhas_turmas',$dados);
+        
+    }//minhas_turmas
+
+
+}//class
+
+

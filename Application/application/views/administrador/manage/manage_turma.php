@@ -32,7 +32,7 @@
 
             function confirmaDelete(id) {
 
-                var retorno = confirm('Deseja realmente desativar este Curso ?');
+                var retorno = confirm('Deseja realmente desativar este Turma ?');
 
                 if (retorno == true) {
 
@@ -48,7 +48,7 @@
             function confirmaActive(id) {
 
 
-                var retorno = confirm('Deseja realmente ativar este Curso ?');
+                var retorno = confirm('Deseja realmente ativar este Turma ?');
 
                 if (retorno == true) {
 
@@ -199,6 +199,7 @@
 
                                             $url = base_url('/visualizar/turma/' . $row['ID']);
                                             $url_notas = base_url('/manage/notas/' . $row['ID']);
+                                            $url_faltas = base_url('/manage/faltas/' . $row['ID']);
 
                                             if (strcmp(strtoupper($row['STATUS']), 'ATIVADO') == 0):
 
@@ -206,10 +207,11 @@
 
                                                      <td >
                                                         <div class=\"btn-group\">
+                                                             <a href=\" " . $url_faltas . "  \">   <button class=\"fa fa-info-circle btn btn-primary\" ><small> Faltas</small></button> </a>
                                                              <a href=\" " . $url_notas . "  \">   <button class=\"fa fa-info-circle btn btn-primary\" ><small> Notas</small></button> </a>
                                                              <a href=\" " . $url . "  \">   <button class=\"fa fa-info-circle btn  btn-primary\" ><small> Mais Informações</small></button> </a>
-                                                                 <a href='" . base_url('/update/turma/' . $row['ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"></button> </a>
-                                                            <a>   <button onclick=\"confirmaDelete(" . $row['ID'] . ")\" class=\"fa fa-lock btn btn-danger\"></button> </a>
+                                                                 <a href='" . base_url('/update/turma/' . $row['ID']) . "'>   <button class=\"fa fa-edit btn btn-info\"><small> Editar</small></button> </a>
+                                                            <a>   <button onclick=\"confirmaDelete(" . $row['ID'] . ")\" class=\"fa fa-lock btn btn-danger\"><small> Desativar</small></button> </a>
 
                                                         </div>
                                                      </td>

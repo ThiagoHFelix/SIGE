@@ -134,7 +134,60 @@ class Manage extends CI_Controller {
     }//turma
     
     
+       public function faltas(int $idTurma){
+        
+        //XXX Gerenciamento de bibliotecas
+        $this->load->model('Turma_model','turma');
+        $this->load->model('Materia_model','materia');
+        
+        //XXX Variaveis
+        $turma = NULL;
+        $dados = NULL;
+        $materia = NULL;
+        
+        //XXX Buscando turma no banco de dados
+        $turma = $this->turma->getWhere(array('ID' => $idTurma));
+        
+        //XXX Verifico se a turma foi encontrada no banco de dados
+        if($turma !== NULL):
+            
+            //XXX Registro para a view
+            $dados['TURMA'] = $turma[0];
+            
+            //XXX Busco dados da materia da turma
+            $materia = $this->materia->getWhere(array('ID' => $turma[0]['FK_MATERIA_ID']));
+            
+            //XXX Verifico se a materia foi encontrada
+            if($materia !== NULL):
+                
+                $dados['MATERIA'] = $materia[0];
+            
+                //Busco todas as notas e alunos da turma
+                $dados['FREQUENTA_ALUNOS'] = $this->turma->query(' SELECT * FROM PESSOA,FREQUENTA WHERE FREQUENTA.FK_TURMA_ID = '.$idTurma.' AND PESSOA.ID = FREQUENTA.FK_PESSOA_ID');
+             
+                
+            else:
+                //XXX Aviso o usuario
+                showError('message_nota', 'Nao foi possivel encontrar a matéria desta turma', 'alert alert-info');
+            endif;
+            
+        else:
+            
+            //XXX Aviso o usuario
+            showError('message_nota', 'A turma não foi encontrada no banco de dados', 'alert alert-info');
+            
+        endif;
+            
+        $this->load->view('/administrador/manage/manage_faltas',$dados);
+        
+        /* */
+        
+    }//faltas
     
+    /**
+     * Faz o gerenciamento de notas de uma determinada turma
+     * @param int $idTurma ID da turma 
+     */
     public function notas(int $idTurma){
         
         //XXX Gerenciamento de bibliotecas
@@ -183,7 +236,7 @@ class Manage extends CI_Controller {
         
         /* */
         
-    }//turma
+    }//notas
     
     
     public function aviso(int $valor_pagina = 0){

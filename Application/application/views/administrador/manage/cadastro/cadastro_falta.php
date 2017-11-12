@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <title>SIGE | Cadastro de Nota</title>
+        <title>SIGE | Cadastro de Frequência</title>
 
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -62,9 +62,9 @@
 
                             <div class="col-md-2">
 
-                                <a href="<?php echo base_url('/manage/notas/' . $this->uri->segment(3)); ?>">  <button class="btn btn-app "  >
-                                        <span class="fa fa-users" aria-hidden="true"></span>
-                                        Gerenciar Notas
+                                <a href="<?php echo base_url('/manage/faltas/' . $this->uri->segment(3)); ?>">  <button class="btn btn-app "  >
+                                        <span class="fa fa-book" aria-hidden="true"></span>
+                                        Gerenciar Frequência
                                     </button> </a>
 
                             </div>
@@ -75,7 +75,7 @@
                                 <div class="text-center login-logo">
 
                                     <div class=" box-header register-logo">
-                                        <a> Inserçao de Notas </a>
+                                        <a> Inserção de Frequência </a>
                                     </div>
 
 
@@ -127,7 +127,7 @@
                                 <p>Todos os campos com o caracter (*) são obrigatórios </p> </div>
 
 
-                            <?php echo form_open('cadastro/nota/' . $this->uri->segment(3)); ?>
+                            <?php echo form_open('cadastro/falta/' . $this->uri->segment(3)); ?>
 
                             <div class="col-md-12"> 
 
@@ -153,31 +153,46 @@
                                 <div class="col-md-6">
 
 
-                                    <!--------------- NOTA --------------->
-                                    <div class="form-group has-feedback">
-                                        <input  required name="nota" type="number" step="00.1" class="form-control " value="<?php echo setValue('nota'); ?>" placeholder="Nota*">
-                                        <span class="fa fa-info-circle form-control-feedback"></span>
-                                    </div>
-                                    <!--------------- /. NOTA --------------->
+                                      <!--------------- Frequência --------------->
+                                <div class="form-group has-feedback">
+                                    <select  required class="form-control" name="frequencia" >
+                                        <option value="">Frequência*</option>
+                                        <option value="1">Presente</option>
+                                        <option value="0">Ausente</option>
+                                        
+                                    </select>
+                                </div>
+                                <!--------------- /. Frequência --------------->
 
 
                                 </div>
 
                                 <div class="col-md-6">
 
-                                    <!--------------- NUMERO DA PROVA --------------->
-                                    <div class="form-group has-feedback">
-                                        <input  required name="numeroProva" type="number" maxlength="3" class="form-control " value="<?php echo setValue('numeroProva'); ?>" placeholder="Numero da prova*">
-                                        <span class="fa fa-info-circle form-control-feedback"></span>
-                                    </div>
-                                    <!--------------- /. NUMERO DA PROVA --------------->
-
-
+                                   
+                                     <!--------------- AULA DO DIA --------------->
+                                <div class="form-group has-feedback">
+                                    <select  required class="form-control" name="aula_dia" >
+                                        <option value="">Aula do dia*</option>
+                                        <option value="1">Primeira</option>
+                                        <option value="2">Segunda</option>
+                                        
+                                    </select>
+                                </div>
+                                <!--------------- /. AULA DO DIA --------------->
 
 
                                 </div>
 
                                 <div class="col-md-12">
+                                    
+                                     <!--------------- INFORMAÇOES--------------->
+                                    <div class="form-group has-feedback text-center" style=" font-size: 13pt; padding: 5px 5px;">
+                                        <span class="fa fa-info-circle form-control-feedback"></span>
+                                        <?php  echo 'Data de registro: '.date('d/m/y').' - Dia semana: '.date('l');?>
+                                   </div>
+                                    <!--------------- /. INFORMAÇOES --------------->
+                                    
                                     Informações adicionais:
                                     <div class="form-group has-feedback">
 

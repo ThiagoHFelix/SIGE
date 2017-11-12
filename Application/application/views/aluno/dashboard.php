@@ -58,11 +58,11 @@
 
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
-                                <span class="info-box-icon bg-blue"><i class="fa fa-book"></i></span>
+                                <span class="info-box-icon bg-green"><i class="fa fa-laptop"></i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text"></span>
-                                    <span class="info-box-number">41</span>
+                                    <span class="info-box-text">Status do Sistema</span>
+                                    <span class="label label-primary" >Ativo</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -142,20 +142,11 @@
                                             Meu Curso
                                         </button> </a>
                                     
-                                    <a href="<?php echo base_url('/manage/infocurso/'.$this->session->userdata('id_curso')); ?>">  <button class="btn btn-app" >
+                                    <a href="<?php echo base_url('/visualizar/minhas_turmas/'.$this->session->userdata('user_id')); ?>">  <button class="btn btn-app" >
                                             <span class="fa fa-users" aria-hidden="true"></span>
                                             Minhas Turmas
                                         </button> </a>
                                     
-                                    <a href="<?php echo base_url('/'); ?>">  <button class="btn btn-app" >
-                                            <span class="fa fa-book" aria-hidden="true"></span>
-                                            Notas Parciais
-                                        </button> </a>
-                                    
-                                    <a href="<?php echo base_url('/'); ?>">  <button class="btn btn-app" >
-                                            <span class="fa fa-info-circle" aria-hidden="true"></span>
-                                            Faltas Parciais
-                                        </button> </a>
                                     
                                     <a href="<?php echo base_url('/visualizar/aluno/'.$this->session->userdata('user_cpf')); ?>">  <button class="btn btn-app" >
                                             <span class="fa fa-user" aria-hidden="true"></span>

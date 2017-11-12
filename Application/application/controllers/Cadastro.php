@@ -19,10 +19,83 @@ class Cadastro extends CI_Controller {
         $this->load->model('aluno_model', 'aluno');
 
         isSessionStarted();
-    }
+    }//construtor padrao
 
-//construtor padrao
 
+    
+    
+    public function falta(int $idTurma) {
+        
+        //XXX Variaveis 
+        $dados = array();
+
+        //XXX Busco a turma informada
+        $this->load->model('Turma_model', 'turma');
+        $turma = $this->turma->getWhere(array('ID' => $idTurma));
+        
+        //XXX Verifico se foi encontrada
+        if ($turma === NULL):
+            
+            //XXX Armazeno a turma para mostrar informaçoes na view
+            $dados['TURMA'] = $turma;
+            
+            //XXX A turma nao foi encontrada, entao aviso o usuario 
+            showError('mensagem_nota', 'Esta turma não foi encontrada no banco de dados verifique e tente novamente mais tarde', 'alert alert-danger');
+
+        else:
+
+            //XXX As informaçoes sao armazenadas para serem mostradas na view  
+            $dados['TURMA'] = $turma;
+        
+            //XXX Busco materia da turma
+            $this->load->model('Materia_model','materia');
+            $dados['MATERIA'] = $this->materia->getWhere(array('ID' => $turma[0]['FK_MATERIA_ID']));
+           
+            //XXX Busco todos os alunos que fazem parte desta turma
+            $this->load->model('curso_model', 'curso');
+            $alunos = $this->curso->query('SELECT * FROM PESSOA,MATRICULA_TURMA WHERE MATRICULA_TURMA.FK_TURMA_ID = '.$idTurma.' AND MATRICULA_TURMA.FK_PESSOA_ID = PESSOA.ID');
+            
+            //XXX Verifico se algum aluno foi encontrado
+            if($alunos === NULL):
+                
+                //XXX Nenhum aluno encontrado, informo o usuario
+                showError('mensagem_nota', 'Nenhum aluno desta turma foi encontrado', 'alert alert-info');
+
+            else:
+                
+                //XXX Registro os alunos na variavel dados para acessar na view
+                $dados['alunos'] = $alunos;
+                
+            endif;
+            
+
+        endif;
+        
+        
+
+        //XXX Validaçao de dados da view
+        if ($this->validationFalta($idTurma)):
+
+            //XXX Insiro a nota no banco de dados   
+            $this->insertFalta($idTurma);
+            
+            //XXX Limpo os dados do POST para nao aparecer novamente nos campos
+            $_POST = array();
+
+        endif;
+
+        $this->load->view('administrador/manage/cadastro/cadastro_falta', $dados);
+        
+    }//falta
+
+    
+    
+    
+    
+    /**
+     * Realiza o cadastro de nota de um aluno em uma turma
+     * @param int $idTurma ID da turma
+     */
     public function nota(int $idTurma) {
         
         //XXX Variaveis 
@@ -35,14 +108,21 @@ class Cadastro extends CI_Controller {
         //XXX Verifico se foi encontrada
         if ($turma === NULL):
             
+            //XXX Armazeno a turma para mostrar informaçoes na view
+            $dados['TURMA'] = $turma;
+            
             //XXX A turma nao foi encontrada, entao aviso o usuario 
             showError('mensagem_nota', 'Esta turma não foi encontrada no banco de dados verifique e tente novamente mais tarde', 'alert alert-danger');
 
         else:
 
             //XXX As informaçoes sao armazenadas para serem mostradas na view  
-            $dados['turma'] = $turma[0];
-
+            $dados['TURMA'] = $turma;
+        
+            //XXX Busco materia da turma
+            $this->load->model('Materia_model','materia');
+            $dados['MATERIA'] = $this->materia->getWhere(array('ID' => $turma[0]['FK_MATERIA_ID']));
+           
             //XXX Busco todos os alunos que fazem parte desta turma
             $this->load->model('curso_model', 'curso');
             $alunos = $this->curso->query('SELECT * FROM PESSOA,MATRICULA_TURMA WHERE MATRICULA_TURMA.FK_TURMA_ID = '.$idTurma.' AND MATRICULA_TURMA.FK_PESSOA_ID = PESSOA.ID');
@@ -70,14 +150,18 @@ class Cadastro extends CI_Controller {
 
             //XXX Insiro a nota no banco de dados   
             $this->insertNota($idTurma);
+            
+            //XXX Limpo os dados do POST para nao aparecer novamente nos campos
+            $_POST = array();
 
         endif;
 
         $this->load->view('administrador/manage/cadastro/cadastro_nota', $dados);
+        
     }//nota
 
-
-
+    
+    
     /**
      * Validaçao de campos da view CADASTRO_NOTA
      * @param int $idTurma
@@ -147,7 +231,82 @@ class Cadastro extends CI_Controller {
         
     }//validationNota
 
+
+   /**
+    * Validaçao de campos do cadastro de faltas
+    * @param int $idTurma ID da turma
+    * @return boolean TRUE se os campos forem validados e FALSE se nao
+    */
+    public function validationFalta(int $idTurma) {
+        
+        //XXX Carregamento de bibliotecas
+        $this->load->library('form_validation');
+        $this->load->model('Notas_model','nota');
+        
+        //XXX Variaveis
+   
+        
+        
+        //XXX Criaçao de regras dos campos
+        $this->form_validation->set_rules('aluno','ALUNO','required|alpha_numeric|trim');
+        $this->form_validation->set_rules('frequencia','FREQUENCIA','required|alpha_numeric|trim');
+        $this->form_validation->set_rules('aula_dia','AULA DO DIA','required|alpha_numeric|trim');
+         $this->form_validation->set_rules('complemento','Complemento','required|trim|max_length[250]');
+        
+        //XXX Executo a validaçao
+        if($this->form_validation->run()):
+           
+            return TRUE;
+           
+        else:
+            
+            //XXX Mostro ao usuario o que ele errou
+            showError('mensagem_nota', validation_errors() , '');
+            
+        endif;
+        
+        return FALSE; 
+        
+    }//validationNota
+
     
+    public function insertFalta(int $idTurma){
+        
+        
+        //XXX Carregamento de bibliotecas
+        $this->load->model('Faltas_model','faltas');
+        
+        //XXX Variaveis
+        $dados_frequencia = array(
+            
+            'FK_TURMA_ID' => $idTurma,
+            'FK_PESSOA_ID' => $this->input->post('aluno'),
+            'PRESENCA' => $this->input->post('frequencia'),
+            'ASSUNTO_AULA' => $this->input->post('complemento'),
+            'AULA' => $this->input->post('aula_dia'),
+            'DIA_SEMANA' => date('l')
+                
+        );
+          
+        $retorno = $this->faltas->insert($dados_frequencia);  
+        
+        //XXX Verifico se o insert foi bem sucedido
+        if($retorno === TRUE):
+            
+            showError('mensagem_nota', 'A Frequencia foi inserida com sucesso', 'alert alert-success');
+            return TRUE;
+            
+        else:
+            //XXX Insert foi mau sucedido
+            
+            //XXX Aviso o usuario
+            showError('mensagem_nota','Ocorreu um erro ao inserir a FREQUENCIA no banco de dados - Contate o ADMINISTRADOR se o problema continuar', 'alert alert-info');
+            return FALSE;
+            
+        endif;
+          
+    }//insertNota
+
     
     public function insertNota(int $idTurma){
         
@@ -200,9 +359,9 @@ class Cadastro extends CI_Controller {
 
 
         $this->load->view('administrador/manage/cadastro/Matricula_Turma/select_aluno', $dados);
-    }
+    }//matriculaTurma
 
-//matriculaTurma
+
 
     /**
      * Verifica se o aluno existe
@@ -218,9 +377,9 @@ class Cadastro extends CI_Controller {
         else:
             return FALSE;
         endif;
-    }
+    }//alunoExist
 
-//alunoExist
+
 
     /**
      * Verifica se ao menos uma turma foi escolhida para a matricula
@@ -240,9 +399,9 @@ class Cadastro extends CI_Controller {
         endfor;
 
         return FALSE;
-    }
+    }//verificaAlunoTurma
 
-//verificaAlunoTurma
+
 
     /**
      * 
@@ -340,9 +499,9 @@ class Cadastro extends CI_Controller {
 
 
         $this->load->view('administrador/manage/cadastro/Matricula_Turma/cadastro_matriculaTurma', $dados);
-    }
+    }//alunoTurma
 
-//alunoTurma
+
 
     /**
      * Matricula aluno em uma turma
@@ -376,9 +535,9 @@ class Cadastro extends CI_Controller {
         endfor;
 
         return TRUE;
-    }
+    }//matriculaTurma
 
-//matriculaTurma
+
 
     public function turma() {
 
@@ -425,9 +584,9 @@ class Cadastro extends CI_Controller {
 
 
         $this->load->view('/administrador/manage/cadastro/cadastro_turma', $dados);
-    }
+    }//turma
 
-//turma
+
 
     private function insertTurma() {
 
@@ -456,9 +615,9 @@ class Cadastro extends CI_Controller {
 
             return FALSE;
         endif;
-    }
+    }//insertTurma
 
-//insertTurma
+
 
     public function insertDiaSemana() {
 
@@ -564,9 +723,9 @@ class Cadastro extends CI_Controller {
 
 
         endforeach;
-    }
+    }//insertDiaSemana
 
-//insertDiaSemana
+
 
     /**
      *  Busca todas as materias para o cadastro de TURMA
@@ -582,9 +741,9 @@ class Cadastro extends CI_Controller {
             showError('mensagem_usuarioTurma', 'Não há Materias cadastradas, por favor cadastre antes de criar uma Turma', 'alert alert-warning');
             return NULL;
         endif;
-    }
+    }//getMaterias
 
-//getMaterias
+
 
     /**
      *  Busca todas os professores para o cadastro de TURMA
@@ -600,9 +759,9 @@ class Cadastro extends CI_Controller {
             showError('mensagem_usuarioTurma', 'Não há Professores(as) cadastrados, por favor cadastre antes de criar uma Turma', 'alert alert-warning');
             return NULL;
         endif;
-    }
+    }//getProfessores
 
-//getProfessores
+
 
     /**
      *  Busca todas os turnos para o cadastro de TURMA
@@ -619,9 +778,9 @@ class Cadastro extends CI_Controller {
             showError('mensagem_usuarioTurma', 'Não há Turno cadastrado, por favor cadastre antes de criar uma Turma', 'alert alert-warning');
             return NULL;
         endif;
-    }
+    }//getTurnos
 
-//getTurnos
+
 
     private function validationDiaSemana() {
 
@@ -644,9 +803,9 @@ class Cadastro extends CI_Controller {
             showError('mensagem_usuarioTurma', 'Nenhum dia da semana foi inserido, insira no minimo um para continuar', 'alert alert-warning');
             return FALSE;
         endif;
-    }
+    }//validationDiaSemana
 
-//validationDiaSemana
+
 
     /**
      * Cria rules para os dias da semana selecionados 
@@ -703,9 +862,9 @@ class Cadastro extends CI_Controller {
             $this->form_validation->set_rules('quantaula_domingo', 'Quantidade de Aulas na Domingo', 'trim|max_length[3]|required|alpha_numeric');
 
         endif;
-    }
+    }//makeValidationDIa
 
-//makeValidationDIa
+
 
     private function validationTurma() {
 
@@ -732,9 +891,9 @@ class Cadastro extends CI_Controller {
             showError('mensagem_usuarioTurma', validation_errors(), 'alert alert-warning');
             return FALSE;
         endif;
-    }
+    }//turma
 
-//turma
+
 
     public function aviso() {
 
@@ -748,9 +907,9 @@ class Cadastro extends CI_Controller {
         }//if
 
         $this->load->view('/administrador/manage/cadastro/cadastro_aviso');
-    }
+    }//aviso
 
-//aviso
+
 
     /**
      * Insere aviso no banco de dados

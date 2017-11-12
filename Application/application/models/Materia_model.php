@@ -35,6 +35,22 @@ class  Materia_model extends CI_Model{
 
     }//insert
 
+    
+            
+ public function query($query){
+     
+      $return = $this->db->query($query);
+     
+     if($return->num_rows() > 0):
+         return $return->result_array();
+     else:
+         return NULL;
+     endif;
+     
+     
+ }
+    
+    
     /**
      * Retorna a quantidade de tuplas da tabela matéria
      */

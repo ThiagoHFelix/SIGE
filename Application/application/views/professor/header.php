@@ -106,7 +106,7 @@
                         <li class="user-footer">
                             <div class="">
                                 <a href="<?php echo base_url('/manage/configuration'); ?>" class="btn btn-default btn-gear" style="width:49%; margin-bottom:10px" > Configurações </a>
-                                <a href="<?php echo base_url('/manage/userprofile/administrador/'.$this->session->userdata('user_id')); ?>" class="btn pull-right btn-default btn-gear" style="width:49%; margin-bottom:10px" > Perfil </a>
+                                <a href="<?php echo base_url('/visualizar/professor/'.$this->session->userdata('user_cpf')); ?>" class="btn pull-right btn-default btn-gear" style="width:49%; margin-bottom:10px" > Perfil </a>
 
                             </div>
                             <div class=" text-center">

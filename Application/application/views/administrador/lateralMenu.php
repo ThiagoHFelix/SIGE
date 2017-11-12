@@ -50,47 +50,27 @@
 
             <li>
                 <a href="<?php echo base_url('/dashboard'); ?>">
-                    <i class="fa fa-home"></i> <span>Inicio</span>
+                    <i class="fa fa-dashboard"></i> <span>Inicio</span>
                     <span class="pull-right-container">
                        <!-- <small class="label pull-right bg-green">inicio</small> -->
                     </span>
                 </a>
             </li>
-
-                    <li class="treeview">
-
-                <a href="#">
-                    <i class="fa fa-navicon"></i>
-                    <span> Gerenciamento </span>
-                    <span class="pull-right-container">
-
-                    </span>
-                </a>
-
-
-
-                <!-- GERENCIAR ENTIDADES -->
-                <ul class="treeview-menu">
-
-                    <!-- ADMINISTRADOR -->
-                    <li><a href="<?php echo base_url('/manage/administrador'); ?>"><i class="fa fa-users"></i> Administrador </a></li>
-                    <!-- PROFESSOR -->
-                    <li><a href="<?php echo base_url('/manage/professor'); ?>"><i class="fa fa-users"></i> Professor </a></li>
-                    <!-- ALUNO -->
-                    <li><a href="#"><i class="fa fa-users"></i> Aluno </a></li>
-                    <!-- MATÉRIA -->
-                    <li><a href="#"><i class="fa fa-book"></i> Matéria </a></li>
-                    <!-- CURSO -->
-                    <li><a href="#"><i class="fa fa-graduation-cap"></i> Curso </a></li>
-
-                </ul>
-
-
-            </li>
+            
+            
 
             <li>
-                <a href="<?php echo base_url('/dashboard'); ?>">
-                    <i class="fa fa-area-chart"></i> <span>Relatórios</span>
+                <a href="<?php echo base_url('/cadastro/selectAlunoTurma'); ?>">
+                    <i class="fa fa-users"></i> <span>Matricular</span>
+                    <span class="pull-right-container">
+                       <!-- <small class="label pull-right bg-green">inicio</small> -->
+                    </span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="<?php echo base_url('/manage/administrador'); ?>">
+                    <i class="fa fa-users"></i> <span>Administradores</span>
                     <span class="pull-right-container">
                        <!-- <small class="label pull-right bg-green">inicio</small> -->
                     </span>
@@ -98,8 +78,8 @@
             </li>
 
             <li>
-                <a href="<?php echo base_url('/dashboard'); ?>">
-                    <i class="fa fa-pencil"></i> <span>Registrar nota</span>
+                <a href="<?php echo base_url('/manage/aluno'); ?>">
+                    <i class="fa fa-users"></i> <span>Alunos</span>
                     <span class="pull-right-container">
                        <!-- <small class="label pull-right bg-green">inicio</small> -->
                     </span>
@@ -107,8 +87,42 @@
             </li>
 
             <li>
-                <a href="<?php echo base_url('/dashboard'); ?>">
-                    <i class="fa fa-comments"></i> <span>Chat</span>
+                <a href="<?php echo base_url('/manage/professor'); ?>">
+                    <i class="fa fa-users"></i> <span>Professores</span>
+                    <span class="pull-right-container">
+                       <!-- <small class="label pull-right bg-green">inicio</small> -->
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo base_url('/manage/curso'); ?>">
+                    <i class="fa fa-graduation-cap"></i> <span>Cursos</span>
+                    <span class="pull-right-container">
+                       <!-- <small class="label pull-right bg-green">inicio</small> -->
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo base_url('/manage/materia'); ?>">
+                    <i class="fa fa-book"></i> <span>Materias</span>
+                    <span class="pull-right-container">
+                       <!-- <small class="label pull-right bg-green">inicio</small> -->
+                    </span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="<?php echo base_url('/manage/turma'); ?>">
+                    <i class="fa fa-users"></i> <span>Turmas</span>
+                    <span class="pull-right-container">
+                       <!-- <small class="label pull-right bg-green">inicio</small> -->
+                    </span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="<?php echo base_url('/manage/aviso'); ?>">
+                    <i class="fa fa-calendar-check-o"></i> <span>Avisos</span>
                     <span class="pull-right-container">
                        <!-- <small class="label pull-right bg-green">inicio</small> -->
                     </span>
