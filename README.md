@@ -19,7 +19,7 @@ Para o desenvolvimento da plataforma escolar o objetivo foi utilizar ferramentas
 
 ### **Status do Projeto**
 
- - Em Desenvolvimento
+ - Finalizado
 
 ### **Licença**
 O sistema de gerenciamento escolar SIGE é um *software* *Open-Source* licenciado através da [GNU General Public License version 3.](https://opensource.org/licenses/GPL-3.0)
